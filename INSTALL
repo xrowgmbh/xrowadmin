@@ -1,0 +1,5 @@
+1) Add the extension to your extension repository
+2) Make sure the name of the extension is "ezadmin"
+3) Activate the Extension
+4) Run the autoloads
+5) Clear the Cache

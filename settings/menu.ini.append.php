@@ -20,4 +20,6 @@ Shown[default]=true
 Shown[edit]=true
 Shown[navigation]=true
 Shown[browse]=false
+PolicyList[]=admin/menu
+
 */ ?>
