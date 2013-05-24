@@ -8,14 +8,9 @@
  * @license http://www.gnu.org/licenses/gpl.txt GPL License
  */
 
-include_once ( 'autoload.php' );
-include_once ( 'kernel/setup/ezsetuptests.php' );
-include_once ( 'kernel/setup/steps/ezstep_system_check.php' );
-include_once ( 'kernel/common/template.php' );
-require_once( 'kernel/common/i18n.php' );
 
 $Module = $Params['Module'];
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $ini = eZINI::instance( 'systemcheck.ini' );
 $http = eZHTTPTool::instance();
 $db = eZDB::instance();

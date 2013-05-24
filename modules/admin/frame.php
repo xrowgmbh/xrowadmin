@@ -8,7 +8,7 @@ if ( $Module->isCurrentAction( 'Exit' ) )
 }
 
 include_once( 'kernel/common/template.php' );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'modulename', $Params['modulename'] );
 $tpl->setVariable( 'view', $Params['view'] );

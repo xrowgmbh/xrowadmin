@@ -1,11 +1,8 @@
 <?php
+
 $Module =& $Params['Module'];
 $http = eZHTTPTool::instance();
-
-include_once( 'kernel/classes/ezpreferences.php' );
-include_once( 'kernel/common/template.php' );
-$tpl = templateInit();
-
+$tpl = eZTemplate::factory();
 $db = eZDB::instance();
 
 if ( $http->hasPostVariable( 'SiteAccess') and $http->hasPostVariable( 'ObjectID') )

@@ -5,8 +5,7 @@ $http = eZHTTPTool::instance();
 if ( $http->hasPostVariable('Skip') ){
     $Module->redirectToView( 'menu' );
 }
-include_once( 'kernel/common/template.php' );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 if ( $http->hasPostVariable('Execute') )
 {

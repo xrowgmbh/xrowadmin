@@ -9,8 +9,7 @@ if ( $http->hasPostVariable('download') or $http->hasGetVariable('download') )
 	$backup->download(); 
 }
 
-include_once( 'kernel/common/template.php' );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $Result = array();
 $Result['left_menu'] = "design:parts/ezadmin/menu.tpl";
 $Result['content'] = $tpl->fetch( "design:ezadmin/backup.tpl" );

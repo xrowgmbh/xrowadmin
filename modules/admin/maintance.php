@@ -9,11 +9,9 @@
  */
 $Result = array();
 $Module =& $Params['Module'];
-include_once( 'kernel/common/template.php' );
-
 $Module->setTitle( "Website down for maintance" );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 if ( $Params['date'] )
 {
