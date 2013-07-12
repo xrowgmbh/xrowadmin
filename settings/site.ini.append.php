@@ -6,7 +6,7 @@ AdditionalSiteDesignList[]=admin
 AdditionalSiteDesignList[]=standard
 
 [RegionalSettings]
-TranslationExtensions[]=ezadmin
+TranslationExtensions[]=xrowadmin
 
 [RoleSettings]
 PolicyOmitList[]=test/html

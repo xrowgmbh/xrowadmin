@@ -1,6 +1,6 @@
 <?php /* #?ini charset="utf-8"?
 [ModuleSettings]
-ExtensionRepositories[]=ezadmin
+ExtensionRepositories[]=xrowadmin
 ModuleList[]=admin
 ModuleList[]=test
 */ ?>

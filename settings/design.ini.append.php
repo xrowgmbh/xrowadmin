@@ -1,10 +1,10 @@
 <?php /* #?ini charset="utf-8"?
 
 [ExtensionSettings]
-DesignExtensions[]=ezadmin
+DesignExtensions[]=xrowadmin
 
 [JavaScriptSettings]
-BackendJavaScriptList[]=ezadmin.js
-FrontendJavaScriptList[]=ezadmin.js
+BackendJavaScriptList[]=xrowadmin.js
+FrontendJavaScriptList[]=xrowadmin.js
 
 */ ?>
