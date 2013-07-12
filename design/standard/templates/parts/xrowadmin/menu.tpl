@@ -52,7 +52,7 @@
             <div class="box-mr">
                 <div class="box-tl">
                     <div class="box-tr">
-                        <h4>{'User change'|i18n( 'ezadmin' )}</h4>
+                        <h4>{'User change'|i18n( 'xrowadmin' )}</h4>
                     </div>
                 </div>
             </div>

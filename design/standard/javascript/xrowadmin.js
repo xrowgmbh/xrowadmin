@@ -3,7 +3,7 @@
         showNodeName: function(options)
         {
             var aim = options.type;
-            jQuery.ez('ezadmin::getName', { 'NodeID' : jQuery('#'+aim+'_id').val() }, function(result) {
+            jQuery.ez('xrowadmin::getName', { 'NodeID' : jQuery('#'+aim+'_id').val() }, function(result) {
                 jQuery('#' + aim + '_name').html( result.content.template );
             });
         }
@@ -17,7 +17,7 @@
             return methods.init.apply(this, arguments);
         } else {
             jQuery.error('Method ' + method
-                    + ' does not exist on jQuery.ezadmin');
+                    + ' does not exist on jQuery.xrowadmin');
         }
 
     };

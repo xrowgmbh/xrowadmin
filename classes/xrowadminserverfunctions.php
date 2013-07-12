@@ -1,6 +1,6 @@
 <?php
 
-class ezAdminServerFunctions extends ezjscServerFunctions
+class xrowAdminServerFunctions extends ezjscServerFunctions
 {
 
     public static function getName()

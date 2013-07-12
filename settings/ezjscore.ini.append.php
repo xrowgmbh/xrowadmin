@@ -1,10 +1,10 @@
 <?php /*
 
 [ezjscServer]
-FunctionList[]=ezadmin
+FunctionList[]=xrowadmin
 
-[ezjscServer_ezadmin]
-Class=ezAdminServerFunctions
-Functions[]=ezadmin
+[ezjscServer_xrowadmin]
+Class=xrowAdminServerFunctions
+Functions[]=xrowadmin
 
 */ ?>
