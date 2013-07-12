@@ -92,8 +92,8 @@ else
     $tpl->setVariable( 'Port' , $http->postVariable( 'Port' ) );
 
 $Result = array();
-$Result['left_menu'] = 'design:parts/ezadmin/menu.tpl';
-$Result['content'] = $tpl->fetch( 'design:ezadmin/client.tpl' );
+$Result['left_menu'] = 'design:parts/xrowadmin/menu.tpl';
+$Result['content'] = $tpl->fetch( 'design:xrowadmin/client.tpl' );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezpI18n::tr( 'extension/admin', 'SOAP test webclient' ) ) );
 

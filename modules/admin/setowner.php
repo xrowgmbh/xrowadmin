@@ -2,7 +2,7 @@
 /**
  * File setowner.php
  *
- * @package ezadmin
+ * @package xrowadmin
  * @version //autogentag//
  * @copyright Copyright (C) 2007 xrow. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.txt GPL License

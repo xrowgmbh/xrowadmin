@@ -77,7 +77,7 @@ if ( $http->hasPostVariable( 'Execute' ) )
                 break;
             case '3':
                 $db->begin();
-                $return = ezadminSwapNode::swapNode( $source, $target, array( 
+                $return = xrowadminSwapNode::swapNode( $source, $target, array( 
                     $source , 
                     $target 
                 ) );
@@ -97,8 +97,8 @@ $tpl->setVariable( 'operation', $operation );
 ( $success === true ) ? $tpl->setVariable( 'success', true ) : null;
 
 $Result = array();
-$Result['left_menu'] = "design:parts/ezadmin/menu.tpl";
-$Result['content'] = $tpl->fetch( "design:ezadmin/migration.tpl" );
+$Result['left_menu'] = "design:parts/xrowadmin/menu.tpl";
+$Result['content'] = $tpl->fetch( "design:xrowadmin/migration.tpl" );
 $Result['path'] = array( 
     array( 
         'url' => false , 

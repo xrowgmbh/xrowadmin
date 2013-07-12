@@ -2,7 +2,7 @@
 /**
  * File maintance.php
  *
- * @package ezadmin
+ * @package xrowadmin
  * @version //autogentag//
  * @copyright Copyright (C) 2007 xrow. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.txt GPL License
@@ -40,8 +40,8 @@ if ( $layoutINI->hasGroup( $LayoutStyle ) )
 {
     $Result['pagelayout'] = $layoutINI->variable( $LayoutStyle, 'PageLayout' );
 }
-$Result['left_menu'] = "design:parts/ezadmin/menu.tpl";
-$Result['content'] = $tpl->fetch( "design:ezadmin/maintance.tpl" );
+$Result['left_menu'] = "design:parts/xrowadmin/menu.tpl";
+$Result['content'] = $tpl->fetch( "design:xrowadmin/maintance.tpl" );
 $Result['path'] = array( array( 'url' => false,
                         'text' => 'Website down for maintance' ) );
 ?>

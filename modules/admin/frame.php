@@ -14,8 +14,8 @@ $tpl->setVariable( 'modulename', $Params['modulename'] );
 $tpl->setVariable( 'view', $Params['view'] );
 
 $Result = array();
-$Result['left_menu'] = "design:parts/ezadmin/menu.tpl";
-$Result['content'] = $tpl->fetch( "design:ezadmin/frame.tpl" );
+$Result['left_menu'] = "design:parts/xrowadmin/menu.tpl";
+$Result['content'] = $tpl->fetch( "design:xrowadmin/frame.tpl" );
 $Result['path'] = array( array( 'url' => false,
                         'text' => 'Admin' ) );
 ?>

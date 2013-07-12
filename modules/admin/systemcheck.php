@@ -2,7 +2,7 @@
 /**
  * File containing the systemcheck
  *
- * @package ezadmin
+ * @package xrowadmin
  * @version //autogentag//
  * @copyright Copyright (C) 2009 xrow. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.txt GPL License
@@ -115,8 +115,8 @@ if ( $http->hasPostVariable( 'Run' ) )
 }
 
 $Result = array();
-$Result['left_menu'] = 'design:parts/ezadmin/menu.tpl';
-$Result['content'] = $tpl->fetch( 'design:ezadmin/systemcheck.tpl' );
+$Result['left_menu'] = 'design:parts/xrowadmin/menu.tpl';
+$Result['content'] = $tpl->fetch( 'design:xrowadmin/systemcheck.tpl' );
 $Result['path'] = array( 
     array( 
         'url' => false , 

@@ -34,7 +34,7 @@
             {foreach $phptest[results] as $result}
                 <tr>
                     <td style='vertical-align: top' width="150"><b><span style='position: relative; top: 5px'>{$phptest[headlines][$result[1]]}</span></b></td>
-                    <td style='vertical-align: top'>{include uri=concat('design:ezadmin/systemcheck/',$result[1],'.tpl')}</td>
+                    <td style='vertical-align: top'>{include uri=concat('design:xrowadmin/systemcheck/',$result[1],'.tpl')}</td>
                 </tr>
             {/foreach}
             </table>
@@ -54,7 +54,7 @@
                         <td style='vertical-align: top' width="150"><b><span style='position: relative; top: 5px'>{$customtest[headlines][$customresultkey]}</span></b></td>
                         <td style='vertical-align: top'>
                         {if and( $customresultkey|ne('headlines'), $customresultkey|ne('testtitle') )}
-                            {include uri=concat('design:ezadmin/systemcheck/custom_',$customresultkey,'.tpl')}
+                            {include uri=concat('design:xrowadmin/systemcheck/custom_',$customresultkey,'.tpl')}
                         {/if}
                         </td>
                     </tr>

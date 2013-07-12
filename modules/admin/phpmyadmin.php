@@ -2,7 +2,7 @@
 /**
  * File phpmyadmin.php
  *
- * @package ezadmin
+ * @package xrowadmin
  * @version //autogentag//
  * @copyright Copyright (C) 2007 xrow. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.txt GPL License
@@ -16,7 +16,7 @@ ob_end_clean();
 
 $GLOBALS['EZPMA_ORIGDIR'] = "../../../../";
 
-#$GLOBALS['EZPMA_CHDIR'] = "extension/ezadmin/src/phpmyadmin/";
+#$GLOBALS['EZPMA_CHDIR'] = "extension/xrowadmin/src/phpmyadmin/";
 $GLOBALS['EZPMA_CHDIR'] = "C:\workspace\environment\phpmyadmin";
 
 $GLOBALS['EZPMA_CHDIR']  = realpath( $GLOBALS['EZPMA_CHDIR']  );

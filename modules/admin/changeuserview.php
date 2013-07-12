@@ -49,7 +49,7 @@ foreach( $result as $row )
 
 $identifiers = array_unique( $identifiers );
 
-include_once( 'extension/ezadmin/classes/ezuseraddition.php' );
+include_once( 'extension/xrowadmin/classes/ezuseraddition.php' );
 
 
 $tpl->setVariable( 'recall', eZUserAddition::recallUserID() );
@@ -61,8 +61,8 @@ $tpl->setVariable( 'current_siteaccess', $GLOBALS['eZCurrentAccess']['name'] );
 $tpl->setVariable( 'search_text', $search_text );
 
 $Result = array();
-$Result['left_menu'] = 'design:parts/ezadmin/menu.tpl';
-$Result['content'] = $tpl->fetch( 'design:ezadmin/changeuserview.tpl' );
+$Result['left_menu'] = 'design:parts/xrowadmin/menu.tpl';
+$Result['content'] = $tpl->fetch( 'design:xrowadmin/changeuserview.tpl' );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => 'Change User' ) );
 ?>

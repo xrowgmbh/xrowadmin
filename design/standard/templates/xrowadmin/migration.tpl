@@ -1,7 +1,7 @@
 <form action={"/admin/migration"|ezurl} method="post" name="migration" id="migration">
     <p>{'Please provide input data.'|i18n("admin/migration")}</p>
     <label>{'Source ID'|i18n("admin/migration")}: 
-        <input onchange="jQuery('#migration').ezadmin( 'showNodeName', {literal}{'type':'source'}{/literal} );" name="source_id" id="source_id" type="text" value="" />
+        <input onchange="jQuery('#migration').xrowadmin( 'showNodeName', {literal}{'type':'source'}{/literal} );" name="source_id" id="source_id" type="text" value="" />
         <span id="source_name"></span>
     </label>
     <label>{'Operation'|i18n("admin/migration")}: 
@@ -12,7 +12,7 @@
         </select>
     </label>
     <label>{'Target ID'|i18n("admin/migration")}: 
-        <input onchange="jQuery('#migration').ezadmin( 'showNodeName', {literal}{'type':'target'}{/literal} );" name="target_id" id="target_id" type="text" value="" />
+        <input onchange="jQuery('#migration').xrowadmin( 'showNodeName', {literal}{'type':'target'}{/literal} );" name="target_id" id="target_id" type="text" value="" />
         <span id="target_name"></span>
     </label>
     <p>

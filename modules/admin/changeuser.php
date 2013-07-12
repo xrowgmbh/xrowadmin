@@ -6,19 +6,19 @@ $http = eZHTTPTool::instance();
 $ObjectID = &$Params['ObjectID'];
 if ( !$ObjectID )
 {
-    eZDebug::writeError('Missing parameter Object ID.',"eZAdmin change User");
+    eZDebug::writeError('Missing parameter Object ID.',"xrowadmin change User");
     return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 }
 $user = eZUser::fetch($ObjectID);
 if ( !$user )
 {
-    eZDebug::writeError('No such user or missing right "content read"',"eZAdmin change User");
+    eZDebug::writeError('No such user or missing right "content read"',"xrowadmin change User");
     return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 }
 $usercontentobject = $user->attribute( 'contentobject' );
 if ( !$usercontentobject->attribute( 'can_edit' ) )
 {
-    eZDebug::writeError('You need the right "content edit" for this content object',"eZAdmin change User");
+    eZDebug::writeError('You need the right "content edit" for this content object',"xrowadmin change User");
     return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 }
 

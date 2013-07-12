@@ -9,7 +9,7 @@ if ( $http->hasSessionVariable( 'eZUserAdditionOldID' ) )
 }
 else
 {
-    eZDebug::writeError('No informer session found',"eZAdmin change User");
+    eZDebug::writeError('No informer session found',"xrowadmin change User");
     return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 }
 $userRedirectURI = $Module->actionParameter( 'UserRedirectURI' );

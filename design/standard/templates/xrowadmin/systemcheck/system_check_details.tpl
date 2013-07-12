@@ -48,7 +48,7 @@
   {section name=Result loop=$test.results}
   {section-exclude match=$:item[0]|ne(2)}
   <tr>
-    <td>{include uri=concat('design:ezadmin/setup/tests/',$:item[1],'_error.tpl') test_result=$:item result_number=$:number}</td>
+    <td>{include uri=concat('design:xrowadmin/setup/tests/',$:item[1],'_error.tpl') test_result=$:item result_number=$:number}</td>
   </tr>
   <tr>
     <td><input type="checkbox" name="{$:item[1]}_Ignore" id="ignore_test_{$:item[1]}" value="1" /><label class="checkbox" for="ignore_test_{$:item[1]}">{"Ignore this test"|i18n("design/standard/setup/init")}</label>

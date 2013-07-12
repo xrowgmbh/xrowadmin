@@ -56,8 +56,8 @@ if ( $http->hasPostVariable('Execute') )
 if ( !$http->hasPostVariable('Skip') )
 {
 $Result = array();
-$Result['left_menu'] = "design:parts/ezadmin/menu.tpl";
-$Result['content'] = $tpl->fetch( "design:ezadmin/sqlquery.tpl" );
+$Result['left_menu'] = "design:parts/xrowadmin/menu.tpl";
+$Result['content'] = $tpl->fetch( "design:xrowadmin/sqlquery.tpl" );
 $Result['path'] = array( array( 'url' => false,
                         'text' => 'Database Query Manager' ) );
 }

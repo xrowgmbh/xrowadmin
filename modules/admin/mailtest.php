@@ -64,7 +64,7 @@ else
     $tpl->setVariable( 'To' , $ini->variable( 'MailSettings', 'AdminEmail' ) );
 
 $Result = array();
-$Result['left_menu'] = "design:parts/ezadmin/menu.tpl";
-$Result['content'] = $tpl->fetch( "design:ezadmin/mailtest.tpl" );
+$Result['left_menu'] = "design:parts/xrowadmin/menu.tpl";
+$Result['content'] = $tpl->fetch( "design:xrowadmin/mailtest.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezpI18n::tr( 'extension/admin', 'Mail Test' ) ) );
