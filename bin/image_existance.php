@@ -16,7 +16,7 @@ $limit_per_fetch = 1000;
 $invalid_entries = 0;
 $missing_completely = 0;
 $badly_expired = 0;
-
+$repaired_objects = array();
 $offset = 0;
 #$userCreatorID = 14;
 #$user = eZUser::fetch( $userCreatorID );
@@ -49,10 +49,9 @@ do {
 		{
 			//image path can be empty when image is not translatable or when its not required i guess
 			$image_path = $image->getAttribute('url');
-			if ($image_path != "" )
+			if ($image_path != "" && strpos($image_path, '/trashed') === false )
 			{
 				$dfs_entry = $db->arrayQuery( 'SELECT * FROM ezdfsfile where name_trunk = "' . $image_path . '"; ');
-				//echo $troll->c14N(false,true);
 				if ( count( $dfs_entry ) == 0)
 				{
 					$cli->output( "(Broken)Problem in Object " . $result["id"] . "(lang:" . $result["language_code"] . ") on image:" . $image_path );
@@ -60,7 +59,8 @@ do {
 				}
 				else if ( $dfs_entry[0]["expired"] == 1 OR $dfs_entry[0]["mtime"] <= 0 )
 				{
-					$cli->output( "(Expired)Problem in Object " . $result["id"] . "(lang:" . $result["language_code"] . ") on image:" . $image_path );
+					$cli->output( "(Repaired)Problem Object " . $result["id"] . "(lang:" . $result["language_code"] . ") on image:" . $image_path );
+					$repaired_objects[] = array("obj_id" => $result["id"], "lang" => $result["language_code"]);
 					$badly_expired++;
 				}
 			}
@@ -68,6 +68,26 @@ do {
 	}
 
 } while ($count == $limit_per_fetch);
+
+if ( count($repaired_objects) >= 1)
+{
+	$tpl = eZTemplate::factory();
+	$tpl->setVariable( 'repaired_objects', $repaired_objects );
+	$templateResult = $tpl->fetch( 'design:mail/image_missing.tpl' );
+	$emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
+	if ( !$emailSender )
+	{
+		$emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
+	}
+	
+	$cli->output( "Sending notification mails." );
+	$mail = new eZMail();
+	$mail->setSender( $emailSender );
+	$mail->setReceiver( array("robert@xrow.de", "christian@xrow.de") );
+	$mail->setSubject( "Notification: Images were missing and have been repaired." );
+	$mail->setBody( $templateResult );
+	$mailResult = eZMailTransport::send( $mail );
+}
 
 $cli->output( "Done." );
 
