@@ -3,6 +3,6 @@
 
 <ul>
 {foreach $repaired_objects as $key => $object}
-	<li>{$key|inc()}: {fetch("content", "object", hash( "object_id", $object.obj_id )).name|wash()}({$object.lang})</li>
+	<li>{$key|inc()}: {fetch("content", "object", hash( "object_id", $object.obj_id )).name|wash()}({$object.lang}) - ObjectID: {$object.obj_id}</li>
 {/foreach}
 </ul>
