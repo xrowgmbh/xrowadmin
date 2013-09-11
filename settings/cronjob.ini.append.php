@@ -1,6 +1,6 @@
 <?php /* #?ini charset="utf-8"?
 [CronjobSettings]
-ScriptDirectories[]=extension/ezadmin/bin
+ScriptDirectories[]=extension/xrowadmin/bin
 ExtensionDirectories[]=session_cleanup
 Scripts[]=session_cleanup.php
 
@@ -16,4 +16,8 @@ Scripts[]=session_cleanup.php
 
 [CronjobPart-directorycleanup]
 Scripts[]=directory_cleanup.php
+
+[CronjobPart-checkimages]
+Scripts[]=image_existance.php
+
 */ ?>

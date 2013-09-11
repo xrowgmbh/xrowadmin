@@ -49,18 +49,21 @@ do {
 		{
 			//image path can be empty when image is not translatable or when its not required i guess
 			$image_path = $image->getAttribute('url');
-			if ($image_path != "" && strpos($image_path, '/trashed') === false )
+			if ($image_path != "" && strpos($image_path, '/trashed/') === false )
 			{
-				$dfs_entry = $db->arrayQuery( 'SELECT * FROM ezdfsfile where name_trunk = "' . $image_path . '"; ');
-				if ( count( $dfs_entry ) == 0)
+				$dfs_entry = $db->arrayQuery( 'SELECT * FROM ezdfsfile where name_trunk = "' . str_replace('"', '""', $image_path) . '"; ');
+				if ( count( $dfs_entry ) === 0)
 				{
 					$cli->output( "(Broken)Problem in Object " . $result["id"] . "(lang:" . $result["language_code"] . ") on image:" . $image_path );
 					$missing_completely++;
 				}
-				else if ( $dfs_entry[0]["expired"] == 1 OR $dfs_entry[0]["mtime"] <= 0 )
+				else if ( $dfs_entry[0]["expired"] == 1 AND $dfs_entry[0]["mtime"] <= 0 )
 				{
 					$cli->output( "(Repaired)Problem Object " . $result["id"] . "(lang:" . $result["language_code"] . ") on image:" . $image_path );
 					$repaired_objects[] = array("obj_id" => $result["id"], "lang" => $result["language_code"]);
+					$db->begin();
+					$db->arrayQuery( 'UPDATE ezdfsfile SET mtime = ' . substr($dfs_entry[0]["mtime"], 1) . ' WHERE name_trunk = "' . $image_path . '"; ');
+					$db->commit();
 					$badly_expired++;
 				}
 			}
@@ -80,13 +83,18 @@ if ( count($repaired_objects) >= 1)
 		$emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
 	}
 	
+	$xrowAdminINI = eZINI::instance( 'xrowadmin.ini' );
 	$cli->output( "Sending notification mails." );
-	$mail = new eZMail();
-	$mail->setSender( $emailSender );
-	$mail->setReceiver( array("robert@xrow.de", "christian@xrow.de") );
-	$mail->setSubject( "Notification: Images were missing and have been repaired." );
-	$mail->setBody( $templateResult );
-	$mailResult = eZMailTransport::send( $mail );
+	
+	foreach ( $xrowAdminINI->variable( 'CheckMissingImages', 'NotificationReceiver' ) as $receiver )
+	{
+		$mail = new eZMail();
+		$mail->setSender( $emailSender );
+		$mail->setReceiver( $receiver );
+		$mail->setSubject( "Notification: Images were missing and have been repaired." );
+		$mail->setBody( $templateResult );
+		$mailResult = eZMailTransport::send( $mail );
+	}
 }
 
 $cli->output( "Done." );
