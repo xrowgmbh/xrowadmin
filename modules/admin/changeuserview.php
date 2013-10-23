@@ -40,16 +40,15 @@ switch ( eZPreferences::value( 'changeuser_list_limit' ) )
 $result = $db->arrayQuery( "SELECT ezcontentclass.identifier, ezcontentclass.id FROM ezcontentclass_attribute,ezcontentclass WHERE 
 ezcontentclass_attribute.contentclass_id = ezcontentclass.id
  AND data_type_string='ezuser'" );
-
+$identifiers = array();
+$ids = array();
 foreach( $result as $row )
 {
     $identifiers[] = $row['identifier'];
-    $ids[] = $row['id']; 
+    $ids[] = $row['id'];
 }
 
 $identifiers = array_unique( $identifiers );
-
-include_once( 'extension/xrowadmin/classes/ezuseraddition.php' );
 
 
 $tpl->setVariable( 'recall', eZUserAddition::recallUserID() );

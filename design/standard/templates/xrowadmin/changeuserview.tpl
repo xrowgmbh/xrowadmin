@@ -44,10 +44,10 @@
 {if $search_text}
     {def $search=fetch(content,search,
                       hash(text,$search_text,
-                           subtree_array, array(1),
-                           class_id,$ids,
+                           subtree_array, array( 1 ),   
+                           class_id, $ids,  
                            offset,$view_parameters.offset,
-                           limit,$limit))}
+                           limit, $limit))}
     {def $list=$search['SearchResult']}
     {def $list_count=$search['SearchCount']}
     {def $stop_word_array=$search['StopWordArray']}
