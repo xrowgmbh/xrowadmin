@@ -3,6 +3,6 @@
 
 <ul>
 {foreach $repaired_objects as $key => $object}
-	<li>{$key|inc()}: {fetch("content", "object", hash( "object_id", $object.obj_id )).name|wash()}({$object.lang}) - ObjectID: {$object.obj_id}</li>
+	<li>{$key|inc()}: {fetch("content", "object", hash( "object_id", $object.obj_id )).name|wash()}({$object.lang} / {$object.attr_id}) - ObjectID: {$object.obj_id} on image: {$object.path|wash()}</li>
 {/foreach}
 </ul>
