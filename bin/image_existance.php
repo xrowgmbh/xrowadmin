@@ -28,7 +28,7 @@ $count = 0;
 $cli->output( "Start Fetching Image Attributes" );
 
 do {
-	$query = "SELECT ezcontentobject_attribute.data_text, ezcontentobject.id, ezcontentobject_attribute.language_code FROM ezcontentobject_attribute, ezcontentobject
+	$query = "SELECT ezcontentobject_attribute.data_text, ezcontentobject.id, ezcontentobject_attribute.language_code, ezcontentobject_attribute.id as 'cobj_attr' FROM ezcontentobject_attribute, ezcontentobject
 		WHERE ezcontentobject_attribute.contentobject_id = ezcontentobject.id
 		AND ezcontentobject_attribute.data_type_string = 'ezimage'
 		AND ezcontentobject_attribute.version = ezcontentobject.current_version
@@ -59,7 +59,7 @@ do {
 				}
 				else if ( $dfs_entry[0]["expired"] == 1 AND $dfs_entry[0]["mtime"] <= 0 )
 				{
-					$cli->output( "(Repaired)Problem Object " . $result["id"] . "(lang:" . $result["language_code"] . ") on image:" . $image_path );
+					$cli->output( "(Repaired)Problem Object " . $result["id"] . "(lang:" . $result["language_code"] . ") on image:" . $image_path . "in attribute: " . $result["cobj_attr"] );
 					$repaired_objects[] = array("obj_id" => $result["id"], "lang" => $result["language_code"]);
 					$db->begin();
 					$db->arrayQuery( 'UPDATE ezdfsfile SET mtime = ' . substr($dfs_entry[0]["mtime"], 1) . ' WHERE name_trunk = "' . $image_path . '"; ');
