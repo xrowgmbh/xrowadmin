@@ -84,7 +84,11 @@ $sqlArray = array(
     "Test::ezcontentobject_tree: Gibt es immer genau eine übereinstimmung für eine veröffentlichten Knoten, ein Object, eine Version?" => array( 
         "details" => false , 
         "sql" => "SELECT * FROM `ezcontentobject_tree` GROUP BY `contentobject_id`, `contentobject_version`, `node_id` HAVING (  COUNT(`node_id`) > 1 AND COUNT(`contentobject_version`) > 1 AND COUNT(`contentobject_id`) > 1);" 
-    ) 
+    ) ,
+    "Test::ezurlalias_hash: Hat die Node 2 einen falschen hash?" => array( 
+        "details" => false , 
+        "sql" => "SELECT * FROM ezurlalias_ml where action = 'eznode:2' and text_md5 != 'd41d8cd98f00b204e9800998ecf8427e';" 
+    )
 );
 
 foreach ( $sqlArray as $index => $sql )
