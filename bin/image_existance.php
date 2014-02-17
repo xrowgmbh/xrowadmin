@@ -80,7 +80,7 @@ do {
                 }
                 else if ( $dfs_entry[0]["expired"] == 1 AND $dfs_entry[0]["mtime"] <= 0 )
                 {
-                    $cli->output( "(Repaired)Problem Object " . $result["id"] . "(lang:" . $result["language_code"] . ") on image:" . $image_path . "in attribute: " . $result["cobj_attr"] );
+                    $cli->output( "(Repaired)Problem Object " . $result["id"] . "(lang:" . $result["language_code"] . ") on image:" . $image_path . " in attribute: " . $result["cobj_attr"] );
                     $repaired_objects[] = array("obj_id" => $result["id"], "lang" => $result["language_code"], "path" => $image_path, "attr_id" => $result["cobj_attr"] );
                     $cluster_db->begin();
                     $cluster_db->arrayQuery( 'UPDATE ezdfsfile SET mtime = ' . substr($dfs_entry[0]["mtime"], 1) . ' WHERE name_trunk = "' . $image_path . '"; ');
