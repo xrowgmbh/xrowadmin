@@ -9,10 +9,10 @@
 
 <article>
 <header>
-    <h1>Heading</h1>
+    <h1>Header element in a footer containing a Headline and subheadline</h1>
     <p>Subheadline</p>
 </header>
-<p>hgroup title="The hgroup element represents the heading of a section. The element is used to group a set of h1–h6 elements when the heading has multiple levels, such as subheadings, alternative titles, or taglines."</p>
+<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
 <footer>Article Footer</footer>
 </article>
 
