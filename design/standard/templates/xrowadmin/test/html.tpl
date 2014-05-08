@@ -5,11 +5,11 @@
 <h5>Heading 5</h5>
 <h6>Heading 6</h6>
 
-<hr />
+<hr>
 
 <article>
 <header>
-    <h1>Header element in a footer containing a Headline and subheadline</h1>
+    <h1>Header in an article containing headline and subheadline</h1>
     <p>Subheadline</p>
 </header>
 <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
@@ -29,7 +29,7 @@ At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergr
     sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
 </p>
 
-<hr />
+<hr>
 
 <h2>Figure, image and figcaption</h2>
 <figure title="The figure element represents some flow content, optionally with a caption, that is self-contained and is typically referenced as a single unit from the main flow of the document.">
@@ -37,7 +37,7 @@ At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergr
  <figcaption>Figcaption - Lorem ipsum dolor sit amet</figcaption>
 </figure>
 
-<hr />
+<hr>
 
 <h2>Text-Formatting</h2>
 
@@ -56,18 +56,18 @@ This is normal text.
 <cite>Citation</cite>.
 I have a date on <time datetime="2008-02-14">Valentines day</time>.
 <mark>This text is marked</mark>
-The <abbr title="World Health Organization">WHO</abbr> was founded in 1948. 
+The <abbr title="World Health Organization">WHO</abbr> was founded in 1948.
 </p>
 <p>This is<sub> subscript</sub> and <sup>superscript</sup></p>
 
-<hr />
+<hr>
 
 <h2>Table with caption</h2>
 
 <table summary="The Summary of the table: 2 rows and 2 cells">
     <caption>Table Caption</caption>
     <tr>
-        <th>Header 1</th>
+        <th><p>Header 1 with p-tag</p></th>
         <th>Header 2</th>
     </tr>
     <tr>
@@ -93,7 +93,7 @@ The <abbr title="World Health Organization">WHO</abbr> was founded in 1948.
 </table>
 
 
-<hr />
+<hr>
 
 <h2>Blockquote</h2>
 
@@ -102,7 +102,7 @@ The <abbr title="World Health Organization">WHO</abbr> was founded in 1948.
 <cite>Author</cite>
 </blockquote>
 
-<hr />
+<hr>
 
 <h2>Preformatted text</h2>
 
@@ -114,7 +114,7 @@ The <abbr title="World Health Organization">WHO</abbr> was founded in 1948.
     line breaks
 </pre>
 
-<hr />
+<hr>
 
 <h2>Video & Audio</h2>
 
@@ -129,7 +129,7 @@ The <abbr title="World Health Organization">WHO</abbr> was founded in 1948.
   Your browser does not support the audio tag.
 </audio>
 
-<hr />
+<hr>
 
 <h2>Canvas / Iframe</h2>
 
@@ -144,7 +144,7 @@ ctx.fillRect(0,0,80,100);
 <iframe src="http://www.w3schools.com"></iframe>
 
 
-<hr />
+<hr>
 
 <h2>Nested ordered and unordered lists</h2>
 
@@ -175,7 +175,7 @@ ctx.fillRect(0,0,80,100);
   <li>Milk</li>
 </ol>
 
-<hr />
+<hr>
 
 <h2>Form elements</h2>
 
@@ -184,15 +184,15 @@ ctx.fillRect(0,0,80,100);
         <legend>Sex:</legend>
         <label for="male"><input type="radio" name="sex" id="male" />Male</label>
         <label for="female"><input type="radio" name="sex" id="female" />Female</label>
-        
+
         <label for="option">Yes / No<input type="checkbox" name="option" id="option" /></label>
-        
+
         <label for="password">Password</label>
         <input type="password" name="password" id="password" />
-        
+
         <label for="user">User</label>
         <input type="text" name="user" id="user" />
-        
+
         <label for="cars">Cars</label>
         <select name="cars" id="cars">
           <option value="volvo">Volvo</option>
@@ -213,8 +213,8 @@ ctx.fillRect(0,0,80,100);
         </select>
         <label for="message">Message</label>
         <textarea name="Message" id="message" rows="5" cols="40">
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. 
-        </textarea> 
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+        </textarea>
         <input type="submit" value="Submit" /> <button>Other button</button>
     </p>
     <fieldset>
@@ -231,7 +231,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 <br />
 <button>Button</button>
 
-<hr />
+<hr>
 
 <h2>Definition list</h2>
 
@@ -242,7 +242,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
     <dd>- white cold drink</dd>
 </dl>
 
-<hr />
+<hr>
 
 <h2>Address</h2>
 
@@ -253,7 +253,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
     Phone: +12 34 56 78
 </address>
 
-<hr />
+<hr>
 
 <h2>Imagemap</h2>
 
