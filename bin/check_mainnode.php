@@ -22,6 +22,14 @@ foreach ( $potential_bad_items as $item )
     if ( $tmp_obj->MainNodeID() === NULL )
     {
         $real_bad_items++;
+        $tmp_node = eZContentObjectTreeNode::fetch( $item["node_id"] );
+
+        if ( $tmp_node instanceOf eZContentObjectTreeNode )
+        {
+            #activate the next line if you like to auto correct the missing main node
+            #eZContentObjectTreeNode::updateMainNodeID($item["node_id"], $item["contentobject_id"], false, $tmp_node->ParentNodeID );
+        }
+
         $cli->output( "Object " . $item["contentobject_id"]  . " has no main node id( " . $item["path_identification_string"] . " )" );
     }
 }
