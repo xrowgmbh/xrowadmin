@@ -33,3 +33,9 @@ Currently it has following abilites
 It comes with following modules/views
 
 admin/changeuser/{$ObjectID}/
+
+<url>/<siteaccess(optional)>/remote/content/full/<nodeID> provides HTML-Output with absolute URL's instead of relative ones.
+For internal Nodes without Content - Anonymous accessable Nodes only.
+
+
+
