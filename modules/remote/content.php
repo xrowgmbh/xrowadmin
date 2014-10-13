@@ -8,22 +8,32 @@ $namedParameters = $Module->getNamedParameters();
 if( isset( $namedParameters['Type'] ) )
 {
     $remote_ini = eZINI::instance( 'remotecontent.ini' );
-    if( $remote_ini->hasVariable( 'Settings', 'RemoteURL' ) )
+    if( $remote_ini->hasVariable( 'Settings', 'RemoteURL' ) || (isset($namedParameters['NodeID']) && $namedParameters['Type'] = "full") )
     {
-        $remote_url = $remote_ini->variable( 'Settings', 'RemoteURL' );
-        if( isset( $remote_url['host'] ) && isset( $remote_url['path'] ) )
+        if (isset($namedParameters['NodeID']) && $namedParameters['Type'] = "full")
         {
-            if( strpos( $remote_url['host'], 'http' ) === false )
+            $hostname = eZSys::hostname();
+            $siteaccess = eZSys::indexDir();
+            $node_id = $namedParameters['NodeID'];
+            $url = "http://" . $hostname . $siteaccess . "/remote/scaffold/full/" . $node_id;
+            $remote_url['host'] = "http://" . $hostname;
+        }
+        else
+        {
+            $remote_url = $remote_ini->variable( 'Settings', 'RemoteURL' );
+            if( isset( $remote_url['host'] ) && isset( $remote_url['path'] ) )
             {
-                $remote_url['host'] = 'http://' . $remote_url['host'];
+                if( strpos( $remote_url['host'], 'http' ) === false )
+                {
+                    $remote_url['host'] = 'http://' . $remote_url['host'];
+                }
+                $url = $remote_url['host'] . '/' . $remote_url['path'];
             }
-            $url = $remote_url['host'] . '/' . $remote_url['path'];
+            if( $remote_ini->hasVariable( 'Settings', 'ContentDevider' ) )
+            {
+                $content_devider = $remote_ini->variable( 'Settings', 'ContentDevider' );
+            }
         }
-        if( $remote_ini->hasVariable( 'Settings', 'ContentDevider' ) )
-        {
-            $content_devider = $remote_ini->variable( 'Settings', 'ContentDevider' );
-        }
-        
         if( isset( $url ) )
         {
             if ( function_exists( 'curl_init' ) )
@@ -59,6 +69,7 @@ if( isset( $namedParameters['Type'] ) )
             if( $remote_content )
             {
                 $remote_content = preg_replace( '#(href|src)="([^:"]*)("|(?:(?:%20|\s|\+)[^"]*"))#', '$1="' . $remote_url['host'] . '$2$3', $remote_content );
+                $remote_content = preg_replace( '#url\((?!\s*[\'"]?(?:https?:)?//)\s*([\'"])?#', "url($1{$remote_url['host']}", $remote_content );
                 switch ( $namedParameters['Type'] )
                 {
                     case 'head':
@@ -112,6 +123,11 @@ if( isset( $namedParameters['Type'] ) )
         }
     }
 }
+
+
+header( 'X-Robots-Tag: googlebot: nofollow' );
+header( 'X-Robots-Tag: otherbot: noindex, nofollow' );
+
 if( isset( $remote_content ) )
 {
     $lastModified = gmdate( 'D, d M Y H:i(worry)', time() ) . ' GMT';

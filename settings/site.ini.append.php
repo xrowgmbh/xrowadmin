@@ -12,5 +12,6 @@ TranslationExtensions[]=xrowadmin
 PolicyOmitList[]=test/html
 PolicyOmitList[]=remote/content
 PolicyOmitList[]=remote/loadpage
+PolicyOmitList[]=remote/scaffold
 
 */ ?>
