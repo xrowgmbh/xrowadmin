@@ -68,7 +68,7 @@ if( isset( $namedParameters['Type'] ) )
             }
             if( $remote_content )
             {
-                $remote_content = preg_replace( '#(href|src)="([^:"]*)("|(?:(?:%20|\s|\+)[^"]*"))#', '$1="' . $remote_url['host'] . '$2$3', $remote_content );
+                $remote_content = preg_replace( '#(href|src)="(?!(|http:|https:)//)([^:"]*)("|(?:(?:%20|\s|\+)[^"]*"))#', '$1="' . $remote_url['host'] . '$2$3"', $remote_content );
                 $remote_content = preg_replace( '#url\((?!\s*[\'"]?(?:https?:)?//)\s*([\'"])?#', "url($1{$remote_url['host']}", $remote_content );
                 switch ( $namedParameters['Type'] )
                 {
