@@ -15,8 +15,8 @@ if( isset( $namedParameters['Type'] ) )
             $hostname = eZSys::hostname();
             $siteaccess = eZSys::indexDir();
             $node_id = $namedParameters['NodeID'];
-            $url = "http://" . $hostname . $siteaccess . "/remote/scaffold/full/" . $node_id;
-            $remote_url['host'] = "http://" . $hostname;
+            $url = $hostname . $siteaccess . "/remote/scaffold/full/" . $node_id;
+            $remote_url['host'] = "//" . $hostname;
         }
         else
         {
@@ -47,9 +47,10 @@ if( isset( $namedParameters['Type'] ) )
 
                 $remote_content = curl_exec( $ch );
                 $info = curl_getinfo( $ch );
-                if ( $info['http_code'] != 200 || $remote_content === false )
+                if ( $info['http_code'] != 200 || $remote_content === false || $info['http_code'] === null)
                 {
                     $remote_content = false;
+                    $error[] = "URL ($url) is not avialable. (" . __LINE__ . ")";
                     eZDebug::writeError( "URL ($url) is not avialable ", __METHOD__ );
                 }
                 curl_close( $ch );
@@ -57,18 +58,23 @@ if( isset( $namedParameters['Type'] ) )
             }
             else
             {
-                $remote_content = file_get_contents( $url );
-                
-                if( strlen( trim( $remote_content ) ) == 0 )
-                {
-                    $remote_content = false;
-                    eZDebug::writeError( "URL ($url) doesn't returned content", __METHOD__ );
+                try {
+                    $remote_content = file_get_contents( $url );
+                    if( strlen( trim( $remote_content ) ) == 0 )
+                    {
+                        $remote_content = false;
+                        $error[] = "URL ($url) doesn't returned content. (" . __LINE__ . ")";
+                        eZDebug::writeError( "URL ($url) doesn't returned content", __METHOD__ );
+                    }
+                } catch (Exception $e) {
+                    echo $e;
+                    eZDebug::writeDebug( $e, __METHOD__ );
                 }
                 eZDebug::writeDebug( "URL ($url) included", __METHOD__ );
             }
             if( $remote_content )
             {
-                $remote_content = preg_replace( '#(href|src)="([^:"]*)("|(?:(?:%20|\s|\+)[^"]*"))#', '$1="' . $remote_url['host'] . '$2$3', $remote_content );
+                $remote_content = preg_replace( '#(href|src)="(?!(|http:|https:)//)([^:"]*)("|(?:(?:%20|\s|\+)[^"]*"))#', '$1="' . $remote_url['host'] . '$2$3"', $remote_content );
                 $remote_content = preg_replace( '#url\((?!\s*[\'"]?(?:https?:)?//)\s*([\'"])?#', "url($1{$remote_url['host']}", $remote_content );
                 switch ( $namedParameters['Type'] )
                 {
@@ -114,21 +120,27 @@ if( isset( $namedParameters['Type'] ) )
             }
             else
             {
+                $error[] = "The url $url does not return content. (" . __LINE__ . ")";
                 eZDebug::writeError( "The url $url does not return content.", __METHOD__ );
             }
         }
         else
         {
+            $error[] = "The url is not set. Line: (" . __LINE__ . ")";
             eZDebug::writeError( "The url is not set.", __METHOD__ );
         }
     }
+}
+else
+{
+    $error[] = "Param type is not avialable. (" . __LINE__ . ")";
 }
 
 
 header( 'X-Robots-Tag: googlebot: nofollow' );
 header( 'X-Robots-Tag: otherbot: noindex, nofollow' );
 
-if( isset( $remote_content ) )
+if( isset( $remote_content ) && $remote_content != false)
 {
     $lastModified = gmdate( 'D, d M Y H:i(worry)', time() ) . ' GMT';
     $expires = gmdate( 'D, d M Y H:i(worry)', time() + 600 ) . ' GMT';
@@ -148,5 +160,11 @@ if( isset( $remote_content ) )
 }
 else
 {
+    echo "<b>Some errors occured:</b><br>";
+    foreach ($error as $item)
+    {
+        echo $item . "<br>";
+    }
     eZDebug::writeError( "An error has accured.", __METHOD__ );
+    eZExecution::cleanExit();
 }
