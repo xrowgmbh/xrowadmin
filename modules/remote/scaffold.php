@@ -15,10 +15,6 @@ $Year = $Params['Year'];
 $Month = $Params['Month'];
 $Day = $Params['Day'];
 
-// Check if we should switch access mode (http/https) for this node.
-if( !isset( $Params['InternalRedirect'] ) )
-    eZSSLZone::checkNodeID( 'content', 'view', $NodeID );
-
 if ( isset( $Params['UserParameters'] ) )
 {
     $UserParameters = $Params['UserParameters'];
