@@ -2,7 +2,7 @@
 
 class RemoteContent
 {
-    public const DEFAULT_MARKER = "<!--CONTENT-->";
+    const DEFAULT_MARKER = "<!--CONTENT-->";
     static public function getMarker()
     {
         $remote_ini = eZINI::instance( 'remotecontent.ini' );
