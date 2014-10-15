@@ -29,10 +29,7 @@ if( isset( $namedParameters['Type'] ) )
                 }
                 $url = $remote_url['host'] . '/' . $remote_url['path'];
             }
-            if( $remote_ini->hasVariable( 'Settings', 'ContentDevider' ) )
-            {
-                $content_devider = $remote_ini->variable( 'Settings', 'ContentDevider' );
-            }
+            $content_devider = RemoteContent::getMarker();
         }
         if( isset( $url ) )
         {
@@ -76,6 +73,7 @@ if( isset( $namedParameters['Type'] ) )
             {
                 $remote_content = preg_replace( '#(href|src|action)="(?!(|http:|https:)//)([^:"]*)("|(?:(?:%20|\s|\+)[^"]*"))#', '$1="' . $remote_url['host'] . '$2$3"', $remote_content );
                 $remote_content = preg_replace( '#url\((?!\s*[\'"]?(?:https?:)?//)\s*([\'"])?#', "url($1{$remote_url['host']}", $remote_content );
+				$remote_content = str_replace("<head>", "<head><base href=\"//{$remote_url['host']}\">", $remote_content);
                 switch ( $namedParameters['Type'] )
                 {
                     case 'head':

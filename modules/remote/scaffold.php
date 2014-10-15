@@ -178,15 +178,7 @@ else
         )
     );
     $data = eZNodeviewfunctions::contentViewGenerate( false, $args ); // the false parameter will disable generation of the 'binarydata' entry
-    $remote_ini = eZINI::instance( 'remotecontent.ini' );
-    if( $remote_ini->hasVariable( 'Settings', 'ContentMarker' ) )
-    {
-        $content_devider = $remote_ini->variable( 'Settings', 'ContentMarker' );
-        $data['content']['content'] = $content_devider;
-    }
-    else
-    {
-        $data['content']['content'] = "<!--CONTENT-->";
-    }
+
+    $data['content']['content'] = RemoteContent::getMarker();
     return $data['content']; // Return the $Result array
 }
