@@ -1,7 +1,6 @@
 <?php
 
-header( 'X-Robots-Tag: googlebot: nofollow' );
-header( 'X-Robots-Tag: otherbot: noindex, nofollow' );
+header( 'X-Robots-Tag: noindex, nofollow' );
 
 $http = eZHTTPTool::instance();
 
@@ -179,6 +178,15 @@ else
         )
     );
     $data = eZNodeviewfunctions::contentViewGenerate( false, $args ); // the false parameter will disable generation of the 'binarydata' entry
-    $data['content']['content'] = "** Your content starts here **";
+    $remote_ini = eZINI::instance( 'remotecontent.ini' );
+    if( $remote_ini->hasVariable( 'Settings', 'ContentMarker' ) )
+    {
+        $content_devider = $remote_ini->variable( 'Settings', 'ContentMarker' );
+        $data['content']['content'] = $content_devider;
+    }
+    else
+    {
+        $data['content']['content'] = "<!--CONTENT-->";
+    }
     return $data['content']; // Return the $Result array
 }

@@ -2,6 +2,6 @@
 
 #[Settings]
 #RemoteURL=UrlToTheSiteForReading
-#ContentDevider[1]=<!--CONTENT-->
+#ContentMarker=<!--CONTENT-->
 
 */ ?>

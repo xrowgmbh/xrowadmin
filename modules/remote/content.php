@@ -137,8 +137,7 @@ else
 }
 
 
-header( 'X-Robots-Tag: googlebot: nofollow' );
-header( 'X-Robots-Tag: otherbot: noindex, nofollow' );
+header( 'X-Robots-Tag: noindex, nofollow' );
 
 if( isset( $remote_content ) && $remote_content != false)
 {
@@ -160,11 +159,9 @@ if( isset( $remote_content ) && $remote_content != false)
 }
 else
 {
-    echo "<b>Some errors occured:</b><br>";
     foreach ($error as $item)
     {
-        echo $item . "<br>";
+        eZDebug::writeError(  $item, __METHOD__ );
     }
-    eZDebug::writeError( "An error has accured.", __METHOD__ );
-    eZExecution::cleanExit();
+    throw new Exception( "An error has accrued." );
 }
