@@ -16,7 +16,7 @@ if( isset( $namedParameters['Type'] ) )
             $siteaccess = eZSys::indexDir();
             $node_id = $namedParameters['NodeID'];
             $url = $hostname . $siteaccess . "/remote/scaffold/full/" . $node_id;
-            $remote_url['host'] = "//" . $hostname;
+            $remote_url['host'] = $hostname;
         }
         else
         {
@@ -71,8 +71,8 @@ if( isset( $namedParameters['Type'] ) )
             }
             if( $remote_content )
             {
-                $remote_content = preg_replace( '#(href|src|action)="(?!(|http:|https:)//)([^:"]*)("|(?:(?:%20|\s|\+)[^"]*"))#', '$1="' . $remote_url['host'] . '$2$3"', $remote_content );
-                $remote_content = preg_replace( '#url\((?!\s*[\'"]?(?:https?:)?//)\s*([\'"])?#', "url($1{$remote_url['host']}", $remote_content );
+                $remote_content = preg_replace( '#(href|src|action)="(?!(|http:|https:)//)([^:"]*)("|(?:(?:%20|\s|\+)[^"]*"))#', '$1="//' . $remote_url['host'] . '$2$3"', $remote_content );
+                $remote_content = preg_replace( '#url\((?!\s*[\'"]?(?:https?:)?//)\s*([\'"])?#', "url($1//{$remote_url['host']}", $remote_content );
 				$remote_content = str_replace("<head>", "<head><base href=\"//{$remote_url['host']}\">", $remote_content);
                 switch ( $namedParameters['Type'] )
                 {
