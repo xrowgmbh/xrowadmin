@@ -55,7 +55,6 @@ if( isset( $namedParameters['Type'] ) )
             }
             else
             {
-                try {
                     $remote_content = file_get_contents( $url );
                     if( strlen( trim( $remote_content ) ) == 0 )
                     {
@@ -63,17 +62,13 @@ if( isset( $namedParameters['Type'] ) )
                         $error[] = "URL ($url) doesn't returned content. (" . __LINE__ . ")";
                         eZDebug::writeError( "URL ($url) doesn't returned content", __METHOD__ );
                     }
-                } catch (Exception $e) {
-                    echo $e;
-                    eZDebug::writeDebug( $e, __METHOD__ );
-                }
                 eZDebug::writeDebug( "URL ($url) included", __METHOD__ );
             }
             if( $remote_content )
             {
                 $remote_content = preg_replace( '#(href|src|action)="(?!(|http:|https:)//)([^:"]*)("|(?:(?:%20|\s|\+)[^"]*"))#', '$1="//' . $remote_url['host'] . '$2$3"', $remote_content );
                 $remote_content = preg_replace( '#url\((?!\s*[\'"]?(?:https?:)?//)\s*([\'"])?#', "url($1//{$remote_url['host']}", $remote_content );
-				$remote_content = str_replace("<head>", "<head><base href=\"//{$remote_url['host']}\">", $remote_content);
+				#$remote_content = str_replace("<head>", "<head><base href=\"//{$remote_url['host']}\">", $remote_content);
                 switch ( $namedParameters['Type'] )
                 {
                     case 'head':
