@@ -23,14 +23,14 @@ foreach ( $user_without_mail as $entry )
     if(count($old_data) >= 1)
     {
         #$db->begin();
-        #$db->arrayQuery("INSERT INTO ezuser (email) VALUES ('" . $old_data[0]["email"] ."') WHERE contentobject_id = " . $entry["contentobject_id"] . ";");
+        #$db->arrayQuery("UPDATE ezuser SET email = '" . $old_data[0]["email"] ."' WHERE contentobject_id = " . $entry["contentobject_id"] . ";");
         #$db->commit();
         $users_corrected++;
     }
     else
     {
         #$db->begin();
-        #$db->arrayQuery("INSERT INTO ezuser (email) VALUES ('" . $default_mail . "') WHERE contentobject_id = " . $entry["contentobject_id"] . ";");
+        #$db->arrayQuery("UPDATE ezuser SET email = '" . $default_mail ."' WHERE contentobject_id = " . $entry["contentobject_id"] . ";");
         #$db->commit();
         $users_not_corrected[] =  $entry["contentobject_id"];
     }
