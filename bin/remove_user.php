@@ -25,7 +25,7 @@ foreach ( $objects_to_delete as $object_id )
     $object = eZContentObject::fetch( $object_id );
     $user = eZUser::fetch( $object_id );
 
-    if ( $user instanceof eZUser && $object instanceof eZContentObject )
+    if ( $user instanceof eZUser && !$user->isEnabled() && $object instanceof eZContentObject && count($object->assignedNodes()) == 0 )
     {
         //remove object
         $object->removeThis();
