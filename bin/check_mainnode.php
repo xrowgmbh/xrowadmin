@@ -9,6 +9,7 @@ $cli = eZCLI::instance();
 $cli->output( "The script has started" );
 
 $db = eZDB::instance();
+$ini = eZINI::instance();
 
 $real_bad_items = 0;
 $corrected_items = 0;
@@ -22,10 +23,10 @@ foreach ( $potential_bad_items as $item )
     $fetchedObjectTreeNode = eZContentObjectTreeNode::fetch( $item['node_id'] );
     if ( $fetchedObjectTreeNode instanceof eZContentObjectTreeNode )
     {
-        $real_bad_items++;
         $correctMainNodeID = 0;
         if ( $fetchedObjectTreeNode->MainNodeID == 0 )
         {
+            $real_bad_items++;
             $nodeList = eZContentObjectTreeNode::fetchByContentObjectID( $fetchedObjectTreeNode->ContentObjectID );
             foreach ( $nodeList as $node )
             {
@@ -39,19 +40,37 @@ foreach ( $potential_bad_items as $item )
             {
                 #activate the next 2 lines if you like to auto correct the missing main node
                 #$corrected_items++;
-                #eZContentObjectTreeNode::updateMainNodeID($correctMainNodeID, $fetchedObjectTreeNode->ContentObjectID, false, $fetchedObjectTreeNode->ParentNodeID, true);
+                #eZContentObjectTreeNode::updateMainNodeID($correctMainNodeID, $fetchedObjectTreeNode->ContentObjectID, false, $fetchedObjectTreeNode->ParentNodeID, false);
             }
             else
             {
                 #activate the next 2 lines if you like to replace the missing main node with their own NodeID
                 #$corrected_items_node_id++;
-                #eZContentObjectTreeNode::updateMainNodeID($fetchedObjectTreeNode->NodeID, $fetchedObjectTreeNode->ContentObjectID, false, $fetchedObjectTreeNode->ParentNodeID, true);
+                #eZContentObjectTreeNode::updateMainNodeID($fetchedObjectTreeNode->NodeID, $fetchedObjectTreeNode->ContentObjectID, false, $fetchedObjectTreeNode->ParentNodeID, false);
             }
         }
         $cli->output( "Object " . $item["contentobject_id"]  . " has no main node id( " . $item["path_identification_string"] . " )\nCorrect MainNode: " . $correctMainNodeID );
     }
 }
-
+if( $real_bad_items > 0)
+{
+    $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
+    if ( !$emailSender )
+    {
+        $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
+    }
+    $xrowAdminINI = eZINI::instance( 'xrowadmin.ini' );
+    $cli->output( "Sending notification mails." );
+    foreach ( $xrowAdminINI->variable( 'CheckMissingMainnodes', 'NotificationReceiver' ) as $receiver )
+    {
+        $mail = new eZMail();
+        $mail->setSender( $emailSender );
+        $mail->setReceiver( $receiver );
+        $mail->setSubject( "Notification: Mainnodes were missing and have been repaired." );
+        $mail->setBody( $real_bad_items . " real threats found!\n" . $corrected_items . " Corrections with correct mainnode_id.\n" . $corrected_items_node_id . " replacements with node_id." );
+        $mailResult = eZMailTransport::send( $mail );
+    }
+}
 $cli->output( $real_bad_items . " real threats found!" );
 $cli->output( $corrected_items . " Corrections with correct mainnode_id." );
 $cli->output( $corrected_items_node_id . " replacements with node_id." );
