@@ -49,17 +49,18 @@ $globalStartTime = microtime( true );
 
 $db = eZDB::instance();
 
-$db->query( "DELETE FROM ezurlalias_ml WHERE is_alias = 1;" );
-$db->query( "INSERT INTO ezurlalias_ml SELECT * FROM ezurlalias_ml_old WHERE is_alias = 1" );
+$db->query( "TRUNCATE TABLE ezurlalias_ml" );
+$db->query( "INSERT INTO ezurlalias_ml SELECT * FROM ezurlalias_ml_save" ); # table with data after updateniceurls.php
+$db->query( "INSERT INTO ezurlalias_ml SELECT * FROM ezurlalias_ml_old WHERE is_alias = 1" ); # table before niceurludpate.php
 
 function fetchAliasMap( )
 {
     $db = eZDB::instance();
-    $sql = 'SELECT DISTINCT action, id FROM ezurlalias_ml_old WHERE id in ( SELECT DISTINCT parent FROM ezurlalias_ml_old WHERE is_alias = 1 and parent > 0 ) order by id';
+    $sql = 'SELECT DISTINCT * FROM ezurlalias_ml_old WHERE is_alias = 1 order by id';
     $rows = $db->arrayQuery( $sql );
     $newarray = array();
     foreach( $rows as $row ){
-    	$newarray[$row["id"]] = explode( ":", $row["action"], 2 );;
+    	$newarray[$row["id"]][] = $row;
     }
     return $newarray;
 }
@@ -67,24 +68,40 @@ function fetchAliasMap( )
 $map = fetchAliasMap();
 $conds = array( "is_alias" => 1, "parent" => array( '>', 0 ) );
 $list = eZURLAliasML::fetchObjectList(eZURLAliasML::definition(), null, $conds );
+
 foreach( $list as $item ){
     if ( isset( $map[ $item->attribute( "parent" ) ] ) ){
-    	$node = $map[ $item->attribute( "parent" ) ][1];
-    	$elements = eZURLAliasML::fetchByAction( 'eznode', $node );
-    	$last = null;
-    	foreach( $elements as $element ){
-    	    if ( $last !== null and $last != $element->ID){
-    	    	echo "no match ". $element->ID ."\n";
-    	    	$last = false;
-    	    	break;
-    	    }
-    	    $last = $element->ID;
-    	}
-    	if ($last){
-    	    $item->setAttribute( "parent", $last);
-    	    $item->store();
-    	}
+    	echo "parent #". $item->attribute( "parent" ) ." in map"."\n";
     }
+    else{
+       parentImport($item);
+
+    }
+}
+function parentImport( $item ) {
+
+    
+    $db = eZDB::instance();
+    if(!$item or !$item->attribute("parent") ){return;}
+        
+            $rows = $db->arrayQuery( "SELECT * FROM ezurlalias_ml_old WHERE id = " . $item->attribute( "parent" ) );
+            if ($rows[0] and !$rows[0]["is_original"]){
+            	$map[$rows[0]["id"]]= $rows[0];
+            	$db->query( "INSERT INTO ezurlalias_ml SELECT * FROM ezurlalias_ml_old WHERE id = " . $item->attribute( "parent" ) );
+            	$nextitem = eZURLAliasML::fetchObject(eZURLAliasML::definition(), null, array( "id" => $item->attribute( "parent" ) ) );
+            	parentImport( $nextitem );
+            }elseif ( empty($rows) ){
+                echo("Deleting record. Problem with ". $item->attribute( "parent" ) );
+                $item->remove();
+            }else{
+            	$nextitem = eZURLAliasML::fetchObject(eZURLAliasML::definition(), null, array( "action" => $rows[0]["action"], "text_md5" => $rows[0]["text_md5"] ) );
+            	if ( $nextitem ){
+            		echo "Found #".$nextitem->attribute("id") . " ".$nextitem->attribute("text")."\n";
+            		$item->remove();
+            		$item->setAttribute( "parent" , $nextitem->attribute( "id" ) );
+            		$item->store();
+            	}
+            }
 }
 
 $script->shutdown();
