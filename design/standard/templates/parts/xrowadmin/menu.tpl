@@ -39,6 +39,7 @@
                             <li><div><a href={"/admin/systemcheck"|ezurl()}>System Check</a></div></li>
                             <li><div><a href={"/admin/solrcheck"|ezurl()}>SOLR Test</a></div></li>
                             <li><div><a href={"/admin/migration"|ezurl()}>Migration</a></div></li>
+                            <li><div><a href={"/admin/helptools"|ezurl()}>Helptools</a></div></li>
                         </ul>
                     </div>
                 </div>

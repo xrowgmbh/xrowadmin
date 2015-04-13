@@ -1,12 +1,12 @@
 <?php /* #?ini charset="utf-8"?
 [NavigationPart]
-Part[ezadmin]=Admin
+Part[xrowadmin]=Admin
 
 [TopAdminMenu]
-Tabs[]=ezadmin
+Tabs[]=xrowadmin
 
-[Topmenu_ezadmin]
-NavigationPartIdentifier=ezadmin
+[Topmenu_xrowadmin]
+NavigationPartIdentifier=xrowadmin
 Name=Admin
 Tooltip=Helps Administrating your System
 URL[]

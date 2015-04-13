@@ -64,4 +64,43 @@
         <translation>Tausche Node %1 mit %2</translation>
     </message>
 </context>
+<context>
+    <name>admin/helptools</name>
+    <message>
+        <source>file search</source>
+        <translation>Dateisuche</translation>
+    </message>
+    <message>
+        <source>file not found</source>
+        <translation>Datei konnte nicht gefunden werden</translation>
+    </message>
+    <message>
+        <source>No entry in the search box</source>
+        <translation>Kein Eintrag im Suchfeld</translation>
+    </message>
+    <message>
+        <source>search</source>
+        <translation>Suchen</translation>
+    </message>
+    <message>
+        <source>With this file search you can return the object ID and node ID. You will receive a link to the file location.</source>
+        <translation>Mit dieser Dateisuche kann man sich Objekt ID und Knoten ID zurückgeben lassen. Man erhält einen Link zum Speicherort der Datei.</translation>
+    </message>
+    <message>
+        <source>name of the object</source>
+        <translation>Name des Objekts</translation>
+    </message>
+    <message>
+        <source>object ID</source>
+        <translation>Objekt ID</translation>
+    </message>
+    <message>
+        <source>node ID</source>
+        <translation>Knoten ID</translation>
+    </message>
+    <message>
+        <source>filename</source>
+        <translation>Dateiname</translation>
+    </message>
+</context>
 </TS>

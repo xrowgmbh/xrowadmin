@@ -103,6 +103,10 @@ $ViewList['migration'] = array(
 	'single_post_actions' => array( 'Cancel' => 'Cancel' ),
     'default_navigation_part' => 'xrowadmin',
     'functions' => array( 'migration' ) );
+$ViewList['helptools'] = array(
+    'script' => 'helptools.php',
+    'default_navigation_part' => 'xrowadmin',
+    'functions' => array( 'helptools' ) );
 
 $FunctionList['setowner'] = array( );
 $FunctionList['changeuser'] = array( );
@@ -112,6 +116,7 @@ $FunctionList['backup'] = array( );
 $FunctionList['menu'] = array( );
 $FunctionList['phpinfo'] = array( );
 $FunctionList['migration'] = array( );
+$FunctionList['helptools'] = array( );
 $FunctionList['sqlquery'] = array( );
 $FunctionList['phpmyadmin'] = array( );
 $FunctionList['apc'] = array( );
