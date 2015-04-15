@@ -6,6 +6,7 @@ $tpl = eZTemplate::factory();
 
 if ($http->hasVariable('findfilesearchbutton'))
 {
+    $tpl->setVariable('formtype' , 'findfile' );
     if ($http->variable('filename') != "") 
     {
         $filename = $http->variable('filename');
@@ -40,6 +41,71 @@ if ($http->hasVariable('findfilesearchbutton'))
             $nodeId = $node[0]->attribute( 'node_id' );
             $tpl->setVariable('node_id', $nodeId);
             $tpl->setVariable('filename', $filename);
+        }
+        else
+        {
+            $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools" , "file not found"));
+        }
+    }
+    else
+    {
+        $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools" , "No entry in the search box"));
+    }
+}
+
+if ($http->hasVariable('findblockid'))
+{
+    $tpl->setVariable('formtype' , 'findblock' );
+    if ($http->variable('blockid') != "")
+    {
+        $blockid = $http->variable('blockid');
+        $db = eZDB::instance();
+        
+        $query = 'SELECT * FROM
+        (
+            SELECT
+            ezcontentobject.id, ezcontentobject.name, ezcontentobject_attribute.data_text
+            FROM ezp_hann_live_db.ezcontentobject ezcontentobject
+            LEFT JOIN
+            ezp_hann_live_db.ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.contentobject_id = ezcontentobject.id
+            WHERE contentclass_id = \'23\'
+            AND ezcontentobject_attribute.data_type_string = \'ezpage\'
+            GROUP BY ezcontentobject_attribute.contentobject_id
+            ORDER BY ezcontentobject_attribute.version DESC
+        ) as subtable
+        WHERE data_text LIKE (\'%' . $blockid . '%\')
+        ;';
+        $rows = $db -> arrayQuery( $query );
+        if (isset($rows[0]))
+        {   
+            $datatext = $rows[0]["data_text"];
+            $xml = simplexml_load_string( $datatext );
+            
+            foreach ($xml->zone as $zone)
+            {
+                foreach ($zone->block as $block)
+                {
+                    if ($block->attributes() == 'id_' . $blockid)
+                    {
+                        $tpl->setVariable('zone_id', $block->zone_id[0] );
+                        $tpl->setVariable('block_type', $block->type[0] );
+                        if ($block->name[0]!= "")
+                        {
+                            $tpl->setVariable('block_name', $block->name[0] );
+                        }
+                        $tpl->setVariable('zone_layout', $xml->zone_layout[0] );
+                        $tpl->setVariable('zone_identifier', $zone->zone_identifier[0] );
+                    }
+                }
+            }
+            $contentobject_id = $rows[0]['id'];
+            $tpl->setVariable('contentobject_id' , $contentobject_id );
+            $node = eZContentObjectTreeNode::fetchByContentObjectID( $contentobject_id);
+            $tpl->setVariable('objectname', $node[0]->getName());
+            $tpl->setVariable('urlAlias', $node[0]->urlAlias());
+            $nodeId = $node[0]->attribute( 'node_id' );
+            $tpl->setVariable('node_id', $nodeId);
+            $tpl->setVariable('block_id', $blockid);
         }
         else
         {

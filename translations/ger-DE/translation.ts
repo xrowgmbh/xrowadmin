@@ -83,8 +83,8 @@
         <translation>Suchen</translation>
     </message>
     <message>
-        <source>With this file search you can return the object ID and node ID. You will receive a link to the file location.</source>
-        <translation>Mit dieser Dateisuche kann man sich Objekt ID und Knoten ID zurückgeben lassen. Man erhält einen Link zum Speicherort der Datei.</translation>
+        <source>Enter the file name to receive information. (example : b73edf37e8e85df9ad8a5c4fb4e1d144.mp4)</source>
+        <translation>Geben Sie den Dateinamen an um Informationen zu erhalten. (Bsp.: b73edf37e8e85df9ad8a5c4fb4e1d144.mp4)</translation>
     </message>
     <message>
         <source>name of the object</source>
@@ -101,6 +101,38 @@
     <message>
         <source>filename</source>
         <translation>Dateiname</translation>
+    </message>
+    <message>
+        <source>block ID</source>
+        <translation>Block ID</translation>
+    </message>
+    <message>
+        <source>block search</source>
+        <translation>Blocksuche</translation>
+    </message>
+    <message>
+        <source>Enter the block ID to receive information. (example : b4fcd2bc56fa7d5a7b54772de029dadd)</source>
+        <translation>Geben Sie die Block ID ein um Information zu erhalten. (Bsp.: b4fcd2bc56fa7d5a7b54772de029dadd)</translation>
+    </message>
+    <message>
+        <source>zone ID</source>
+        <translation>Zonen ID</translation>
+    </message>
+    <message>
+        <source>block type</source>
+        <translation>Blocktyp</translation>
+    </message>
+    <message>
+        <source>block name</source>
+        <translation>Blockname</translation>
+    </message>
+    <message>
+        <source>zone name</source>
+        <translation>Zonenname</translation>
+    </message>
+    <message>
+        <source>zone layout</source>
+        <translation>Zonenlayout</translation>
     </message>
 </context>
 </TS>
