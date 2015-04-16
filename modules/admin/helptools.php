@@ -81,23 +81,36 @@ if ($http->hasVariable('findblockid'))
             $datatext = $rows[0]["data_text"];
             $xml = simplexml_load_string( $datatext );
             
-            foreach ($xml->zone as $zone)
+            $zone = $xml->xpath("/page/zone[block[@id='id_".$blockid."']]");
+            $block = $xml->xpath("/page/zone/block[@id='id_".$blockid."']");
+
+            $tpl->setVariable('zone_id', $block[0]->zone_id[0] );
+            $tpl->setVariable('block_type', $block[0]->type[0] );
+            if ($block[0]->name[0]!= "")
             {
-                foreach ($zone->block as $block)
-                {
-                    if ($block->attributes() == 'id_' . $blockid)
-                    {
-                        $tpl->setVariable('zone_id', $block->zone_id[0] );
-                        $tpl->setVariable('block_type', $block->type[0] );
-                        if ($block->name[0]!= "")
-                        {
-                            $tpl->setVariable('block_name', $block->name[0] );
-                        }
-                        $tpl->setVariable('zone_layout', $xml->zone_layout[0] );
-                        $tpl->setVariable('zone_identifier', $zone->zone_identifier[0] );
-                    }
-                }
+                $tpl->setVariable('block_name', $block[0]->name[0] );
             }
+            $tpl->setVariable('zone_layout', $xml->zone_layout[0] );
+            $tpl->setVariable('zone_identifier', $zone[0]->zone_identifier[0] );
+// alternative to the xpath method
+//             foreach ($xml->zone as $zone)
+//             {
+//                 foreach ($zone->block as $block)
+//                 {
+//                     if ($block->attributes() == 'id_' . $blockid)
+//                     {
+//                         $tpl->setVariable('zone_id', $block->zone_id[0] );
+//                         $tpl->setVariable('block_type', $block->type[0] );
+//                         if ($block->name[0]!= "")
+//                         {
+//                             $tpl->setVariable('block_name', $block->name[0] );
+//                         }
+//                         $tpl->setVariable('zone_layout', $xml->zone_layout[0] );
+//                         $tpl->setVariable('zone_identifier', $zone->zone_identifier[0] );
+//                     }
+//                 }
+//             }
+
             $contentobject_id = $rows[0]['id'];
             $tpl->setVariable('contentobject_id' , $contentobject_id );
             $node = eZContentObjectTreeNode::fetchByContentObjectID( $contentobject_id);
