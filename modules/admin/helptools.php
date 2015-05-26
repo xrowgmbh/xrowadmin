@@ -22,11 +22,11 @@ if ($http->hasVariable('findfilesearchbutton'))
             ezcontentobject_attribute.contentobject_id,
             ezcontentobject.id,
             ezcontentobject.name
-            FROM ezp_hann_live_db.ezbinaryfile ezbinaryfile
+            FROM ezbinaryfile ezbinaryfile
             LEFT JOIN
-                ezp_hann_live_db.ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.id = ezbinaryfile.contentobject_attribute_id
+                ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.id = ezbinaryfile.contentobject_attribute_id
             LEFT JOIN 
-                ezp_hann_live_db.ezcontentobject ezcontentobject ON ezcontentobject.id = ezcontentobject_attribute.contentobject_id
+                ezcontentobject ezcontentobject ON ezcontentobject.id = ezcontentobject_attribute.contentobject_id
             WHERE ezbinaryfile.filename =\'' . $filename . '\'
             ORDER BY ezcontentobject_attribute.version DESC
             LIMIT 1;';
@@ -65,9 +65,9 @@ if ($http->hasVariable('findblockid'))
         (
             SELECT
             ezcontentobject.id, ezcontentobject.name, ezcontentobject_attribute.data_text
-            FROM ezp_hann_live_db.ezcontentobject ezcontentobject
+            FROM ezcontentobject ezcontentobject
             LEFT JOIN
-            ezp_hann_live_db.ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.contentobject_id = ezcontentobject.id
+            ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.contentobject_id = ezcontentobject.id
             WHERE contentclass_id = \'23\'
             AND ezcontentobject_attribute.data_type_string = \'ezpage\'
             GROUP BY ezcontentobject_attribute.contentobject_id
