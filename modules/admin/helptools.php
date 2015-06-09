@@ -44,6 +44,7 @@ if ($http->hasVariable('findfilesearchbutton'))
         }
         else
         {
+        	echo $filename;
             $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools" , "file not found"));
         }
     }
@@ -83,7 +84,6 @@ if ($http->hasVariable('findblockid'))
             
             $zone = $xml->xpath("/page/zone[block[@id='id_".$blockid."']]");
             $block = $xml->xpath("/page/zone/block[@id='id_".$blockid."']");
-
             $tpl->setVariable('zone_id', $block[0]->zone_id[0] );
             $tpl->setVariable('block_type', $block[0]->type[0] );
             if ($block[0]->name[0]!= "")
@@ -92,6 +92,7 @@ if ($http->hasVariable('findblockid'))
             }
             $tpl->setVariable('zone_layout', $xml->zone_layout[0] );
             $tpl->setVariable('zone_identifier', $zone[0]->zone_identifier[0] );
+            
 // alternative to the xpath method
 //             foreach ($xml->zone as $zone)
 //             {
@@ -122,7 +123,8 @@ if ($http->hasVariable('findblockid'))
         }
         else
         {
-            $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools" , "file not found"));
+        	echo $blockid;
+            $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools" , "block ID: " . $blockid . " not found"));
         }
     }
     else
@@ -131,9 +133,139 @@ if ($http->hasVariable('findblockid'))
     }
 }
 
+$timestamp = time();
+
+// last 10 modified objects
+
+$inputInformation["lastmodified"]["query"] = 'SELECT
+										        id , modified , published
+										        FROM ezcontentobject
+										        WHERE modified < ' . $timestamp . '
+										        AND status = 1
+										        ORDER by modified DESC
+										        LIMIT 10
+										        ;';
+$inputInformation["lastmodified"]["headline"] = "Last 10 modified objects";
+
+// last 10 published objects
+
+$inputInformation["lastpublished"]["query"] = 'SELECT
+										        id , modified , published, current_version
+										        FROM ezcontentobject
+										        WHERE published < ' . $timestamp . '
+										        AND status = 1
+										        ORDER by published DESC
+										        LIMIT 10
+										        ;';
+$inputInformation["lastpublished"]["headline"] = "Last 10 published objects";
+
+$tpl->setVariable('x' , getQueryInformation($inputInformation));
+
+// sqlquery to array
+function getQueryInformation($inputInformation)
+{
+	// var_dump($inputInformation);
+	$db = eZDB::instance();
+	$rows = $db -> arrayQuery( $inputInformation["lastmodified"]["query"] );
+	
+	if (isset($rows[0]))
+	{
+		// $tpl->setVariable('lastmodified' , lastObject($rows));
+	}
+	else
+	{
+		// kein Inhalt gefunden
+	}
+    foreach ($rows as $count => $row)
+    {   	
+        $contentobject_id = $row['id'];
+        $object = eZContentObject::fetch($contentobject_id);
+        if ($object instanceof eZContentObject)
+        {
+        	$outputInformation[$count]['id']=$contentobject_id;
+        	if (isset($object->owner()->Name) && !empty($object->owner()->Name))
+        	{
+        		$outputInformation[$count]['publisher']=$object->owner()->Name;
+        	}
+        	else
+        	{
+        		$outputInformation[$count]['publisher']="Not found publisher";
+        	}
+        	$ownerContentObjectID = $object->owner()->ID;
+        	$ownerNode = eZContentObjectTreeNode::fetchByContentObjectID($ownerContentObjectID);
+        	$publisherUrl = $ownerNode[0]->urlAlias();
+        	if (isset($publisherUrl) && !empty($publisherUrl))
+        	{
+        		$outputInformation[$count]['publisherUrl']=$publisherUrl;
+        	}
+        	else
+        	{
+        		$outputInformation[$count]['publisherUrl']="Not found publisherUrl";
+        	}
+        	$node = eZContentObjectTreeNode::fetchByContentObjectID($contentobject_id );
+        	if ($node[0] instanceof eZContentObjectTreeNode)
+        	{
+        		$creatorContentObjectID = $node[0]->creator()->ID;
+        		$creatorNode = eZContentObjectTreeNode::fetchByContentObjectID($creatorContentObjectID);
+        		$modifierUrlAlias = $creatorNode[0]->urlAlias();
+        		if (isset($modifierUrlAlias) && !empty($modifierUrlAlias))
+        		{
+        			$outputInformation[$count]['modifierUrl']=$modifierUrlAlias;
+        		}
+        		else
+        		{
+        			$outputInformation[$count]['modifierUrl']= "Not found modifierUrl";
+        		}
+        		if (isset($node[0]->creator()->Name) && !empty($node[0]->creator()->Name))
+        		{
+        			$outputInformation[$count]['modifier']=$node[0]->creator()->Name;
+        		}
+        		else
+        		{
+        			$outputInformation[$count]['modifier']="Not found modifier";
+        		}
+        		$getName = $node[0]->getName();
+        		if (isset($getName) && !empty($getName))
+        		{
+        			$outputInformation[$count]['name']=$getName;
+        		}
+        		else
+        		{
+        			$outputInformation[$count]['name']="Not found name";
+        		}
+        		$urlAlias = $node[0]->urlAlias();
+        		if (isset($urlAlias) && !empty($urlAlias))
+        		{
+        			$outputInformation[$count]['url']=$urlAlias;
+        		}
+        		else
+        		{
+        			$outputInformation[$count]['url']="Not found url";
+        		}
+        		$nodeId = $node[0]->attribute('node_id');
+        		if (isset($nodeId) && !empty($nodeId))
+        		{
+        			$outputInformation[$count]['nodeId']= $nodeId;
+        		}
+        		else
+        		{
+        			$outputInformation[$count]['nodeId']="Not found nodeId";
+        		}
+        	}
+        	else
+        	{
+        		$outputInformation[$count]['error']="No published node found";
+        	}
+        }
+        else
+        {
+        	$outputInformation[$count]['error']="No published object found";
+        }
+    }
+	return $outputInformation;
+}	
 $Result = array();
 $Result['left_menu'] = "design:parts/xrowadmin/menu.tpl";
 $Result['content'] = $tpl->fetch( "design:xrowadmin/helptools.tpl" );
 $Result['path'] = array( array( 'url' => false, 'text' => 'helptools'));
-
 ?>

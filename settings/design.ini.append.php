@@ -7,4 +7,7 @@ DesignExtensions[]=xrowadmin
 BackendJavaScriptList[]=xrowadmin.js
 FrontendJavaScriptList[]=xrowadmin.js
 
+[StylesheetSettings]
+BackendCSSFileList[]=helptools.css
+
 */ ?>
