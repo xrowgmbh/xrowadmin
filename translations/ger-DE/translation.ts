@@ -75,6 +75,10 @@
         <translation>Datei konnte nicht gefunden werden</translation>
     </message>
     <message>
+        <source>block ID not found</source>
+        <translation>Block ID konnte nicht gefunden werden</translation>
+    </message>
+    <message>
         <source>No entry in the search box</source>
         <translation>Kein Eintrag im Suchfeld</translation>
     </message>
@@ -133,6 +137,22 @@
     <message>
         <source>zone layout</source>
         <translation>Zonenlayout</translation>
+    </message>
+    <message>
+        <source>Last 10 modified objects</source>
+        <translation>Die letzten 10 veränderten Objekte</translation>
+    </message>
+    <message>
+        <source>Last 10 published objects</source>
+        <translation>Die letzten 10 veröffentlichten Objekte</translation>
+    </message>
+    <message>
+        <source>modifier</source>
+        <translation>Bearbeiter</translation>
+    </message>
+    <message>
+        <source>publisher</source>
+        <translation>Ersteller</translation>
     </message>
 </context>
 </TS>
