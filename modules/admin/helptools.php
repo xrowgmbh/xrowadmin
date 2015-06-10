@@ -176,6 +176,7 @@ function getQueryInformation($inputInformation)
 	{
 		// kein Inhalt gefunden
 		// git test 222
+		// nochmal
 		// nächster und letzter Versuch
 	}
     foreach ($rows as $count => $row)
