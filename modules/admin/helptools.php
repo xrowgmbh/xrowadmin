@@ -159,113 +159,114 @@ $inputInformation["lastpublished"]["query"] = 'SELECT
 										        ;';
 $inputInformation["lastpublished"]["headline"] = "Last 10 published objects";
 
-$tpl->setVariable('x' , getQueryInformation($inputInformation));
+var_dump(getQueryInformation($inputInformation));
+$tpl->setVariable('x', getQueryInformation($inputInformation));
 
-// sqlquery to array
+
 function getQueryInformation($inputInformation)
 {
-	// var_dump($inputInformation);
-	$db = eZDB::instance();
-	$rows = $db -> arrayQuery( $inputInformation["lastmodified"]["query"] );
-	
-	if (isset($rows[0]))
-	{
-		// $tpl->setVariable('lastmodified' , lastObject($rows));
+	//var_dump($inputInformation);	
+	foreach ($inputInformation as $value => $inputInformation)
+	{		
+		$db = eZDB::instance();
+		$rows = $db -> arrayQuery( $inputInformation[$value]["query"] );
+		
+		if (isset($rows[0]))
+		{
+			// $tpl->setVariable('lastmodified' , lastObject($rows));
+		}
+		else
+		{
+			// kein Inhalt gefunden
+		}
+	    foreach ($rows as $count => $row)
+	    {   	
+	        $contentobject_id = $row['id'];
+	        $object = eZContentObject::fetch($contentobject_id);
+	        if ($object instanceof eZContentObject)
+	        {
+	        	$outputInformation[$count]['id']=$contentobject_id;
+	        	if (isset($object->owner()->Name) && !empty($object->owner()->Name))
+	        	{
+	        		$outputInformation[$count]['publisher']=$object->owner()->Name;
+	        	}
+	        	else
+	        	{
+	        		$outputInformation[$count]['publisher']="Not found publisher";
+	        	}
+	        	$ownerContentObjectID = $object->owner()->ID;
+	        	$ownerNode = eZContentObjectTreeNode::fetchByContentObjectID($ownerContentObjectID);
+	        	$publisherUrl = $ownerNode[0]->urlAlias();
+	        	if (isset($publisherUrl) && !empty($publisherUrl))
+	        	{
+	        		$outputInformation[$count]['publisherUrl']=$publisherUrl;
+	        	}
+	        	else
+	        	{
+	        		$outputInformation[$count]['publisherUrl']="Not found publisherUrl";
+	        	}
+	        	$node = eZContentObjectTreeNode::fetchByContentObjectID($contentobject_id );
+	        	if ($node[0] instanceof eZContentObjectTreeNode)
+	        	{
+	        		$creatorContentObjectID = $node[0]->creator()->ID;
+	        		$creatorNode = eZContentObjectTreeNode::fetchByContentObjectID($creatorContentObjectID);
+	        		$modifierUrlAlias = $creatorNode[0]->urlAlias();
+	        		if (isset($modifierUrlAlias) && !empty($modifierUrlAlias))
+	        		{
+	        			$outputInformation[$count]['modifierUrl']=$modifierUrlAlias;
+	        		}
+	        		else
+	        		{
+	        			$outputInformation[$count]['modifierUrl']= "Not found modifierUrl";
+	        		}
+	        		if (isset($node[0]->creator()->Name) && !empty($node[0]->creator()->Name))
+	        		{
+	        			$outputInformation[$count]['modifier']=$node[0]->creator()->Name;
+	        		}
+	        		else
+	        		{
+	        			$outputInformation[$count]['modifier']="Not found modifier";
+	        		}
+	        		$getName = $node[0]->getName();
+	        		if (isset($getName) && !empty($getName))
+	        		{
+	        			$outputInformation[$count]['name']=$getName;
+	        		}
+	        		else
+	        		{
+	        			$outputInformation[$count]['name']="Not found name";
+	        		}
+	        		$urlAlias = $node[0]->urlAlias();
+	        		if (isset($urlAlias) && !empty($urlAlias))
+	        		{
+	        			$outputInformation[$count]['url']=$urlAlias;
+	        		}
+	        		else
+	        		{
+	        			$outputInformation[$count]['url']="Not found url";
+	        		}
+	        		$nodeId = $node[0]->attribute('node_id');
+	        		if (isset($nodeId) && !empty($nodeId))
+	        		{
+	        			$outputInformation[$count]['nodeId']= $nodeId;
+	        		}
+	        		else
+	        		{
+	        			$outputInformation[$count]['nodeId']="Not found nodeId";
+	        		}
+	        	}
+	        	else
+	        	{
+	        		$outputInformation[$count]['error']="No published node found";
+	        	}
+	        }
+	        else
+	        {
+	        	$outputInformation[$count]['error']="No published object found";
+	        }
+	    }	    
+		return $outputInformation;
 	}
-	else
-	{
-		// kein Inhalt gefunden
-		// git test 222
-		// nochmal
-		// nächster und letzter Versuch
-	}
-    foreach ($rows as $count => $row)
-    {   	
-        $contentobject_id = $row['id'];
-        $object = eZContentObject::fetch($contentobject_id);
-        if ($object instanceof eZContentObject)
-        {
-        	$outputInformation[$count]['id']=$contentobject_id;
-        	if (isset($object->owner()->Name) && !empty($object->owner()->Name))
-        	{
-        		$outputInformation[$count]['publisher']=$object->owner()->Name;
-        	}
-        	else
-        	{
-        		$outputInformation[$count]['publisher']="Not found publisher";
-        	}
-        	$ownerContentObjectID = $object->owner()->ID;
-        	$ownerNode = eZContentObjectTreeNode::fetchByContentObjectID($ownerContentObjectID);
-        	$publisherUrl = $ownerNode[0]->urlAlias();
-        	if (isset($publisherUrl) && !empty($publisherUrl))
-        	{
-        		$outputInformation[$count]['publisherUrl']=$publisherUrl;
-        	}
-        	else
-        	{
-        		$outputInformation[$count]['publisherUrl']="Not found publisherUrl";
-        	}
-        	$node = eZContentObjectTreeNode::fetchByContentObjectID($contentobject_id );
-        	if ($node[0] instanceof eZContentObjectTreeNode)
-        	{
-        		$creatorContentObjectID = $node[0]->creator()->ID;
-        		$creatorNode = eZContentObjectTreeNode::fetchByContentObjectID($creatorContentObjectID);
-        		$modifierUrlAlias = $creatorNode[0]->urlAlias();
-        		if (isset($modifierUrlAlias) && !empty($modifierUrlAlias))
-        		{
-        			$outputInformation[$count]['modifierUrl']=$modifierUrlAlias;
-        		}
-        		else
-        		{
-        			$outputInformation[$count]['modifierUrl']= "Not found modifierUrl";
-        		}
-        		if (isset($node[0]->creator()->Name) && !empty($node[0]->creator()->Name))
-        		{
-        			$outputInformation[$count]['modifier']=$node[0]->creator()->Name;
-        		}
-        		else
-        		{
-        			$outputInformation[$count]['modifier']="Not found modifier";
-        		}
-        		$getName = $node[0]->getName();
-        		if (isset($getName) && !empty($getName))
-        		{
-        			$outputInformation[$count]['name']=$getName;
-        		}
-        		else
-        		{
-        			$outputInformation[$count]['name']="Not found name";
-        		}
-        		$urlAlias = $node[0]->urlAlias();
-        		if (isset($urlAlias) && !empty($urlAlias))
-        		{
-        			$outputInformation[$count]['url']=$urlAlias;
-        		}
-        		else
-        		{
-        			$outputInformation[$count]['url']="Not found url";
-        		}
-        		$nodeId = $node[0]->attribute('node_id');
-        		if (isset($nodeId) && !empty($nodeId))
-        		{
-        			$outputInformation[$count]['nodeId']= $nodeId;
-        		}
-        		else
-        		{
-        			$outputInformation[$count]['nodeId']="Not found nodeId";
-        		}
-        	}
-        	else
-        	{
-        		$outputInformation[$count]['error']="No published node found";
-        	}
-        }
-        else
-        {
-        	$outputInformation[$count]['error']="No published object found";
-        }
-    }
-	return $outputInformation;
 }	
 $Result = array();
 $Result['left_menu'] = "design:parts/xrowadmin/menu.tpl";
