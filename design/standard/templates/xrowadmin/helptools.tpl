@@ -55,57 +55,30 @@
     {/if}
 {/if}
 
-
-
-{if is_set( $x )}
-
-    <div class="last10mod">
-    
-    <h1 class="context-title">{'Last 10 modified objects'|i18n('admin/helptools')}</h1>
-    
-    <div class="box-header"></div>
-    
-        {foreach $x as $count => $lastmodifiedobject}
-        	<div class="lastmod-element">
-            <span>{$count|inc()}:</span>
-            <ul>
-                <li>{'name of the object'|i18n('admin/helptools')} : <a href={$lastmodifiedobject.url|ezurl()}>{$lastmodifiedobject.name}</a> </li>
-                <li>{'object ID'|i18n('admin/helptools')} : {$lastmodifiedobject.id}</li>
-                <li>{'node ID'|i18n('admin/helptools')} : {$lastmodifiedobject.nodeId}</li>                
-                <li>{'publisher'|i18n('admin/helptools')} : <a href={$lastmodifiedobject.publisherUrl|ezurl()}>{$lastmodifiedobject.publisher}</a></li>
-                <li>{'modifier'|i18n('admin/helptools')} : <a href={$lastmodifiedobject.modifierUrl|ezurl()}>{$lastmodifiedobject.modifier}</a></li>
-            </ul>
-            {if is_set ($lastmodifiedobject.error)}
-            	{$lastmodifiedobject.error}
-            {/if}
-            </div>
-        {/foreach} 
-    </div>
-{/if}
-
-{if is_set( $x )}
-
-    <div class="last10pub">
-    
-    <h1 class="context-title">{'Last 10 published objects'|i18n('admin/helptools')}</h1>
-    
-    <div class="box-header"></div>
-    
-        {foreach $x as $count => $lastpublishedobject}
-        	<div class="lastpub-element">
-            <span>{$count|inc}:</span>
-            {if is_set($lastpublishedobject.error)}
-            	{$lastpublishedobject.error}
-            {else}
-	            <ul>
-	                <li>{'name of the object'|i18n('admin/helptools')} : <a href={$lastpublishedobject.url|ezurl()}>{$lastpublishedobject.name}</a> </li>
-	                <li>{'object ID'|i18n('admin/helptools')} : {$lastpublishedobject.id}</li>
-	                <li>{'node ID'|i18n('admin/helptools')} : {$lastpublishedobject.nodeId}</li>
-	                <li>{'publisher'|i18n('admin/helptools')} : <a href={$lastpublishedobject.publisherUrl|ezurl()}>{$lastpublishedobject.publisher}</a></li>
-	                <li>{'modifier'|i18n('admin/helptools')} : <a href={$lastpublishedobject.modifierUrl|ezurl()}>{$lastpublishedobject.modifier}</a></li>
-	            </ul>
-            {/if}
-            </div>
-        {/foreach}
-    </div>
+{if is_set( $outputInformation )}
+	{foreach $outputInformation as $value => $lastObject}
+	    <div class="last10pub">
+	    
+	    <h1 class="context-title">{$lastObject.headline|i18n('admin/helptools')}</h1>
+	    
+	    <div class="box-header"></div>
+	    
+	        {foreach $lastObject as $count => $output}
+	        	<div class="lastpub-element">
+	            <span>{$count|inc}:</span>
+	            {if is_set($output.error)}
+	            	{$output.error}
+	            {else}
+		            <ul>
+		                <li>{'name of the object'|i18n('admin/helptools')} : <a href={$output.url|ezurl()}>{$output.name}</a> </li>
+		                <li>{'object ID'|i18n('admin/helptools')} : {$output.id}</li>
+		                <li>{'node ID'|i18n('admin/helptools')} : {$output.nodeId}</li>
+		                <li>{'publisher'|i18n('admin/helptools')} : <a href={$output.publisherUrl|ezurl()}>{$output.publisher}</a></li>
+		                <li>{'modifier'|i18n('admin/helptools')} : <a href={$output.modifierUrl|ezurl()}>{$output.modifier}</a></li>
+		            </ul>
+	            {/if}
+	            </div>
+	        {/foreach}
+	    </div>
+    {/foreach}
 {/if}
