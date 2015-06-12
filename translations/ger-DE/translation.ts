@@ -107,8 +107,24 @@
         <translation>Dateiname</translation>
     </message>
     <message>
+        <source>This filename</source>
+        <translation>Dieser Dateiname</translation>
+    </message>
+    <message>
         <source>block ID</source>
         <translation>Block ID</translation>
+    </message>
+    <message>
+        <source>This block ID</source>
+        <translation>Diese Block ID</translation>
+    </message>
+    <message>
+        <source>was not found</source>
+        <translation>wurde nicht gefunden</translation>
+    </message>
+    <message>
+        <source>was found</source>
+        <translation>wurde gefunden</translation>
     </message>
     <message>
         <source>block search</source>

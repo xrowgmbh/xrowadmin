@@ -38,8 +38,7 @@ if ($http->hasVariable('findfilesearchbutton')) {
             $tpl->setVariable('node_id', $nodeId);
             $tpl->setVariable('filename', $filename);
         } else {
-            echo $filename;
-            $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", "file not found"));
+            $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", $filename));
         }
     } else {
         $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", "No entry in the search box"));
@@ -109,8 +108,7 @@ if ($http->hasVariable('findblockid')) {
             $tpl->setVariable('node_id', $nodeId);
             $tpl->setVariable('block_id', $blockid);
         } else {
-            echo $blockid;
-            $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", "block ID: " . $blockid . " not found"));
+            $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", $blockid));
         }
     } else {
         $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", "No entry in the search box"));
@@ -151,7 +149,6 @@ function getQueryInformation($inputInformation)
     foreach ($inputInformation as $value => $inputInformation) {
         $db = eZDB::instance();
         $rows = $db->arrayQuery($inputInformation['query']);
-        $outputInformation[$value]['headline'] = $inputInformation['headline'];
         foreach ($rows as $count => $row) {
             $contentobject_id = $row['id'];
             $object = eZContentObject::fetch($contentobject_id);
@@ -211,6 +208,7 @@ function getQueryInformation($inputInformation)
             }
         }
     }
+    $outputInformation[$value]['headline'] = $inputInformation['headline'];
     return $outputInformation;
 }
 $Result = array();

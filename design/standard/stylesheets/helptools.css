@@ -1,26 +1,13 @@
-.lastmod-element span{
-	float: left;
-	margin-top: 10px;
-}
-
-.lastmod-element{
-	float: left;
-	width: 28%;
-	margin-bottom: 15px;
-	height: 120px;
-	
-}
-
-.last10pub{
+.last{
 	clear: both;
 }
 
-.lastpub-element span{
+.last-element span{
 	float: left;
 	margin-top: 10px;
 }
 
-.lastpub-element{
+.last-element{
 	float: left;
 	width: 28%;
 	margin-bottom: 15px;
