@@ -142,6 +142,7 @@ $inputInformation["lastpublished"]["query"] = 'SELECT
 $inputInformation["lastpublished"]["headline"] = "Last 10 published objects";
 
 // var_dump(getQueryInformation($inputInformation));
+// test
 $tpl->setVariable('outputInformation', getQueryInformation($inputInformation));
 
 function getQueryInformation($inputInformation)
