@@ -11,16 +11,15 @@
 
 {if eq($formtype , 'findfile')}
     {if is_set( $objectname )}
-    	<p>{'This filename'|i18n('admin/helptools')} : {$filename} {'was found'|i18n('admin/helptools')}</p> 
+    <p>{'This filename'|i18n('admin/helptools')}: {$filename} {'was found'|i18n('admin/helptools')}</p> 
         <ul>
             <li>{'name of the object'|i18n('admin/helptools')} : <a href={$urlAlias|ezurl()}>{$objectname}</a> </li>
             <li>{'object ID'|i18n('admin/helptools')} : {$contentobject_id}</li>
             <li>{'node ID'|i18n('admin/helptools')} : {$node_id}</li>
             <li>{'filename'|i18n('admin/helptools')} : {$filename}</li>
         </ul>
-    {/if}
-    {if is_set ($errormessage)}
-        <p>{'This filename'|i18n('admin/helptools')} : {$errormessage} {'was not found'|i18n('admin/helptools')}</p>
+    {elseif is_set ($errormessage)}
+        <p>{'This filename'|i18n('admin/helptools')}: {$errormessage} {'was not found'|i18n('admin/helptools')}</p>
     {/if}
 {/if}
 
@@ -37,7 +36,7 @@
 
 {if eq($formtype , 'findblock')}
     {if is_set( $objectname )}
-    	<p>{'This block ID'|i18n('admin/helptools')} : {$block_id} {'was found'|i18n('admin/helptools')}</p>
+    <p>{'This block ID'|i18n('admin/helptools')}: {$block_id} {'was found'|i18n('admin/helptools')}</p>
         <ul>
             <li>{'name of the object'|i18n('admin/helptools')} : <a href={$urlAlias|ezurl()}>{$objectname}</a> </li>
             <li>{'object ID'|i18n('admin/helptools')} : {$contentobject_id}</li>
@@ -51,20 +50,19 @@
                 <li>{'block name'|i18n('admin/helptools')} : {$block_name}</li>
             {/if}
         </ul>
-    {/if}
-    {if is_set ($errormessage)}
-         <p>{'This block ID'|i18n('admin/helptools')} : {$errormessage} {'was not found'|i18n('admin/helptools')}</p>
+    {elseif is_set ($errormessage)}
+         <p>{'This block ID'|i18n('admin/helptools')}: {$errormessage} {'was not found'|i18n('admin/helptools')}</p>
     {/if}
 {/if}
 
 {if is_set( $outputInformation )}
-	{foreach $outputInformation as $value => $lastObject}
+	{foreach $outputInformation as $value => $outputInformation}
 	    <div class="last">
 	    
-	    <h1 class="context-title">{$lastObject.headline|i18n('admin/helptools')}</h1>
-	    
+	    <h1 class="context-title">{$outputInformation.headline|i18n('admin/helptools')}</h1>
+	    	    
 	    <div class="box-header"></div>
-	        {foreach $lastObject as $count => $output}
+	        {foreach $outputInformation|remove(0) as $count => $output}
 	        	<div class="last-element">
 	            <span>{$count|inc}:</span>
 	            {if is_set($output.error)}
@@ -83,3 +81,7 @@
 	    </div>
     {/foreach}
 {/if}
+
+        {$outputInformation|remove(0)}
+        
+        {$outputInformation12|attribute(show)}

@@ -22,7 +22,7 @@ if ($http->hasVariable('findfilesearchbutton')) {
             FROM ezbinaryfile ezbinaryfile
             LEFT JOIN
                 ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.id = ezbinaryfile.contentobject_attribute_id
-            LEFT JOIN 
+            LEFT JOIN
                 ezcontentobject ezcontentobject ON ezcontentobject.id = ezcontentobject_attribute.contentobject_id
             WHERE ezbinaryfile.filename =\'' . $filename . '\'
             ORDER BY ezcontentobject_attribute.version DESC
@@ -30,12 +30,18 @@ if ($http->hasVariable('findfilesearchbutton')) {
         $rows = $db->arrayQuery($query);
         if (isset($rows[0])) {
             $contentobject_id = $rows[0]['contentobject_id'];
-            $tpl->setVariable('contentobject_id', $contentobject_id);
+            if (isset($contentobject_id) && ! empty($contentobject_id)) {
+                $tpl->setVariable('contentobject_id', $contentobject_id);
+            }
             $node = eZContentObjectTreeNode::fetchByContentObjectID($contentobject_id);
-            $tpl->setVariable('objectname', $node[0]->getName());
-            $tpl->setVariable('urlAlias', $node[0]->urlAlias());
+            if (isset($node) && ! empty($node)) {
+                $tpl->setVariable('objectname', $node[0]->getName());
+                $tpl->setVariable('urlAlias', $node[0]->urlAlias());
+            }
             $nodeId = $node[0]->attribute('node_id');
-            $tpl->setVariable('node_id', $nodeId);
+            if (isset($nodeId) && ! empty($nodeId)) {
+                $tpl->setVariable('node_id', $nodeId);
+            }
             $tpl->setVariable('filename', $filename);
         } else {
             $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", $filename));
@@ -141,13 +147,12 @@ $inputInformation["lastpublished"]["query"] = 'SELECT
 										        ;';
 $inputInformation["lastpublished"]["headline"] = "Last 10 published objects";
 
-// var_dump(getQueryInformation($inputInformation));
-// test
 $tpl->setVariable('outputInformation', getQueryInformation($inputInformation));
 
 function getQueryInformation($inputInformation)
 {
     foreach ($inputInformation as $value => $inputInformation) {
+        $outputInformation[$value]['headline'] = $inputInformation['headline'];
         $db = eZDB::instance();
         $rows = $db->arrayQuery($inputInformation['query']);
         foreach ($rows as $count => $row) {
@@ -191,7 +196,7 @@ function getQueryInformation($inputInformation)
                     }
                     $urlAlias = $node[0]->urlAlias();
                     if (isset($urlAlias) && ! empty($urlAlias)) {
-                        $outputInformation[$value][$count]['url'] = $urlAlias;
+                        $outputInformation[$value][$count]['url'] = "meinetolleURL"; // $urlAlias;
                     } else {
                         $outputInformation[$value][$count]['url'] = "Not found url";
                     }
@@ -209,7 +214,6 @@ function getQueryInformation($inputInformation)
             }
         }
     }
-    $outputInformation[$value]['headline'] = $inputInformation['headline'];
     return $outputInformation;
 }
 $Result = array();
