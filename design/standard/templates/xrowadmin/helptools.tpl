@@ -13,10 +13,14 @@
     {if is_set( $objectname )}
     <p>{'This filename'|i18n('admin/helptools')}: {$filename} {'was found'|i18n('admin/helptools')}</p> 
         <ul>
-            <li>{'name of the object'|i18n('admin/helptools')} : <a href={$urlAlias|ezurl()}>{$objectname}</a> </li>
-            <li>{'object ID'|i18n('admin/helptools')} : {$contentobject_id}</li>
-            <li>{'node ID'|i18n('admin/helptools')} : {$node_id}</li>
-            <li>{'filename'|i18n('admin/helptools')} : {$filename}</li>
+            {if is_set($objectname) && is_set($contentobject_id) && is_set($node_id)}
+                <li>{'name of the object'|i18n('admin/helptools')}: <a href={$urlAlias|ezurl()}>{$objectname}</a> </li>
+                <li>{'object ID'|i18n('admin/helptools')}: {$contentobject_id}</li>
+                <li>{'node ID'|i18n('admin/helptools')}: {$node_id}</li>
+            {else}
+                <p>{$errortrash}</p>
+            {/if}
+            <li>{'filename'|i18n('admin/helptools')}: {$filename}</li>
         </ul>
     {elseif is_set ($errormessage)}
         <p>{'This filename'|i18n('admin/helptools')}: {$errormessage} {'was not found'|i18n('admin/helptools')}</p>
@@ -81,7 +85,3 @@
 	    </div>
     {/foreach}
 {/if}
-
-        {$outputInformation|remove(0)}
-        
-        {$outputInformation12|attribute(show)}

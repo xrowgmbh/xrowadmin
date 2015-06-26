@@ -33,14 +33,22 @@ if ($http->hasVariable('findfilesearchbutton')) {
             if (isset($contentobject_id) && ! empty($contentobject_id)) {
                 $tpl->setVariable('contentobject_id', $contentobject_id);
             }
-            $node = eZContentObjectTreeNode::fetchByContentObjectID($contentobject_id);
-            if (isset($node) && ! empty($node)) {
-                $tpl->setVariable('objectname', $node[0]->getName());
-                $tpl->setVariable('urlAlias', $node[0]->urlAlias());
+            $getStatus = eZContentObject::fetch($contentobject_id);
+            $status = $getStatus->Status;
+            if ($status == '1') {
+                $node = eZContentObjectTreeNode::fetchByContentObjectID($contentobject_id);
+                if (isset($node) && ! empty($node)) {
+                    $tpl->setVariable('objectname', $node[0]->getName());
+                    $tpl->setVariable('urlAlias', $node[0]->urlAlias());
+                }
+                $nodeId = $node[0]->attribute('node_id');
+                if (isset($nodeId) && ! empty($nodeId)) {
+                    $tpl->setVariable('node_id', $nodeId);
+                }
             }
-            $nodeId = $node[0]->attribute('node_id');
-            if (isset($nodeId) && ! empty($nodeId)) {
-                $tpl->setVariable('node_id', $nodeId);
+            else
+            {
+                $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", "No file found. Maybe is the file in the trash box."));
             }
             $tpl->setVariable('filename', $filename);
         } else {
