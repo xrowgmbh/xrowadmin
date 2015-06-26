@@ -27,6 +27,31 @@
     {/if}
 {/if}
 
+<h1 class="context-title">{'contentobject attribute id search'|i18n('admin/helptools')}</h1>
+
+<div class="box-header"></div>
+
+<p>{'Enter the contentobject attribute ID to receive information. (example : 10905831)'|i18n('admin/helptools')}</p>
+
+<form name="attributeid" method="post" action={"admin/helptools"|ezurl}>
+    <input type="text" name="attributeid"/>
+    <input type="submit" name="findattribute_id" value="{'search'|i18n('admin/helptools')}"/>
+</form>
+
+{if eq($formtype , 'findattribute')}
+        {if is_set( $contentobject_id )}
+            <p>{'This contentobject attribute ID'|i18n('admin/helptools')}: {$attributeid} {'was found'|i18n('admin/helptools')}</p>
+            <ul>
+                <li>{'name of the object'|i18n('admin/helptools')} : <a href={$urlAlias|ezurl()}>{$objectname}</a> </li>
+                <li>{'object ID'|i18n('admin/helptools')} : {$contentobject_id}</li>
+                <li>{'node ID'|i18n('admin/helptools')} : {$node_id}</li>
+                <li>{'contentobject attribute ID'|i18n('admin/helptools')} : {$attributeid}</li>
+            </ul>
+        {/if}
+{/if}
+
+
+
 <h1 class="context-title">{'block search'|i18n('admin/helptools')}</h1>
 
 <div class="box-header"></div>
@@ -58,7 +83,6 @@
          <p>{'This block ID'|i18n('admin/helptools')}: {$errormessage} {'was not found'|i18n('admin/helptools')}</p>
     {/if}
 {/if}
-
 {if is_set( $outputInformation )}
 	{foreach $outputInformation as $value => $outputInformation}
 	    <div class="last">

@@ -170,5 +170,25 @@
         <source>publisher</source>
         <translation>Ersteller</translation>
     </message>
+    <message>
+        <source>The file was found, but it can no details are displayed. Maybe is the file in the trash box.</source>
+        <translation>Die Datei wurden gefunden, aber die Details können nicht angezeigt werden. Vielleicht ist die Datei in dem Papierkorb.</translation>
+    </message>
+    <message>
+        <source>This contentobject attribute ID</source>
+        <translation>Dieses Contentobjekt Attribut ID</translation>
+    </message>
+    <message>
+        <source>Enter the contentobject attribute ID to receive information. (example : 10905831)</source>
+        <translation>Geben Sie die Contentobjekt Attribut ID an um Informationen zu erhalten. (Bsp.: 10905831)</translation>
+    </message>
+    <message>
+        <source>contentobject attribute id search</source>
+        <translation>Contentobjekt Attribut ID Suche</translation>
+    </message>
+    <message>
+        <source>contentobject attribute ID</source>
+        <translation>Contentobjekt Attribut ID</translation>
+    </message>
 </context>
 </TS>

@@ -48,7 +48,7 @@ if ($http->hasVariable('findfilesearchbutton')) {
             }
             else
             {
-                $tpl->setVariable('errortrash', ezpI18n::tr("admin/helptools", "No file found. Maybe is the file in the trash box."));
+                $tpl->setVariable('errortrash', ezpI18n::tr("admin/helptools", "The file was found, but it can no details are displayed. Maybe is the file in the trash box."));
             }
             $tpl->setVariable('filename', $filename);
         } else {
@@ -56,6 +56,37 @@ if ($http->hasVariable('findfilesearchbutton')) {
         }
     } else {
         $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", "No entry in the search box"));
+    }
+}
+
+if ($http->hasVariable('findattribute_id')) {
+    $tpl->setVariable('formtype', 'findattribute');
+    if ($http->variable('attributeid') != "") {
+        $attributeid = $http->variable('attributeid');
+        $db = eZDB::instance();
+
+        $query = 'Select contentobject_id
+                    FROM ezcontentobject ezcontentobject
+                    LEFT JOIN
+                    ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.contentobject_id = ezcontentobject.id
+                    Where ezcontentobject_attribute.id =' . $attributeid . ';';
+        $rows = $db->arrayQuery($query);
+        if (isset($rows[0])) {
+            $tpl->setVariable('attributeid', $attributeid);
+            $contentobject_id = $rows[0]['contentobject_id'];
+            if (isset($contentobject_id) && ! empty($contentobject_id)) {
+                $tpl->setVariable('contentobject_id', $contentobject_id);
+            }
+            $node = eZContentObjectTreeNode::fetchByContentObjectID($contentobject_id);
+            if (isset($node) && ! empty($node)) {
+                $tpl->setVariable('objectname', $node[0]->getName());
+                $tpl->setVariable('urlAlias', $node[0]->urlAlias());
+            }
+            $nodeId = $node[0]->attribute('node_id');
+            if (isset($nodeId) && ! empty($nodeId)) {
+              $tpl->setVariable('node_id', $nodeId);
+            }
+        }
     }
 }
 
