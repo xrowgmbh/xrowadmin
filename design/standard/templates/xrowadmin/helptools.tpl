@@ -10,7 +10,7 @@
 </form>
 
 {if eq($formtype , 'findfile')}
-    {if is_set( $objectname )}
+    {if is_set( $contentobject_id )}
     <p>{'This filename'|i18n('admin/helptools')}: {$filename} {'was found'|i18n('admin/helptools')}</p> 
         <ul>
             {if is_set($objectname) && is_set($contentobject_id) && is_set($node_id)}

@@ -48,7 +48,7 @@ if ($http->hasVariable('findfilesearchbutton')) {
             }
             else
             {
-                $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", "No file found. Maybe is the file in the trash box."));
+                $tpl->setVariable('errortrash', ezpI18n::tr("admin/helptools", "No file found. Maybe is the file in the trash box."));
             }
             $tpl->setVariable('filename', $filename);
         } else {
