@@ -2,31 +2,30 @@
 $http = eZHTTPTool::instance();
 $Module = $Params['Module'];
 $tpl = eZTemplate::factory();
+$db = eZDB::instance();
 
 if ($http->hasVariable('findfilesearchbutton')) {
     $tpl->setVariable('formtype', 'findfile');
     if ($http->variable('filename') != "") {
         $filename = $http->variable('filename');
         
-        $db = eZDB::instance();
-        
         $query = 'SELECT 
-            ezbinaryfile.filename,
-            ezbinaryfile.original_filename,
-            ezbinaryfile.contentobject_attribute_id ,
-            ezcontentobject_attribute.id,
-            ezcontentobject_attribute.version,
-            ezcontentobject_attribute.contentobject_id,
-            ezcontentobject.id,
-            ezcontentobject.name
-            FROM ezbinaryfile ezbinaryfile
-            LEFT JOIN
-                ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.id = ezbinaryfile.contentobject_attribute_id
-            LEFT JOIN
-                ezcontentobject ezcontentobject ON ezcontentobject.id = ezcontentobject_attribute.contentobject_id
-            WHERE ezbinaryfile.filename =\'' . $filename . '\'
-            ORDER BY ezcontentobject_attribute.version DESC
-            LIMIT 1;';
+                    ezbinaryfile.filename,
+                    ezbinaryfile.original_filename,
+                    ezbinaryfile.contentobject_attribute_id ,
+                    ezcontentobject_attribute.id,
+                    ezcontentobject_attribute.version,
+                    ezcontentobject_attribute.contentobject_id,
+                    ezcontentobject.id,
+                    ezcontentobject.name
+                    FROM ezbinaryfile ezbinaryfile
+                    LEFT JOIN
+                        ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.id = ezbinaryfile.contentobject_attribute_id
+                    LEFT JOIN
+                        ezcontentobject ezcontentobject ON ezcontentobject.id = ezcontentobject_attribute.contentobject_id
+                    WHERE ezbinaryfile.filename =\'' . $filename . '\'
+                    ORDER BY ezcontentobject_attribute.version DESC
+                    LIMIT 1;';
         $rows = $db->arrayQuery($query);
         if (isset($rows[0])) {
             $contentobject_id = $rows[0]['contentobject_id'];
@@ -45,9 +44,7 @@ if ($http->hasVariable('findfilesearchbutton')) {
                 if (isset($nodeId) && ! empty($nodeId)) {
                     $tpl->setVariable('node_id', $nodeId);
                 }
-            }
-            else
-            {
+            } else {
                 $tpl->setVariable('errortrash', ezpI18n::tr("admin/helptools", "The file was found, but it can no details are displayed. Maybe is the file in the trash box."));
             }
             $tpl->setVariable('filename', $filename);
@@ -63,8 +60,7 @@ if ($http->hasVariable('findattribute_id')) {
     $tpl->setVariable('formtype', 'findattribute');
     if ($http->variable('attributeid') != "") {
         $attributeid = $http->variable('attributeid');
-        $db = eZDB::instance();
-
+        
         $query = 'Select contentobject_id
                     FROM ezcontentobject ezcontentobject
                     LEFT JOIN
@@ -84,7 +80,7 @@ if ($http->hasVariable('findattribute_id')) {
             }
             $nodeId = $node[0]->attribute('node_id');
             if (isset($nodeId) && ! empty($nodeId)) {
-              $tpl->setVariable('node_id', $nodeId);
+                $tpl->setVariable('node_id', $nodeId);
             }
         }
     }
@@ -94,7 +90,6 @@ if ($http->hasVariable('findblockid')) {
     $tpl->setVariable('formtype', 'findblock');
     if ($http->variable('blockid') != "") {
         $blockid = $http->variable('blockid');
-        $db = eZDB::instance();
         
         $query = 'SELECT * FROM
         (
@@ -165,34 +160,34 @@ $timestamp = time();
 // last 10 modified objects
 
 $inputInformation["lastmodified"]["query"] = 'SELECT
-										        id , modified , published
-										        FROM ezcontentobject
-										        WHERE modified < ' . $timestamp . '
-										        AND status = 1
-										        ORDER by modified DESC
-										        LIMIT 10
-										        ;';
+                                                id , modified , published
+                                                FROM ezcontentobject
+                                                WHERE modified < ' . $timestamp . '
+                                                AND status = 1
+                                                ORDER by modified DESC
+                                                LIMIT 10
+                                                ;';
 $inputInformation["lastmodified"]["headline"] = "Last 10 modified objects";
 
 // last 10 published objects
 
 $inputInformation["lastpublished"]["query"] = 'SELECT
-										        id , modified , published, current_version
-										        FROM ezcontentobject
-										        WHERE published < ' . $timestamp . '
-										        AND status = 1
-										        ORDER by published DESC
-										        LIMIT 10
-										        ;';
+                                                id , modified , published, current_version
+                                                FROM ezcontentobject
+                                                WHERE published < ' . $timestamp . '
+                                                AND status = 1
+                                                ORDER by published DESC
+                                                LIMIT 10
+                                                ;';
 $inputInformation["lastpublished"]["headline"] = "Last 10 published objects";
 
 $tpl->setVariable('outputInformation', getQueryInformation($inputInformation));
 
 function getQueryInformation($inputInformation)
 {
+    $db = eZDB::instance();
     foreach ($inputInformation as $value => $inputInformation) {
         $outputInformation[$value]['headline'] = $inputInformation['headline'];
-        $db = eZDB::instance();
         $rows = $db->arrayQuery($inputInformation['query']);
         foreach ($rows as $count => $row) {
             $contentobject_id = $row['id'];
@@ -235,7 +230,7 @@ function getQueryInformation($inputInformation)
                     }
                     $urlAlias = $node[0]->urlAlias();
                     if (isset($urlAlias) && ! empty($urlAlias)) {
-                        $outputInformation[$value][$count]['url'] = "meinetolleURL"; // $urlAlias;
+                        $outputInformation[$value][$count]['url'] = $urlAlias;
                     } else {
                         $outputInformation[$value][$count]['url'] = "Not found url";
                     }

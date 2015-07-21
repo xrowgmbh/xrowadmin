@@ -1,15 +1,18 @@
-.last{
-	clear: both;
+.last
+{
+    clear: both;
 }
 
-.last-element span{
-	float: left;
-	margin-top: 10px;
+.last-element span
+{
+    float: left;
+    margin-top: 10px;
 }
 
-.last-element{
-	float: left;
-	width: 28%;
-	margin-bottom: 15px;
-	height: 119px;
+.last-element
+{
+    float: left;
+    width: 28%;
+    margin-bottom: 15px;
+    height: 119px;
 }

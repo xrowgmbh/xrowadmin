@@ -50,8 +50,6 @@
         {/if}
 {/if}
 
-
-
 <h1 class="context-title">{'block search'|i18n('admin/helptools')}</h1>
 
 <div class="box-header"></div>
@@ -83,29 +81,28 @@
          <p>{'This block ID'|i18n('admin/helptools')}: {$errormessage} {'was not found'|i18n('admin/helptools')}</p>
     {/if}
 {/if}
+
 {if is_set( $outputInformation )}
-	{foreach $outputInformation as $value => $outputInformation}
-	    <div class="last">
-	    
-	    <h1 class="context-title">{$outputInformation.headline|i18n('admin/helptools')}</h1>
-	    	    
-	    <div class="box-header"></div>
-	        {foreach $outputInformation|remove(0) as $count => $output}
-	        	<div class="last-element">
-	            <span>{$count|inc}:</span>
-	            {if is_set($output.error)}
-	            	{$output.error}
-	            {else}
-		            <ul>
-		                <li>{'name of the object'|i18n('admin/helptools')} : <a href={$output.url|ezurl()}>{$output.name}</a> </li>
-		                <li>{'object ID'|i18n('admin/helptools')} : {$output.id}</li>
-		                <li>{'node ID'|i18n('admin/helptools')} : {$output.nodeId}</li>
-		                <li>{'publisher'|i18n('admin/helptools')} : <a href={$output.publisherUrl|ezurl()}>{$output.publisher}</a></li>
-		                <li>{'modifier'|i18n('admin/helptools')} : <a href={$output.modifierUrl|ezurl()}>{$output.modifier}</a></li>
-		            </ul>
-	            {/if}
-	            </div>
-	        {/foreach}
-	    </div>
+    {foreach $outputInformation as $value => $outputInformation}
+        <div class="last">
+            <h1 class="context-title">{$outputInformation.headline|i18n('admin/helptools')}</h1>
+            <div class="box-header"></div>
+            {foreach $outputInformation|remove(0) as $count => $output}
+                <div class="last-element">
+                    <span>{$count|inc}:</span>
+                    {if is_set($output.error)}
+                        {$output.error}
+                    {else}
+                        <ul>
+                            <li>{'name of the object'|i18n('admin/helptools')} : <a href={$output.url|ezurl()}>{$output.name}</a> </li>
+                            <li>{'object ID'|i18n('admin/helptools')} : {$output.id}</li>
+                            <li>{'node ID'|i18n('admin/helptools')} : {$output.nodeId}</li>
+                            <li>{'publisher'|i18n('admin/helptools')} : <a href={$output.publisherUrl|ezurl()}>{$output.publisher}</a></li>
+                            <li>{'modifier'|i18n('admin/helptools')} : <a href={$output.modifierUrl|ezurl()}>{$output.modifier}</a></li>
+                        </ul>
+                    {/if}
+                </div>
+            {/foreach}
+        </div>
     {/foreach}
 {/if}
