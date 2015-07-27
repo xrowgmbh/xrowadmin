@@ -9,45 +9,49 @@
     <input type="submit" name="findfilesearchbutton" value="{'search'|i18n('admin/helptools')}"/>
 </form>
 
-{if eq($formtype , 'findfile')}
-    {if is_set( $contentobject_id )}
-    <p>{'This filename'|i18n('admin/helptools')}: {$filename} {'was found'|i18n('admin/helptools')}</p> 
+{if eq($formtype , 'findfile')}      
+    {if is_set($errormessage)}
+        <p>{$errormessage}</p>           
+    {else}
+        <p>{'This filename %filename was found'|i18n('admin/helptools' , '' , hash('%filename', $filename))}</p> 
         <ul>
-            {if is_set($objectname) && is_set($contentobject_id) && is_set($node_id)}
-                <li>{'name of the object'|i18n('admin/helptools')}: <a href={$urlAlias|ezurl()}>{$objectname}</a> </li>
-                <li>{'object ID'|i18n('admin/helptools')}: {$contentobject_id}</li>
-                <li>{'node ID'|i18n('admin/helptools')}: {$node_id}</li>
-            {else}
-                <p>{$errortrash}</p>
-            {/if}
+            <li>{'name of the object'|i18n('admin/helptools')}: <a href={$urlAlias|ezurl()}>{$objectname}</a> </li>
+            <li>{'object ID'|i18n('admin/helptools')}: {$contentobject_id}</li>
+            <li>{'node ID'|i18n('admin/helptools')}: {$node_id}</li>
             <li>{'filename'|i18n('admin/helptools')}: {$filename}</li>
         </ul>
-    {elseif is_set ($errormessage)}
-        <p>{'This filename'|i18n('admin/helptools')}: {$errormessage} {'was not found'|i18n('admin/helptools')}</p>
-    {/if}
+    {/if} 
 {/if}
-
+            
 <h1 class="context-title">{'contentobject attribute id search'|i18n('admin/helptools')}</h1>
 
 <div class="box-header"></div>
 
 <p>{'Enter the contentobject attribute ID to receive information. (example : 10905831)'|i18n('admin/helptools')}</p>
 
-<form name="attributeid" method="post" action={"admin/helptools"|ezurl}>
-    <input type="text" name="attributeid"/>
+<form name="attribute_id" method="post" action={"admin/helptools"|ezurl}>
+    <input type="text" name="attribute_id"/>
     <input type="submit" name="findattribute_id" value="{'search'|i18n('admin/helptools')}"/>
 </form>
 
 {if eq($formtype , 'findattribute')}
-        {if is_set( $contentobject_id )}
-            <p>{'This contentobject attribute ID'|i18n('admin/helptools')}: {$attributeid} {'was found'|i18n('admin/helptools')}</p>
-            <ul>
-                <li>{'name of the object'|i18n('admin/helptools')} : <a href={$urlAlias|ezurl()}>{$objectname}</a> </li>
-                <li>{'object ID'|i18n('admin/helptools')} : {$contentobject_id}</li>
-                <li>{'node ID'|i18n('admin/helptools')} : {$node_id}</li>
-                <li>{'contentobject attribute ID'|i18n('admin/helptools')} : {$attributeid}</li>
-            </ul>
-        {/if}
+    {if is_set($errormessage)}
+        <p>{$errormessage}</p>
+    {else}
+        <p>{'This contentobject attribute ID %attribute_id was found'|i18n('admin/helptools' , '' , hash('%attribute_id', $attribute_id))}</p>
+        <ul>
+            <li>{'name of the object'|i18n('admin/helptools')} :
+                 {if and(is_set($objectname) , is_set($urlAlias))}
+                    <a href={$urlAlias|ezurl()}>{$objectname}</a>
+                 {elseif is_set($errormessage)}
+                    <p>{$errormessage}</p>
+                 {/if}
+            </li>
+            <li>{'object ID'|i18n('admin/helptools')} : {$contentobject_id}</li>
+            <li>{'node ID'|i18n('admin/helptools')} : {$node_id}</li>
+            <li>{'contentobject attribute ID'|i18n('admin/helptools')} : {$attribute_id}</li>
+        </ul>
+    {/if}
 {/if}
 
 <h1 class="context-title">{'block search'|i18n('admin/helptools')}</h1>
@@ -62,8 +66,10 @@
 </form>
 
 {if eq($formtype , 'findblock')}
-    {if is_set( $objectname )}
-    <p>{'This block ID'|i18n('admin/helptools')}: {$block_id} {'was found'|i18n('admin/helptools')}</p>
+    {if is_set($errormessage)}
+        <p>{$errormessage}</p>
+    {else}
+        <p>{'This block ID %block_id was found'|i18n('admin/helptools' , '' , hash('%block_id', $block_id))}</p>
         <ul>
             <li>{'name of the object'|i18n('admin/helptools')} : <a href={$urlAlias|ezurl()}>{$objectname}</a> </li>
             <li>{'object ID'|i18n('admin/helptools')} : {$contentobject_id}</li>
@@ -77,11 +83,10 @@
                 <li>{'block name'|i18n('admin/helptools')} : {$block_name}</li>
             {/if}
         </ul>
-    {elseif is_set ($errormessage)}
-         <p>{'This block ID'|i18n('admin/helptools')}: {$errormessage} {'was not found'|i18n('admin/helptools')}</p>
     {/if}
 {/if}
 
+{* $outputInformation is a array with last x published objects and last x modified objects *}
 {if is_set( $outputInformation )}
     {foreach $outputInformation as $value => $outputInformation}
         <div class="last">

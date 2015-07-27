@@ -45,44 +45,56 @@ if ($http->hasVariable('findfilesearchbutton')) {
                     $tpl->setVariable('node_id', $nodeId);
                 }
             } else {
-                $tpl->setVariable('errortrash', ezpI18n::tr("admin/helptools", "The file was found, but it can no details are displayed. Maybe is the file in the trash box."));
+                $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", "The file was found, but the details can not be displayed. Maybe is the file in the trash box."));
             }
             $tpl->setVariable('filename', $filename);
         } else {
-            $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", $filename));
+            $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", 'This filename %filename was not found' , '' , array('%filename'=> $filename)));
         }
     } else {
-        $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", "No entry in the search box"));
+        $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", "Please fill in the textbox"));
     }
 }
 
 if ($http->hasVariable('findattribute_id')) {
     $tpl->setVariable('formtype', 'findattribute');
-    if ($http->variable('attributeid') != "") {
-        $attributeid = $http->variable('attributeid');
-        
-        $query = 'Select contentobject_id
-                    FROM ezcontentobject ezcontentobject
-                    LEFT JOIN
-                    ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.contentobject_id = ezcontentobject.id
-                    Where ezcontentobject_attribute.id =' . $attributeid . ';';
-        $rows = $db->arrayQuery($query);
-        if (isset($rows[0])) {
-            $tpl->setVariable('attributeid', $attributeid);
-            $contentobject_id = $rows[0]['contentobject_id'];
-            if (isset($contentobject_id) && ! empty($contentobject_id)) {
-                $tpl->setVariable('contentobject_id', $contentobject_id);
+    if ($http->variable('attribute_id') != "") {
+        $attribute_id = $http->variable('attribute_id');
+        if (is_numeric($attribute_id)) {
+            $query = 'Select contentobject_id
+                        FROM ezcontentobject ezcontentobject
+                        LEFT JOIN
+                        ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.contentobject_id = ezcontentobject.id
+                        Where ezcontentobject_attribute.id =' . $attribute_id . ';';
+            $rows = $db->arrayQuery($query);
+            if (isset($rows[0])) {
+                $tpl->setVariable('attribute_id', $attribute_id);
+                $contentobject_id = $rows[0]['contentobject_id'];
+                if (isset($contentobject_id) && ! empty($contentobject_id)) {
+                    $tpl->setVariable('contentobject_id', $contentobject_id);
+                }
+                $node = eZContentObjectTreeNode::fetchByContentObjectID($contentobject_id);
+                if (isset($node) && ! empty($node)) {
+                    if ($node[0]->getName() != "") {
+                        $tpl->setVariable('objectname', $node[0]->getName());
+                        $tpl->setVariable('urlAlias', $node[0]->urlAlias());
+                    }
+                    else {
+                        $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", "No objectname found"));
+                    }
+                }
+                $nodeId = $node[0]->attribute('node_id');
+                if (isset($nodeId) && ! empty($nodeId)) {
+                    $tpl->setVariable('node_id', $nodeId);
+                }
+            } else {
+                $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", 'This contentobject attribute ID %attribute_id was not found' , '' , array('%attribute_id'=> $attribute_id)));
             }
-            $node = eZContentObjectTreeNode::fetchByContentObjectID($contentobject_id);
-            if (isset($node) && ! empty($node)) {
-                $tpl->setVariable('objectname', $node[0]->getName());
-                $tpl->setVariable('urlAlias', $node[0]->urlAlias());
-            }
-            $nodeId = $node[0]->attribute('node_id');
-            if (isset($nodeId) && ! empty($nodeId)) {
-                $tpl->setVariable('node_id', $nodeId);
-            }
+        } else {
+            $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", "Is not a number"));
         }
+    } else {
+        $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", "Please fill in the textbox"));
     }
 }
 
@@ -148,10 +160,10 @@ if ($http->hasVariable('findblockid')) {
             $tpl->setVariable('node_id', $nodeId);
             $tpl->setVariable('block_id', $blockid);
         } else {
-            $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", $blockid));
+            $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", 'This blockid %blockid was not found' , '' , array('%blockid'=> $blockid)));
         }
     } else {
-        $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", "No entry in the search box"));
+        $tpl->setVariable('errormessage', ezpI18n::tr("admin/helptools", "Please fill in the textbox"));
     }
 }
 

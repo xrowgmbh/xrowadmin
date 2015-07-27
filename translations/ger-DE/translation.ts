@@ -79,8 +79,8 @@
         <translation>Block ID konnte nicht gefunden werden</translation>
     </message>
     <message>
-        <source>No entry in the search box</source>
-        <translation>Kein Eintrag im Suchfeld</translation>
+        <source>Please fill in the textbox</source>
+        <translation>Das Textfeld bitte ausfüllen</translation>
     </message>
     <message>
         <source>search</source>
@@ -107,24 +107,8 @@
         <translation>Dateiname</translation>
     </message>
     <message>
-        <source>This filename</source>
-        <translation>Dieser Dateiname</translation>
-    </message>
-    <message>
         <source>block ID</source>
         <translation>Block ID</translation>
-    </message>
-    <message>
-        <source>This block ID</source>
-        <translation>Diese Block ID</translation>
-    </message>
-    <message>
-        <source>was not found</source>
-        <translation>wurde nicht gefunden</translation>
-    </message>
-    <message>
-        <source>was found</source>
-        <translation>wurde gefunden</translation>
     </message>
     <message>
         <source>block search</source>
@@ -171,24 +155,44 @@
         <translation>Ersteller</translation>
     </message>
     <message>
-        <source>The file was found, but it can no details are displayed. Maybe is the file in the trash box.</source>
-        <translation>Die Datei wurden gefunden, aber die Details können nicht angezeigt werden. Vielleicht ist die Datei in dem Papierkorb.</translation>
-    </message>
-    <message>
-        <source>This contentobject attribute ID</source>
-        <translation>Dieses Contentobjekt Attribut ID</translation>
+        <source>The file was found, but the details can not be displayed. Maybe is the file in the trash box.</source>
+        <translation>Die Datei wurden gefunden, aber die Details können nicht angezeigt werden. Vielleicht ist die Datei im Papierkorb.</translation>
     </message>
     <message>
         <source>Enter the contentobject attribute ID to receive information. (example : 10905831)</source>
         <translation>Geben Sie die Contentobjekt Attribut ID an um Informationen zu erhalten. (Bsp.: 10905831)</translation>
     </message>
     <message>
+        <source>contentobject attribute ID</source>
+        <translation>Contentobjekt Attribut ID</translation>
+    </message>
+    <message>
         <source>contentobject attribute id search</source>
         <translation>Contentobjekt Attribut ID Suche</translation>
     </message>
     <message>
-        <source>contentobject attribute ID</source>
-        <translation>Contentobjekt Attribut ID</translation>
+        <source>This filename %filename was found</source>
+        <translation>Dieser Dateiname %filename wurde gefunden</translation>
+    </message>
+    <message>
+        <source>This filename %filename was not found</source>
+        <translation>Dieser Dateiname %filename wurde nicht gefunden</translation>
+    </message>
+    <message>
+        <source>This contentobject attribute ID %attribute_id was found</source>
+        <translation>Diese Contentobjekt Attribut ID %attribute_id wurde gefunden</translation>
+    </message>
+    <message>
+        <source>This contentobject attribute ID %attribute_id was not found</source>
+        <translation>Diese Contentobjekt Attribut ID %attribute_id wurde nicht gefunden</translation>
+    </message>
+    <message>
+        <source>This block ID %blockid was found</source>
+        <translation>Diese Block ID %blockid wurde gefunden</translation>
+    </message>
+        <message>
+        <source>This blockid %blockid was not found</source>
+        <translation>Diese Block ID %blockid wurde nicht gefunden</translation>
     </message>
 </context>
 </TS>
