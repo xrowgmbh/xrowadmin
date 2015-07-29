@@ -87,8 +87,8 @@
         <translation>Suchen</translation>
     </message>
     <message>
-        <source>Enter the file name to receive information. (example : b73edf37e8e85df9ad8a5c4fb4e1d144.mp4)</source>
-        <translation>Geben Sie den Dateinamen an um Informationen zu erhalten. (Bsp.: b73edf37e8e85df9ad8a5c4fb4e1d144.mp4)</translation>
+        <source>Enter the file name to receive information.(name of the object, object ID, node ID and filename)(example : b73edf37e8e85df9ad8a5c4fb4e1d144.mp4)</source>
+        <translation>Geben Sie den Dateinamen an um Informationen zu erhalten.(Objektname, Objekt ID, Knoten ID und Dateiname)(Bsp.: b73edf37e8e85df9ad8a5c4fb4e1d144.mp4)</translation>
     </message>
     <message>
         <source>name of the object</source>
@@ -115,8 +115,8 @@
         <translation>Blocksuche</translation>
     </message>
     <message>
-        <source>Enter the block ID to receive information. (example : b4fcd2bc56fa7d5a7b54772de029dadd)</source>
-        <translation>Geben Sie die Block ID ein um Information zu erhalten. (Bsp.: b4fcd2bc56fa7d5a7b54772de029dadd)</translation>
+        <source>Enter the block ID to receive information.(name of the object, object ID, node ID, zone ID, zone name, zone layout, block ID, block name and block type)(example : b4fcd2bc56fa7d5a7b54772de029dadd)</source>
+        <translation>Geben Sie die Block ID ein um Information zu erhalten.(Objektname, Objekt ID, Knoten ID , Zonen ID, Zonenname, Zonenlayout, Block ID, Blockname und Blocktyp)(Bsp.: b4fcd2bc56fa7d5a7b54772de029dadd)</translation>
     </message>
     <message>
         <source>zone ID</source>
@@ -159,8 +159,8 @@
         <translation>Die Datei wurden gefunden, aber die Details können nicht angezeigt werden. Vielleicht ist die Datei im Papierkorb.</translation>
     </message>
     <message>
-        <source>Enter the contentobject attribute ID to receive information. (example : 10905831)</source>
-        <translation>Geben Sie die Contentobjekt Attribut ID an um Informationen zu erhalten. (Bsp.: 10905831)</translation>
+        <source>Enter the contentobject attribute ID to receive information.(name of the object,object ID,node ID and attribute ID)(example : 10905831)</source>
+        <translation>Geben Sie die Contentobjekt Attribut ID an um Informationen zu erhalten.(Objektname, Objekt ID, Knoten ID und Attribut ID)(Bsp.: 10905831)</translation>
     </message>
     <message>
         <source>contentobject attribute ID</source>
@@ -191,7 +191,7 @@
         <translation>Diese Block ID %blockid wurde gefunden</translation>
     </message>
         <message>
-        <source>This blockid %blockid was not found</source>
+        <source>This block ID %blockid was not found</source>
         <translation>Diese Block ID %blockid wurde nicht gefunden</translation>
     </message>
 </context>
