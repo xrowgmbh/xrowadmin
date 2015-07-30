@@ -186,37 +186,13 @@ if ($http->hasVariable('findBlockID')) {
 
 $timeStamp = time();
 
-// $jacextensionINI = eZINI::instance( 'helptools.ini' );
+$helpToolsINI = eZINI::instance( 'helptools.ini' );
 
-// $tollerText = $jacextensionINI->variable( 'lastmodified','query' );
-
-// if( $tollerText == 'Smarties' )
-// {
-//     echo 'SMARTIES :D';
-// }
-// last 10 modified objects
-
-$inputInformation["lastmodified"]["query"] = 'SELECT
-                                                id , modified , published
-                                                FROM ezcontentobject
-                                                WHERE modified < ' . $timeStamp . '
-                                                AND status = 1
-                                                ORDER by modified DESC
-                                                LIMIT 10
-                                                ;';
-$inputInformation["lastmodified"]["headline"] = "Last 10 modified objects";
-
-// last 10 published objects
-
-$inputInformation["lastpublished"]["query"] = 'SELECT
-                                                id , modified , published, current_version
-                                                FROM ezcontentobject
-                                                WHERE published < ' . $timeStamp . '
-                                                AND status = 1
-                                                ORDER by published DESC
-                                                LIMIT 10
-                                                ;';
-$inputInformation["lastpublished"]["headline"] = "Last 10 published objects";
+foreach ($helpToolsINI->variable('activelist', 'active') as $output){
+    
+    $inputInformation[$output]["query"] = str_replace('$$timeStamp$$',$timeStamp,$helpToolsINI->variable( $output ,'query' ));
+    $inputInformation[$output]["headline"] = $helpToolsINI->variable( $output ,'headline' );
+}
 
 $tpl->setVariable('outputInformation', getQueryInformation($inputInformation));
 
