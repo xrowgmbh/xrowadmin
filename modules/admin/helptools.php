@@ -35,16 +35,16 @@ if ($http->hasVariable('findFileSearchButton')) {
             $getStatus = eZContentObject::fetch($contentObjectID);
             $status = $getStatus->Status;
             if ($status == '1') {
-                $node = eZContentObjectTreeNode::fetchByContentObjectID($contentObjectID);
-                // var_dump($node);
-                if ($node[0] instanceof eZContentObjectTreeNode) {
-                    if (isset($node) && ! empty($node)) {
-                        $tpl->setVariable('objectName', $node[0]->getName());
-                        if ($node[0]->urlAlias() != "") {
-                            $tpl->setVariable('urlAlias', $node[0]->urlAlias());
+                $resultNode = eZContentObjectTreeNode::fetchByContentObjectID($contentObjectID);
+                // var_dump($resultNode);
+                if ($resultNode[0] instanceof eZContentObjectTreeNode) {
+                    if (isset($resultNode) && ! empty($resultNode)) {
+                        $tpl->setVariable('objectName', $resultNode[0]->getName());
+                        if ($resultNode[0]->urlAlias() != "") {
+                            $tpl->setVariable('urlAlias', $resultNode[0]->urlAlias());
                         }
                     }
-                    $nodeID = $node[0]->attribute('node_id');
+                    $nodeID = $resultNode[0]->attribute('node_id');
                     if (isset($nodeID) && ! empty($nodeID)) {
                         $tpl->setVariable('nodeID', $nodeID);
                     }
@@ -80,19 +80,19 @@ if ($http->hasVariable('findAttributeID')) {
                 if (isset($contentObjectID) && ! empty($contentObjectID)) {
                     $tpl->setVariable('contentObjectID', $contentObjectID);
                 }
-                $node = eZContentObjectTreeNode::fetchByContentObjectID($contentObjectID);
-                if ($node[0] instanceof eZContentObjectTreeNode) {
-                    if (isset($node) && ! empty($node)) {
-                        if ($node[0]->getName() != "") {
-                            $tpl->setVariable('objectName', $node[0]->getName());
-                            if ($node[0]->urlAlias() != "") {
-                                $tpl->setVariable('urlAlias', $node[0]->urlAlias());
+                $resultNode = eZContentObjectTreeNode::fetchByContentObjectID($contentObjectID);
+                if ($resultNode[0] instanceof eZContentObjectTreeNode) {
+                    if (isset($resultNode) && ! empty($resultNode)) {
+                        if ($resultNode[0]->getName() != "") {
+                            $tpl->setVariable('objectName', $resultNode[0]->getName());
+                            if ($resultNode[0]->urlAlias() != "") {
+                                $tpl->setVariable('urlAlias', $resultNode[0]->urlAlias());
                             }
                         } else {
                             $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "No object name found"));
                         }
                     }
-                    $nodeID = $node[0]->attribute('node_id');
+                    $nodeID = $resultNode[0]->attribute('node_id');
                     if (isset($nodeID) && ! empty($nodeID)) {
                         $tpl->setVariable('nodeID', $nodeID);
                     }
@@ -165,13 +165,13 @@ if ($http->hasVariable('findBlockID')) {
             
             $contentObjectID = $rows[0]['id'];
             $tpl->setVariable('contentObjectID', $contentObjectID);
-            $node = eZContentObjectTreeNode::fetchByContentObjectID($contentObjectID);
-            if ($node[0] instanceof eZContentObjectTreeNode) {
-                $tpl->setVariable('objectName', $node[0]->getName());
-                if ($node[0]->urlAlias() != "") {
-                    $tpl->setVariable('urlAlias', $node[0]->urlAlias());
+            $resultNode = eZContentObjectTreeNode::fetchByContentObjectID($contentObjectID);
+            if ($resultNode[0] instanceof eZContentObjectTreeNode) {
+                $tpl->setVariable('objectName', $resultNode[0]->getName());
+                if ($resultNode[0]->urlAlias() != "") {
+                    $tpl->setVariable('urlAlias', $resultNode[0]->urlAlias());
                 }
-                $nodeID = $node[0]->attribute('node_id');
+                $nodeID = $resultNode[0]->attribute('node_id');
                 $tpl->setVariable('nodeID', $nodeID);
             }
             $tpl->setVariable('blockID', $blockID);
@@ -219,30 +219,30 @@ function getQueryInformation($inputInformation)
                 if (isset($publisherUrl) && ! empty($publisherUrl)) {
                     $outputInformation[$value][$count]['publisherUrl'] = $publisherUrl;
                 }
-                $node = eZContentObjectTreeNode::fetchByContentObjectID($contentObjectID);
-                if ($node[0] instanceof eZContentObjectTreeNode) {
-                    $creatorContentObjectID = $node[0]->creator()->ID;
+                $resultNode = eZContentObjectTreeNode::fetchByContentObjectID($contentObjectID);
+                if ($resultNode[0] instanceof eZContentObjectTreeNode) {
+                    $creatorContentObjectID = $resultNode[0]->creator()->ID;
                     $creatorNode = eZContentObjectTreeNode::fetchByContentObjectID($creatorContentObjectID);
                     $modifierUrlAlias = $creatorNode[0]->urlAlias();
                     if (isset($modifierUrlAlias) && ! empty($modifierUrlAlias)) {
                         $outputInformation[$value][$count]['modifierUrl'] = $modifierUrlAlias;
                     }
-                    if (isset($node[0]->creator()->Name) && ! empty($node[0]->creator()->Name)) {
-                        $outputInformation[$value][$count]['modifier'] = $node[0]->creator()->Name;
+                    if (isset($resultNode[0]->creator()->Name) && ! empty($resultNode[0]->creator()->Name)) {
+                        $outputInformation[$value][$count]['modifier'] = $resultNode[0]->creator()->Name;
                     } else {
                         $outputInformation[$value][$count]['modifier'] = ezpI18n::tr("admin/helptools", "Modifier could not be found");
                     }
-                    $getName = $node[0]->getName();
+                    $getName = $resultNode[0]->getName();
                     if (isset($getName) && ! empty($getName)) {
                         $outputInformation[$value][$count]['name'] = $getName;
                     } else {
                         $outputInformation[$value][$count]['name'] = ezpI18n::tr("admin/helptools", "Name could not be found");
                     }
-                    $urlAlias = $node[0]->urlAlias();
+                    $urlAlias = $resultNode[0]->urlAlias();
                     if (isset($urlAlias) && ! empty($urlAlias)) {
                         $outputInformation[$value][$count]['url'] = $urlAlias;
                     }
-                    $nodeID = $node[0]->attribute('node_id');
+                    $nodeID = $resultNode[0]->attribute('node_id');
                     if (isset($nodeID) && ! empty($nodeID)) {
                         $outputInformation[$value][$count]['nodeID'] = $nodeID;
                     } else {
