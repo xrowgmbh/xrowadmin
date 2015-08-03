@@ -36,6 +36,7 @@ if ($http->hasVariable('findFileSearchButton')) {
             $status = $getStatus->Status;
             if ($status == '1') {
                 $node = eZContentObjectTreeNode::fetchByContentObjectID($contentObjectID);
+                // var_dump($node);
                 if ($node[0] instanceof eZContentObjectTreeNode) {
                     if (isset($node) && ! empty($node)) {
                         $tpl->setVariable('objectName', $node[0]->getName());
@@ -49,12 +50,12 @@ if ($http->hasVariable('findFileSearchButton')) {
                     }
                 }
             } else {
-                $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "The file was found, but the details can not be displayed. Maybe is the file in the trash box."));
+                $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "The file was found, but the details can not be displayed. The file is in the trash box."));
             }
             $tpl->setVariable('fileName', $fileName);
         } else {
             $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", 'This filename %filename was not found', '', array(
-                '%filename' => $filename
+                '%filename' => $fileName
             )));
         }
     } else {
@@ -88,7 +89,7 @@ if ($http->hasVariable('findAttributeID')) {
                                 $tpl->setVariable('urlAlias', $node[0]->urlAlias());
                             }
                         } else {
-                            $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "No objectname found"));
+                            $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "No object name found"));
                         }
                     }
                     $nodeID = $node[0]->attribute('node_id');
@@ -102,7 +103,7 @@ if ($http->hasVariable('findAttributeID')) {
                 )));
             }
         } else {
-            $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "Is not a number"));
+            $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "It is not a number"));
         }
     } else {
         $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "Please fill in the textbox"));
@@ -186,12 +187,12 @@ if ($http->hasVariable('findBlockID')) {
 
 $timeStamp = time();
 
-$helpToolsINI = eZINI::instance( 'helptools.ini' );
+$helpToolsINI = eZINI::instance('helptools.ini');
 
-foreach ($helpToolsINI->variable('activelist', 'active') as $output){
+foreach ($helpToolsINI->variable('activelist', 'active') as $output) {
     
-    $inputInformation[$output]["query"] = str_replace('$$timeStamp$$',$timeStamp,$helpToolsINI->variable( $output ,'query' ));
-    $inputInformation[$output]["headline"] = $helpToolsINI->variable( $output ,'headline' );
+    $inputInformation[$output]["query"] = str_replace('$$timeStamp$$', $timeStamp, $helpToolsINI->variable($output, 'query'));
+    $inputInformation[$output]["headline"] = $helpToolsINI->variable($output, 'headline');
 }
 
 $tpl->setVariable('outputInformation', getQueryInformation($inputInformation));
@@ -210,7 +211,7 @@ function getQueryInformation($inputInformation)
                 if (isset($object->owner()->Name) && ! empty($object->owner()->Name)) {
                     $outputInformation[$value][$count]['publisher'] = $object->owner()->Name;
                 } else {
-                    $outputInformation[$value][$count]['publisher'] = "Not found publisher";
+                    $outputInformation[$value][$count]['publisher'] = ezpI18n::tr("admin/helptools", "Publisher could not be found");
                 }
                 $ownerContentObjectID = $object->owner()->ID;
                 $ownerNode = eZContentObjectTreeNode::fetchByContentObjectID($ownerContentObjectID);
@@ -229,13 +230,13 @@ function getQueryInformation($inputInformation)
                     if (isset($node[0]->creator()->Name) && ! empty($node[0]->creator()->Name)) {
                         $outputInformation[$value][$count]['modifier'] = $node[0]->creator()->Name;
                     } else {
-                        $outputInformation[$value][$count]['modifier'] = "Not found modifier";
+                        $outputInformation[$value][$count]['modifier'] = ezpI18n::tr("admin/helptools", "Modifier could not be found");
                     }
                     $getName = $node[0]->getName();
                     if (isset($getName) && ! empty($getName)) {
                         $outputInformation[$value][$count]['name'] = $getName;
                     } else {
-                        $outputInformation[$value][$count]['name'] = "Not found name";
+                        $outputInformation[$value][$count]['name'] = ezpI18n::tr("admin/helptools", "Name could not be found");
                     }
                     $urlAlias = $node[0]->urlAlias();
                     if (isset($urlAlias) && ! empty($urlAlias)) {
@@ -245,13 +246,13 @@ function getQueryInformation($inputInformation)
                     if (isset($nodeID) && ! empty($nodeID)) {
                         $outputInformation[$value][$count]['nodeID'] = $nodeID;
                     } else {
-                        $outputInformation[$value][$count]['nodeID'] = "Not found nodeID";
+                        $outputInformation[$value][$count]['nodeID'] = ezpI18n::tr("admin/helptools", "nodeID could not be found");
                     }
                 } else {
-                    $outputInformation[$value][$count]['error'] = "No published node found";
+                    $outputInformation[$value][$count]['error'] = ezpI18n::tr("admin/helptools", "No published node found");
                 }
             } else {
-                $outputInformation[$value][$count]['error'] = "No published object found";
+                $outputInformation[$value][$count]['error'] = ezpI18n::tr("admin/helptools", "No published object found");
             }
         }
     }

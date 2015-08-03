@@ -80,19 +80,47 @@
     </message>
     <message>
         <source>Please fill in the textbox</source>
-        <translation>Das Textfeld bitte ausfüllen</translation>
+        <translation>Bitte das Textfeld ausfüllen</translation>
+    </message>
+    <message>
+        <source>Publisher could not be found</source>
+        <translation>Ersteller konnte nicht gefunden werden</translation>
+    </message>
+    <message>
+        <source>Modifier could not be found</source>
+        <translation>Bearbeiter konnte nicht gefunden werden</translation>
+    </message>
+    <message>
+        <source>Name could not be found</source>
+        <translation>Name konnte nicht gefunden werden</translation>
+    </message>
+    <message>
+        <source>nodeID could not be found</source>
+        <translation>nodeID konnte nicht gefunden werden</translation>
+    </message>
+    <message>
+        <source>No published node found</source>
+        <translation>Kein veröffentlichter Knoten gefunden</translation>
+    </message>
+    <message>
+        <source>No published object found</source>
+        <translation>Kein veröffentlichtes Obejekt gefunden</translation>
     </message>
     <message>
         <source>search</source>
         <translation>Suchen</translation>
     </message>
     <message>
-        <source>Enter the file name to receive information.(name of the object, object ID, node ID and filename)(example : b73edf37e8e85df9ad8a5c4fb4e1d144.mp4)</source>
-        <translation>Geben Sie den Dateinamen an um Informationen zu erhalten.(Objektname, Objekt ID, Knoten ID und Dateiname)(Bsp.: b73edf37e8e85df9ad8a5c4fb4e1d144.mp4)</translation>
+        <source>By entering the filename you will get information about the file.(example : b73edf37e8e85df9ad8a5c4fb4e1d144.mp4)</source>
+        <translation>Durch Eingabe des Dateinamens erhalten Sie Informationen über die Datei.(Bsp.: b73edf37e8e85df9ad8a5c4fb4e1d144.mp4)</translation>
     </message>
     <message>
         <source>name of the object</source>
         <translation>Name des Objekts</translation>
+    </message>
+    <message>
+        <source>No object name found</source>
+        <translation>Kein Objektname gefunden</translation>
     </message>
     <message>
         <source>object ID</source>
@@ -115,8 +143,8 @@
         <translation>Blocksuche</translation>
     </message>
     <message>
-        <source>Enter the block ID to receive information.(name of the object, object ID, node ID, zone ID, zone name, zone layout, block ID, block name and block type)(example : b4fcd2bc56fa7d5a7b54772de029dadd)</source>
-        <translation>Geben Sie die Block ID ein um Information zu erhalten.(Objektname, Objekt ID, Knoten ID , Zonen ID, Zonenname, Zonenlayout, Block ID, Blockname und Blocktyp)(Bsp.: b4fcd2bc56fa7d5a7b54772de029dadd)</translation>
+        <source>By entering the block ID you will get information about the block.(example : b4fcd2bc56fa7d5a7b54772de029dadd)</source>
+        <translation>Durch Eingabe der Block ID erhalten Sie Informationen über den Block.(Bsp.: b4fcd2bc56fa7d5a7b54772de029dadd)</translation>
     </message>
     <message>
         <source>zone ID</source>
@@ -155,20 +183,20 @@
         <translation>Ersteller</translation>
     </message>
     <message>
-        <source>The file was found, but the details can not be displayed. Maybe is the file in the trash box.</source>
-        <translation>Die Datei wurden gefunden, aber die Details können nicht angezeigt werden. Vielleicht ist die Datei im Papierkorb.</translation>
+        <source>The file was found, but the details can not be displayed. The file is in the trash box.</source>
+        <translation>Die Datei wurde gefunden, aber die Details können nicht angezeigt werden. Die Datei ist im Papierkorb.</translation>
     </message>
     <message>
-        <source>Enter the contentobject attribute ID to receive information.(name of the object,object ID,node ID and attribute ID)(example : 10905831)</source>
-        <translation>Geben Sie die Contentobjekt Attribut ID an um Informationen zu erhalten.(Objektname, Objekt ID, Knoten ID und Attribut ID)(Bsp.: 10905831)</translation>
+        <source>By entering the contentobject attribute ID you will get information about the content from this object.(example : 10905831)</source>
+        <translation>Durch Eingabe der Inhaltsobjekt Attribut ID erhalten Sie Informationen über den Inhalt des Objekts.(Bsp.: 10905831)</translation>
     </message>
     <message>
         <source>contentobject attribute ID</source>
-        <translation>Contentobjekt Attribut ID</translation>
+        <translation>Inhaltsobjekt Attribut ID</translation>
     </message>
     <message>
         <source>contentobject attribute id search</source>
-        <translation>Contentobjekt Attribut ID Suche</translation>
+        <translation>Inhaltsobjekt Attribut ID Suche</translation>
     </message>
     <message>
         <source>This filename %filename was found</source>
@@ -180,19 +208,23 @@
     </message>
     <message>
         <source>This contentobject attribute ID %attribute_id was found</source>
-        <translation>Diese Contentobjekt Attribut ID %attribute_id wurde gefunden</translation>
+        <translation>Diese Inhaltsobjekt Attribut ID %attribute_id wurde gefunden</translation>
     </message>
     <message>
         <source>This contentobject attribute ID %attribute_id was not found</source>
-        <translation>Diese Contentobjekt Attribut ID %attribute_id wurde nicht gefunden</translation>
+        <translation>Diese Inhaltsobjekt Attribut ID %attribute_id wurde nicht gefunden</translation>
     </message>
     <message>
         <source>This block ID %blockid was found</source>
         <translation>Diese Block ID %blockid wurde gefunden</translation>
     </message>
-        <message>
+    <message>
         <source>This block ID %blockid was not found</source>
         <translation>Diese Block ID %blockid wurde nicht gefunden</translation>
+    </message>
+    <message>
+        <source>It is not a number</source>
+        <translation>Es ist keine Nummer</translation>
     </message>
 </context>
 </TS>
