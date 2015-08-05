@@ -67,8 +67,8 @@
 <context>
     <name>admin/helptools</name>
     <message>
-        <source>file search</source>
-        <translation>Dateisuche</translation>
+        <source>Search for a file location</source>
+        <translation>Suche nach einem Dateiort</translation>
     </message>
     <message>
         <source>file not found</source>
@@ -111,8 +111,8 @@
         <translation>Suchen</translation>
     </message>
     <message>
-        <source>By entering the filename you will get information about the file.(example : b73edf37e8e85df9ad8a5c4fb4e1d144.mp4)</source>
-        <translation>Durch Eingabe des Dateinamens erhalten Sie Informationen über die Datei.(Bsp.: b73edf37e8e85df9ad8a5c4fb4e1d144.mp4)</translation>
+        <source>Enter the filename to receive the linked object you are looking for (example: b73edf37e8e85df9ad8a5c4fb4e1d144.mp4).</source>
+        <translation>Geben Sie den gesuchten Dateinamen ein (z.B.: b73edf37e8e85df9ad8a5c4fb4e1d144.mp4) um das damit verknüpfte Objekt zu erhalten.</translation>
     </message>
     <message>
         <source>name of the object</source>
@@ -139,12 +139,12 @@
         <translation>Block ID</translation>
     </message>
     <message>
-        <source>block search</source>
-        <translation>Blocksuche</translation>
+        <source>Search for a block</source>
+        <translation>Suche nach einem Block</translation>
     </message>
     <message>
-        <source>By entering the block ID you will get information about the block.(example : b4fcd2bc56fa7d5a7b54772de029dadd)</source>
-        <translation>Durch Eingabe der Block ID erhalten Sie Informationen über den Block.(Bsp.: b4fcd2bc56fa7d5a7b54772de029dadd)</translation>
+        <source>Enter the Block ID to receive information about the use of the block (example: b4fcd2bc56fa7d5a7b54772de029dadd).</source>
+        <translation>Geben Sie die gesuchte Block ID ein um Informationen über die Verwendung des Blocks zu erhalten (Bsp.: b4fcd2bc56fa7d5a7b54772de029dadd).</translation>
     </message>
     <message>
         <source>zone ID</source>
@@ -183,48 +183,36 @@
         <translation>Ersteller</translation>
     </message>
     <message>
-        <source>The file was found, but the details can not be displayed. The file is in the trash box.</source>
-        <translation>Die Datei wurde gefunden, aber die Details können nicht angezeigt werden. Die Datei ist im Papierkorb.</translation>
+        <source>The file was found, but the details can not be displayed. The file is in the trash box(object ID: %trashNodeObjectID and object name: %trashNodeObjectName).</source>
+        <translation>Die Datei wurde gefunden, aber die Details können nicht angezeigt werden. Die Datei ist im Papierkorb(Objekt ID: %trashNodeObjectID und Objektname : %trashNodeObjectName).</translation>
     </message>
     <message>
-        <source>By entering the contentobject attribute ID you will get information about the content from this object.(example : 10905831)</source>
-        <translation>Durch Eingabe der Inhaltsobjekt Attribut ID erhalten Sie Informationen über den Inhalt des Objekts.(Bsp.: 10905831)</translation>
+        <source>Enter the contentobject attribute id to receive information about the use of the attribute (example: 10905831).</source>
+        <translation>Geben Sie die gesuchte Inhaltsobjekt Attribut ID ein um Informationen über die Verwendung des Attributes zu erhalten (Bsp.: 10905831).</translation>
     </message>
     <message>
         <source>contentobject attribute ID</source>
         <translation>Inhaltsobjekt Attribut ID</translation>
     </message>
     <message>
-        <source>contentobject attribute id search</source>
-        <translation>Inhaltsobjekt Attribut ID Suche</translation>
-    </message>
-    <message>
-        <source>This filename %filename was found</source>
-        <translation>Dieser Dateiname %filename wurde gefunden</translation>
-    </message>
-    <message>
-        <source>This filename %filename was not found</source>
-        <translation>Dieser Dateiname %filename wurde nicht gefunden</translation>
-    </message>
-    <message>
-        <source>This contentobject attribute ID %attribute_id was found</source>
-        <translation>Diese Inhaltsobjekt Attribut ID %attribute_id wurde gefunden</translation>
-    </message>
-    <message>
-        <source>This contentobject attribute ID %attribute_id was not found</source>
-        <translation>Diese Inhaltsobjekt Attribut ID %attribute_id wurde nicht gefunden</translation>
-    </message>
-    <message>
-        <source>This block ID %blockid was found</source>
-        <translation>Diese Block ID %blockid wurde gefunden</translation>
-    </message>
-    <message>
-        <source>This block ID %blockid was not found</source>
-        <translation>Diese Block ID %blockid wurde nicht gefunden</translation>
+        <source>Search for a contentobject attribute</source>
+        <translation>Suche nach einem Inhaltsobjekt Attribut</translation>
     </message>
     <message>
         <source>It is not a number</source>
         <translation>Es ist keine Nummer</translation>
+    </message>
+    <message>
+        <source>You looked for: %fileName</source>
+        <translation>Sie suchten nach: %fileName</translation>
+    </message>
+    <message>
+        <source>You looked for: %attributeID</source>
+        <translation>Sie suchten nach: %attributeID</translation>
+    </message>
+    <message>
+        <source>You looked for: %blockID</source>
+        <translation>Sie suchten nach: %blockID</translation>
     </message>
 </context>
 </TS>
