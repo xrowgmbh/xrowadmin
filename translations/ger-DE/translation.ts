@@ -227,8 +227,8 @@
         <translation>Diese Block ID %blockid wurde nicht gefunden.</translation>
     </message>
     <message>
-        <source>Please check your input, if only the following characters are included: a-z, A-Z, 0-9, ., äüö, ÄÖÜ</source>
-        <translation>Bitte überprüfen Sie Ihre Eingabe, ob nur folgende Zeichen enthalten sind: a-z, A-Z, 0-9, ., äüö, ÄÖÜ</translation>
+        <source>Please check your input, if only the following characters are included: a-z, A-Z, 0-9, ., äöü, ÄÖÜ</source>
+        <translation>Bitte überprüfen Sie Ihre Eingabe, ob nur folgende Zeichen enthalten sind: a-z, A-Z, 0-9, ., äöü, ÄÖÜ</translation>
     </message>
 </context>
 </TS>
