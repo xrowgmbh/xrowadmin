@@ -10,10 +10,10 @@
 
 {if eq($formType , 'findFile')}
     {if is_set($fileName)}
-        <p>{'You looked for: %fileName'|i18n('admin/helptools' , '' , hash('%fileName', $fileName))}</p>
+        <p class="italic">{'You have looked for: "%fileName"'|i18n('admin/helptools' , '' , hash('%fileName', $fileName))}</p>
     {/if}
     {if is_set($errorMessage)}
-        <p>{$errorMessage}</p>
+            <p>{$errorMessage}</p>
     {else}
         <ul>
             <li>{'name of the object'|i18n('admin/helptools')}: 
@@ -23,8 +23,8 @@
                     {$objectName}
                 {/if}
             </li>
-            <li>{'object ID'|i18n('admin/helptools')}: {$contentObjectID}</li>
-            <li>{'node ID'|i18n('admin/helptools')}: {$nodeID}</li>
+            <li>{'object ID'|i18n('admin/helptools')}: {$fileContentObjectID}</li>
+            <li>{'node ID'|i18n('admin/helptools')}: {$fileNodeID}</li>
             <li>{'filename'|i18n('admin/helptools')}: {$fileName}</li>
         </ul>
     {/if} 
@@ -43,7 +43,7 @@
 
 {if eq($formType , 'findAttribute')}
     {if is_set($attributeID)}
-        <p>{'You looked for: %attributeID'|i18n('admin/helptools' , '' , hash('%attributeID', $attributeID))}</p>
+        <p class="italic">{'You have looked for: "%attributeID"'|i18n('admin/helptools' , '' , hash('%attributeID', $attributeID))}</p>
     {/if}
     {if is_set($errorMessage)}
         <p>{$errorMessage}</p>
@@ -60,8 +60,8 @@
                     <p>{$errorMessage}</p>
                  {/if}
             </li>
-            <li>{'object ID'|i18n('admin/helptools')}: {$contentObjectID}</li>
-            <li>{'node ID'|i18n('admin/helptools')}: {$nodeID}</li>
+            <li>{'object ID'|i18n('admin/helptools')}: {$attributeContentObjectID}</li>
+            <li>{'node ID'|i18n('admin/helptools')}: {$attributeNodeID}</li>
             <li>{'contentobject attribute ID'|i18n('admin/helptools')}: {$attributeID}</li>
         </ul>
     {/if}
@@ -71,7 +71,7 @@
 
 <div class="box-header"></div>
 
-<p>{'Enter the Block ID to receive information about the use of the block (example: b4fcd2bc56fa7d5a7b54772de029dadd).'|i18n('admin/helptools')}</p>
+<p>{'Enter the block ID to receive information about the use of the block (example: b4fcd2bc56fa7d5a7b54772de029dadd).'|i18n('admin/helptools')}</p>
 
 <form name="blockID" method="post" action={"admin/helptools"|ezurl}>
     <input type="text" name="blockID" class="inputfield" />
@@ -80,7 +80,7 @@
 
 {if eq($formType , 'findBlock')}
     {if is_set($blockID)}
-        <p>{'You looked for: %blockID'|i18n('admin/helptools' , '' , hash('%blockID', $blockID))}</p>
+        <p class="italic">{'You have looked for: "%blockID"'|i18n('admin/helptools' , '' , hash('%blockID', $blockID))}</p>
     {/if}
     {if is_set($errorMessage)}
         <p>{$errorMessage}</p>
@@ -93,8 +93,8 @@
                     {$objectName}
                 {/if}
             </li>
-            <li>{'object ID'|i18n('admin/helptools')}: {$contentObjectID}</li>
-            <li>{'node ID'|i18n('admin/helptools')}: {$nodeID}</li>
+            <li>{'object ID'|i18n('admin/helptools')}: {$blockContentObjectID}</li>
+            <li>{'node ID'|i18n('admin/helptools')}: {$blockNodeID}</li>
             <li>{'zone ID'|i18n('admin/helptools')}: {$zoneID}</li>
             <li>{'zone name'|i18n('admin/helptools')}: {$zoneIdentifier}</li>
             <li>{'zone layout'|i18n('admin/helptools')}: {$zoneLayout}</li>

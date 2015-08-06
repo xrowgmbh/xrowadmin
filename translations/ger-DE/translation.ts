@@ -143,7 +143,7 @@
         <translation>Suche nach einem Block</translation>
     </message>
     <message>
-        <source>Enter the Block ID to receive information about the use of the block (example: b4fcd2bc56fa7d5a7b54772de029dadd).</source>
+        <source>Enter the block ID to receive information about the use of the block (example: b4fcd2bc56fa7d5a7b54772de029dadd).</source>
         <translation>Geben Sie die gesuchte Block ID ein um Informationen über die Verwendung des Blocks zu erhalten (Bsp.: b4fcd2bc56fa7d5a7b54772de029dadd).</translation>
     </message>
     <message>
@@ -167,11 +167,11 @@
         <translation>Zonenlayout</translation>
     </message>
     <message>
-        <source>Last 10 modified objects</source>
-        <translation>Die letzten 10 veränderten Objekte</translation>
+        <source>The last 10 later processed objects</source>
+        <translation>Die letzten 10 nachträglich bearbeiteten Objekte</translation>
     </message>
     <message>
-        <source>Last 10 published objects</source>
+        <source>The last 10 published objects</source>
         <translation>Die letzten 10 veröffentlichten Objekte</translation>
     </message>
     <message>
@@ -184,7 +184,7 @@
     </message>
     <message>
         <source>The file was found, but the details can not be displayed. The file is in the trash box(object ID: %trashNodeObjectID and object name: %trashNodeObjectName).</source>
-        <translation>Die Datei wurde gefunden, aber die Details können nicht angezeigt werden. Die Datei ist im Papierkorb(Objekt ID: %trashNodeObjectID und Objektname : %trashNodeObjectName).</translation>
+        <translation>Die Datei wurde gefunden, aber die Details können nicht angezeigt werden. Die Datei ist im Papierkorb(Objekt ID: %trashNodeObjectID und Objektname: %trashNodeObjectName).</translation>
     </message>
     <message>
         <source>Enter the contentobject attribute id to receive information about the use of the attribute (example: 10905831).</source>
@@ -203,16 +203,32 @@
         <translation>Es ist keine Nummer</translation>
     </message>
     <message>
-        <source>You looked for: %fileName</source>
-        <translation>Sie suchten nach: %fileName</translation>
+        <source>You have looked for: "%fileName"</source>
+        <translation>Sie haben nach "%fileName" gesucht.</translation>
     </message>
     <message>
-        <source>You looked for: %attributeID</source>
-        <translation>Sie suchten nach: %attributeID</translation>
+        <source>You have looked for: "%attributeID"</source>
+        <translation>Sie haben nach "%attributeID" gesucht.</translation>
     </message>
     <message>
-        <source>You looked for: %blockID</source>
-        <translation>Sie suchten nach: %blockID</translation>
+        <source>You have looked for: "%blockID"</source>
+        <translation>Sie haben nach "%blockID" gesucht.</translation>
+    </message>
+        <message>
+        <source>This filename %filename was not found.</source>
+        <translation>Dieser Dateiname %filename wurde nicht gefunden.</translation>
+    </message>
+        <message>
+        <source>This contentobject attribute ID %attribute_id was not found.</source>
+        <translation>Diese Inhaltsobjekt Attribut ID %attribute_id wurde nicht gefunden.</translation>
+    </message>
+    <message>
+        <source>This block ID %blockid was not found.</source>
+        <translation>Diese Block ID %blockid wurde nicht gefunden.</translation>
+    </message>
+    <message>
+        <source>Please check your input, if you use only the following character: a-z, A-Z, 0-9, ., äüö, ÄÖÜ</source>
+        <translation>Bitte überprüfen Sie Ihre Eingabe, ob nur folgende Zeichen enthalten sind: a-z, A-Z, 0-9, ., äüö, ÄÖÜ</translation>
     </message>
 </context>
 </TS>

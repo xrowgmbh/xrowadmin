@@ -17,6 +17,12 @@
     height: 119px;
 }
 
-.inputfield{
+.inputfield
+{
     width: 40%;
+}
+
+#maincontent-design .italic
+{
+    font-style: italic;
 }
