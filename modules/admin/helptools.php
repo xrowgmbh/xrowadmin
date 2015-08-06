@@ -10,7 +10,7 @@ if ($http->hasVariable('findFileSearchButton')) {
         $fileName = $db->escapeString($http->variable('fileName'));
         $tpl->setVariable('fileName', $fileName);
         if (! preg_match("#^[a-zA-Z0-9äöüÄÖÜ \.]+$#", $fileName)) {
-            $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "Please check your input, if you use only the following character: a-z, A-Z, 0-9, ., äüö, ÄÖÜ"));
+            $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "Please check your input, if only the following characters are included: a-z, A-Z, 0-9, ., äüö, ÄÖÜ"));
         } else {
             $query = 'SELECT 
                     ezbinaryfile.filename,
