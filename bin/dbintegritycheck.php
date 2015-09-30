@@ -17,11 +17,13 @@ $script->startup();
 $script->initialize();
 
 $ini = eZINI::instance();
-$userCreatorID = 14;
-$user = eZUser::fetch( $userCreatorID );
-eZUser::setCurrentlyLoggedInUser( $user, $userCreatorID );
-
+#$user = eZUser::fetch( 14 );
+#eZUser::setCurrentlyLoggedInUser( $user, $userCreatorID );
 $db = eZDB::instance();
+$time = time();
+//60*60*24*7
+$two_weeks_ago = $time-604800;
+
 $sqlArray = array( 
     "Test::ezorder: Doppelte Order Nummern?" => array( 
         "details" => false ,
@@ -34,8 +36,7 @@ $sqlArray = array(
             "data_text_1" => "xml" , 
             "order_nr" => "string"
         ) ,
-		//@TODO make it abstrakt sometime...
-        "sql" => "SELECT data_text_1, created, email, order_nr, status_id FROM `ezorder` WHERE  created >= 1352667600 AND created <=1352718000 AND status_id !=0;" 
+        "sql" => "SELECT data_text_1, created, email, order_nr, status_id FROM `ezorder` WHERE  created >= $two_weeks_ago AND created <=$time AND status_id !=0;" 
     ) , 
     "Test::ezcontentobject_tree: NodeID's doppelt?" => array( 
         "details" => false , 
@@ -71,7 +72,7 @@ $sqlArray = array(
     ) , 
     "Test::ezontentobject: mehrere versionen eines objects die veröffentlicht sind" => array( 
         "details" => false , 
-        "sql" => "SELECT *, count(id) as count FROM `ezcontentobject` where status = 1 AND (modified >= 1352667600 AND modified <=1352718000) GROUP BY `id`, current_version HAVING (  COUNT(`current_version`) > 1);" 
+        "sql" => "SELECT *, count(id) as count FROM `ezcontentobject` where status = 1 GROUP BY `id`, current_version HAVING (  COUNT(`current_version`) > 1);" 
     ) , 
     "Test::ezcontentobject_attribute: Gibt es jedes Attribut nur ein mal pro version, sprache und object?" => array( 
         "details" => false , 
@@ -93,12 +94,12 @@ $sqlArray = array(
 
 foreach ( $sqlArray as $index => $sql )
 {
-    $resultSet = $db->arrayQuery( $sql['sql'] );
     $cli->output( "\n######################" );
     $cli->output( "######################" );
     $cli->output( "\n{$index}" );
     $cli->output( "Query: {$sql['sql']}" );
-    
+    $resultSet = $db->arrayQuery( $sql['sql'] );
+
     if ( empty( $resultSet ) )
     {
         $result = "Ergebnis okay!";
