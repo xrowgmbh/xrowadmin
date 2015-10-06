@@ -18,7 +18,7 @@ $ini = eZINI::instance();
 $language_map = $bad_objects = $skip_list = array();
 $limit_per_fetch = 1000;
 $offset = $bad_data_rows = $count = 0;
-$dry_run = true;
+$dry_run = false;
 
 //TODO: can be made flexible propably (importent for other customers!)
 $language_map["eng"] = array(2);
@@ -105,10 +105,16 @@ do {
     //clearing every now and then to keep array short
     $skip_list = array();
 
-    //have a break of 30 seconds every 100.000 elements
-    if( $offset % 100000 == 0)
+    //have a break of 118 seconds every 75.000 elements
+    if( $offset % 75000 == 0)
     {
-        sleep(30);
+        echo "sleeping to cool down the database";
+        sleep(118);
+    }
+    if( $offset % 500000 == 0)
+    {
+        echo "sleeping to extra cool down the database";
+        sleep(118);
     }
 
 } while ($count == $limit_per_fetch);
