@@ -102,7 +102,7 @@ foreach ( $resultSet as $key => $result )
 
     if( $key % 50000 == 0)
     {
-        echo $key . " objects done \n";
+        echo "\n" . $key . " objects done \n";
     }
 }
 
