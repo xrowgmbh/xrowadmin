@@ -18,7 +18,7 @@ $ini = eZINI::instance();
 $language_map = $bad_objects = $skip_list = array();
 $limit_per_fetch = 1000;
 $offset = $bad_data_rows = $count = 0;
-$dry_run = false;
+$dry_run = true;
 
 //TODO: can be made flexible propably (importent for other customers!)
 $language_map["eng"] = array(2);
@@ -55,75 +55,61 @@ foreach($language_map as $locale => $map)
     $language_map[$locale][] = $map[0]+1;
 }
 
-$cli->output( "Start Fetching all Attributes" );
-
 //only objects younger than 17.08.2011
 $special_condition = " AND obj.published < 1313550000";
 
-do {
-    echo "\n status fetching: " . $offset . "\n";
-    $query = "SELECT attr.data_type_string, attr.contentobject_id, attr.id, attr.language_code, attr.language_id, attr.version, FROM_UNIXTIME(obj.published) as 'created', obj.name, obj.contentclass_id
-              FROM ezcontentobject_attribute AS attr, ezcontentobject AS obj
-              WHERE attr.contentobject_id = obj.id
-              AND obj.contentclass_id = 4 
-              $special_condition
-              LIMIT $limit_per_fetch
-              OFFSET $offset;";
 
-    $resultSet = $db->arrayQuery( $query );
-    $count = count($resultSet);
-    $offset = $offset+$count;
+echo "fetching attributes: \n";
 
-    foreach ( $resultSet as $result )
+$query = "SELECT attr.data_type_string, attr.contentobject_id, attr.id, attr.language_code, attr.language_id, attr.version, FROM_UNIXTIME(obj.published) as 'created', obj.name, obj.contentclass_id
+        FROM ezcontentobject_attribute AS attr, ezcontentobject AS obj
+        WHERE attr.contentobject_id = obj.id
+        AND obj.contentclass_id = 4 
+        $special_condition
+        GROUP BY  attr.contentobject_id, attr.language_id, attr.version;";
+
+
+$resultSet = $db->arrayQuery( $query );
+$count = count($resultSet);
+$offset = $offset+$count;
+
+echo "looping through " . $count . " elements";
+
+foreach ( $resultSet as $key => $result )
+{
+    if (in_array($result["language_id"], $language_map[$result["language_code"]]))  
     {
-        if (in_array($result["language_id"], $language_map[$result["language_code"]]))  
+        //echo "+";
+    }
+    else
+    {
+        //echo "-";
+        $bad_objects[$result["contentobject_id"]] = $result["created"];
+
+        //correcting data
+        if ( !in_array( $result["version"] . "_" . $result["contentobject_id"] . "_" . $result["language_code"], $skip_list) AND $dry_run != true )
         {
-            //echo "+";
-        }
-        else
-        {
-            //echo "-";
-            $bad_data_rows++;
-            $bad_objects[$result["contentobject_id"]] = $result["created"];
-
-            //correcting data
-            if ( !in_array( $result["version"] . "_" . $result["contentobject_id"] . "_" . $result["language_code"], $skip_list) AND $dry_run != true )
-            {
-                $db->begin();
-                $db->arrayQuery( 'UPDATE ezcontentobject_attribute as attr SET language_id = ' . $language_map[$result["language_code"]][1] . '
-                                  WHERE attr.version = ' . $result["version"] . ' 
-                                  AND attr.contentobject_id = ' . $result["contentobject_id"] . '
-                                  AND attr.language_code = "' . $result["language_code"] . '";' );
-                $db->commit();
-                echo "updating: " . $result["version"] . "_" . $result["contentobject_id"] . "_" . $result["language_code"] . " // ";
-                //add combination to skip list so that we do not update the same thing more than once
-                $skip_list[] = $result["version"] . "_" . $result["contentobject_id"] . "_" . $result["language_code"]; 
-            }
+            $db->begin();
+            $db->arrayQuery( 'UPDATE ezcontentobject_attribute as attr SET language_id = ' . $language_map[$result["language_code"]][1] . '
+                              WHERE attr.version = ' . $result["version"] . ' 
+                              AND attr.contentobject_id = ' . $result["contentobject_id"] . '
+                              AND attr.language_code = "' . $result["language_code"] . '";' );
+            $db->commit();
+            echo "updating: " . $result["version"] . "_" . $result["contentobject_id"] . "_" . $result["language_code"] . " // ";
+            //add combination to skip list so that we do not update the same thing more than once
         }
     }
 
-    //clearing every now and then to keep array short
-    $skip_list = array();
-
-    //have a break of 118 seconds every 75.000 elements
-    if( $offset % 75000 == 0)
+    if( $key % 50000 == 0)
     {
-        echo "sleeping to cool down the database";
-        sleep(118);
+        echo $key . " objects done \n";
     }
-    if( $offset % 500000 == 0)
-    {
-        echo "sleeping to extra cool down the database";
-        sleep(118);
-    }
-
-} while ($count == $limit_per_fetch);
+}
 
 $cli->output( "Done." );
 
 $cli->output( "=========================================================" );
 $cli->output( "Total Result" );
-$cli->output( "Bad data rows: " . $bad_data_rows );
 $cli->output( "Amount of broken objects: " . count($bad_objects) );
 
 $script->shutdown();
