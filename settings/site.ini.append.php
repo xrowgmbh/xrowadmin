@@ -14,4 +14,7 @@ PolicyOmitList[]=remote/content
 PolicyOmitList[]=remote/loadpage
 PolicyOmitList[]=remote/scaffold
 
+[TemplateSettings]
+ExtensionAutoloadPath[]=ezurlcleanoperator
+
 */ ?>
