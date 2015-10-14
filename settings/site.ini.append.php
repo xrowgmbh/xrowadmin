@@ -15,6 +15,6 @@ PolicyOmitList[]=remote/loadpage
 PolicyOmitList[]=remote/scaffold
 
 [TemplateSettings]
-ExtensionAutoloadPath[]=ezurlcleanoperator
+ExtensionAutoloadPath[]=xrowadmin
 
 */ ?>
