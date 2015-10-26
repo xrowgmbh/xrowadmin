@@ -70,7 +70,7 @@ foreach ( $attribute_list as $identifier => $conditions )
         }
     }
     
-    echo "Finished with the '$class_identifier' class..\n";
+    echo "\n\n'$class_identifier' class finished..\n\n";
 }
 
 $cli->output( "Script completely done.\n" );
