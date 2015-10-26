@@ -15,7 +15,10 @@ $script->initialize();
 $db = eZDB::instance();
 $ini = eZINI::instance();
 $now_ts = time();
-$six_month_ago = strtotime("-6 month", $now_ts );
+#$time = strtotime("-6 month", $now_ts );
+#01.06.2015
+#h,m,s,m,d,y
+$time = mktime(0, 0, 1, 6, 1, 2015);
 
 $attribute_list = array();
 
@@ -23,14 +26,14 @@ $attribute_list = array();
 $attribute_list["folder/show_modified_time"]["attr_id"] = 1006;
 $attribute_list["folder/show_modified_time"]["type"] = "checkbox";
 $attribute_list["folder/show_modified_time"]["params"] = array();
-$attribute_list["folder/show_modified_time"]["params"]["AttributeFilter"] = array( array('modified', '<=', $six_month_ago ) );
+$attribute_list["folder/show_modified_time"]["params"]["AttributeFilter"] = array( array('modified', '<=', $time ) );
 $attribute_list["folder/show_modified_time"]["change_to"] = 0;
 
 //settings for article class
 $attribute_list["article/show_modified_time"]["attr_id"] = 1005;
 $attribute_list["article/show_modified_time"]["type"] = "checkbox";
 $attribute_list["article/show_modified_time"]["params"] = array();
-$attribute_list["article/show_modified_time"]["params"]["AttributeFilter"] = array( array('modified', '<=', $six_month_ago ) );
+$attribute_list["article/show_modified_time"]["params"]["AttributeFilter"] = array( array('modified', '<=', $time ) );
 $attribute_list["article/show_modified_time"]["change_to"] = 0;
 
 foreach ( $attribute_list as $identifier => $conditions )
