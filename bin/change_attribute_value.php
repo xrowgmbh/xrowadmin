@@ -31,14 +31,15 @@ $attribute_list = array();
 $attribute_list["folder/show_modified_time"]["attr_id"] = 1006;
 $attribute_list["folder/show_modified_time"]["type"] = "checkbox";
 $attribute_list["folder/show_modified_time"]["params"] = array();
-$attribute_list["folder/show_modified_time"]["params"]["AttributeFilter"] = array( array('modified', '<=', $time ) );
+$attribute_list["folder/show_modified_time"]["params"]["AttributeFilter"] = array( array('modified', '<=', $time ), array( 'folder/show_modified_time', '=', 1 ) );
 $attribute_list["folder/show_modified_time"]["change_to"] = 0;
 
 //settings for article class
 $attribute_list["article/show_modified_time"]["attr_id"] = 1005;
 $attribute_list["article/show_modified_time"]["type"] = "checkbox";
 $attribute_list["article/show_modified_time"]["params"] = array();
-$attribute_list["article/show_modified_time"]["params"]["AttributeFilter"] = array( array('modified', '<=', $time ) );
+$attribute_list["article/show_modified_time"]["params"]["AttributeFilter"] = array( array('modified', '<=', $time ), array( 'article/show_modified_time', '=', 1 ) );
+
 $attribute_list["article/show_modified_time"]["change_to"] = 0;
 
 foreach ( $attribute_list as $identifier => $conditions )
@@ -79,6 +80,9 @@ foreach ( $attribute_list as $identifier => $conditions )
 
     echo "\n\n'$class_identifier' class finished..\n\n";
 }
+
+eZContentObject::clearCache();
+eZContentCacheManager::clearAllContentCache();
 
 $cli->output( "Script completely done.\n" );
 $script->shutdown();
