@@ -3,15 +3,20 @@
 //you can call the script like: /usr/local/zend/bin/php bin/php/ezexec.php extension/xrowadmin/bin/change_attribute_value.php
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 
-    'description' => ( "\n" . "This can modify attributes content on certain conditions.\n" ) , 
-    'use-session' => false , 
-    'use-modules' => true , 
-    'use-extensions' => true 
+$script = eZScript::instance( array(
+    'description' => ( "\n" . "This can modify attributes content on certain conditions.\n" ) ,
+    'use-session' => false ,
+    'use-modules' => true ,
+    'use-extensions' => true
 ) );
 
 $script->startup();
 $script->initialize();
+
+$adminUserID = 357217;
+$user = eZUser::fetch( $adminUserID );
+$user->loginCurrent();
+
 $db = eZDB::instance();
 $ini = eZINI::instance();
 $now_ts = time();
@@ -41,12 +46,14 @@ foreach ( $attribute_list as $identifier => $conditions )
     $identifier_information = explode("/", $identifier);
     $class_identifier = $identifier_information[0];
     $attribute_identifier = $identifier_information[1];
-    $conditions["params"]["ClassFilterType"] = "include";        
+    $conditions["params"]["ClassFilterType"] = "include";
     $conditions["params"]["ClassFilterArray"] = array( $class_identifier );
     $conditions["params"]["Depth"] = "9999";
     $conditions["params"]["MainNodeOnly"] = true;
+    $conditions["params"]["IgnoreVisibility"] = true;
 
     echo "Start Fetching '$class_identifier' elements..\n";
+
     $nodes = eZContentObjectTreeNode::subTreeByNodeID( $conditions["params"], 1 );
 
     echo "Found " . count($nodes) . " '$class_identifier' elements.. changing attribute now\n";
@@ -61,15 +68,15 @@ foreach ( $attribute_list as $identifier => $conditions )
             $objectAttribute->setAttribute( "data_int", $conditions["change_to"] );
             $objectAttribute->store();
             $object->store();
-            
+
             if( $i % 100 == 0)
             {
                 echo "\n" . $i . " objects done";
             }
-            
+
         }
     }
-    
+
     echo "\n\n'$class_identifier' class finished..\n\n";
 }
 
