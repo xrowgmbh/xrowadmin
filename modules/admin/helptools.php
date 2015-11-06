@@ -4,7 +4,8 @@ $Module = $Params['Module'];
 $tpl = eZTemplate::factory();
 $db = eZDB::instance();
 $helpToolsINI = eZINI::instance('helptools.ini');
-$frontpageClassID = $helpToolsINI->variable('helptools', 'FrontpageClassID');
+$contentclassID = $helpToolsINI->variable('helptools', 'ContentclassID');
+$dataTypeIdentifier = $helpToolsINI->variable('helptools', 'DataTypeIdentifier');
 $timeStamp = time();
 
 if ($http->hasVariable('findFileSearchButton'))
@@ -115,22 +116,22 @@ if ($http->hasVariable('findAttributeID'))
             $rows = $db->arrayQuery($query);
             if (isset($rows[0]))
             {
-                $attributeContentObjectID = $rows[0]['contentobject_id'];
-                if (isset($attributeContentObjectID) && !empty($attributeContentObjectID))
+                $resultContentObjectID = $rows[0]['contentobject_id'];
+                if (isset($resultContentObjectID) && !empty($resultContentObjectID))
                 {
-                    $tpl->setVariable('attributeContentObjectID', $attributeContentObjectID);
+                    $tpl->setVariable('resultContentObjectID', $resultContentObjectID);
                 }
-                $attributeNode = eZContentObjectTreeNode::fetchByContentObjectID($attributeContentObjectID);
-                if ($attributeNode[0] instanceof eZContentObjectTreeNode)
+                $resultNode = eZContentObjectTreeNode::fetchByContentObjectID($resultContentObjectID);
+                if ($resultNode[0] instanceof eZContentObjectTreeNode)
                 {
-                    if (isset($attributeNode) && !empty($attributeNode))
+                    if (isset($resultNode) && !empty($resultNode))
                     {
-                        if ($attributeNode[0]->getName() != "")
+                        if ($resultNode[0]->getName() != "")
                         {
-                            $tpl->setVariable('objectName', $attributeNode[0]->getName());
-                            if ($attributeNode[0]->urlAlias() != "")
+                            $tpl->setVariable('objectName', $resultNode[0]->getName());
+                            if ($resultNode[0]->urlAlias() != "")
                             {
-                                $tpl->setVariable('urlAlias', $attributeNode[0]->urlAlias());
+                                $tpl->setVariable('urlAlias', $resultNode[0]->urlAlias());
                             }
                         }
                         else
@@ -138,10 +139,10 @@ if ($http->hasVariable('findAttributeID'))
                             $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "No object name found"));
                         }
                     }
-                    $attributeNodeID = $attributeNode[0]->attribute('node_id');
-                    if (isset($attributeNodeID) && !empty($attributeNodeID))
+                    $resultNodeID = $resultNode[0]->attribute('node_id');
+                    if (isset($resultNodeID) && !empty($resultNodeID))
                     {
-                        $tpl->setVariable('attributeNodeID', $attributeNodeID);
+                        $tpl->setVariable('resultNodeID', $resultNodeID);
                     }
                 }
             }
@@ -178,8 +179,8 @@ if ($http->hasVariable('findBlockID'))
             FROM ezcontentobject ezcontentobject
             LEFT JOIN
             ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.contentobject_id = ezcontentobject.id
-            WHERE contentclass_id = \'' . $frontpageClassID . '\'
-            AND ezcontentobject_attribute.data_type_string = \'ezpage\'
+            WHERE contentclass_id = \'' . $contentclassID . '\'
+            AND ezcontentobject_attribute.data_type_string = \'' . $dataTypeIdentifier . '\'
             GROUP BY ezcontentobject_attribute.contentobject_id
             ORDER BY ezcontentobject_attribute.version DESC
         ) as subtable

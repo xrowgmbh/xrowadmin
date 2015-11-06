@@ -60,8 +60,8 @@
                     <p class="errorMessage">{$errorMessage}</p>
                  {/if}
             </li>
-            <li>{'object ID'|i18n('admin/helptools')}: {$attributeContentObjectID}</li>
-            <li>{'node ID'|i18n('admin/helptools')}: {$attributeNodeID}</li>
+            <li>{'object ID'|i18n('admin/helptools')}: {$resultContentObjectID}</li>
+            <li>{'node ID'|i18n('admin/helptools')}: {$resultNodeID}</li>
             <li>{'contentobject attribute ID'|i18n('admin/helptools')}: {$attributeID}</li>
         </ul>
     {/if}
