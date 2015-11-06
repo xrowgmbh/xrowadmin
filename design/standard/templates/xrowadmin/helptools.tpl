@@ -10,7 +10,7 @@
 
 {if eq($formType , 'findFile')}
     {if is_set($fileName)}
-        <p class="italic">{'You have looked for: "%fileName"'|i18n('admin/helptools' , '' , hash('%fileName', $fileName))}</p>
+        <p class="italic">{'You have searched for: "%fileName"'|i18n('admin/helptools' , '' , hash('%fileName', $fileName))}</p>
     {/if}
     {if is_set($errorMessage)}
             <p class="errorMessage">{$errorMessage}</p>
@@ -43,7 +43,7 @@
 
 {if eq($formType , 'findAttribute')}
     {if is_set($attributeID)}
-        <p class="italic">{'You have looked for: "%attributeID"'|i18n('admin/helptools' , '' , hash('%attributeID', $attributeID))}</p>
+        <p class="italic">{'You have searched for: "%attributeID"'|i18n('admin/helptools' , '' , hash('%attributeID', $attributeID))}</p>
     {/if}
     {if is_set($errorMessage)}
         <p class="errorMessage">{$errorMessage}</p>
@@ -80,7 +80,7 @@
 
 {if eq($formType , 'findBlock')}
     {if is_set($blockID)}
-        <p class="italic">{'You have looked for: "%blockID"'|i18n('admin/helptools' , '' , hash('%blockID', $blockID))}</p>
+        <p class="italic">{'You have searched for: "%blockID"'|i18n('admin/helptools' , '' , hash('%blockID', $blockID))}</p>
     {/if}
     {if is_set($errorMessage)}
         <p class="errorMessage">{$errorMessage}</p>

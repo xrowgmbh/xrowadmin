@@ -3,6 +3,9 @@ $http = eZHTTPTool::instance();
 $Module = $Params['Module'];
 $tpl = eZTemplate::factory();
 $db = eZDB::instance();
+$helpToolsINI = eZINI::instance('helptools.ini');
+$frontpageClassID = $helpToolsINI->variable('helptools', 'FrontpageClassID');
+$timeStamp = time();
 
 if ($http->hasVariable('findFileSearchButton'))
 {
@@ -159,6 +162,7 @@ if ($http->hasVariable('findAttributeID'))
         $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "Please fill in the textbox"));
     }
 }
+
 if ($http->hasVariable('findBlockID'))
 {
     $tpl->setVariable('formType', 'findBlock');
@@ -174,7 +178,7 @@ if ($http->hasVariable('findBlockID'))
             FROM ezcontentobject ezcontentobject
             LEFT JOIN
             ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.contentobject_id = ezcontentobject.id
-            WHERE contentclass_id = \'23\'
+            WHERE contentclass_id = \'' . $frontpageClassID . '\'
             AND ezcontentobject_attribute.data_type_string = \'ezpage\'
             GROUP BY ezcontentobject_attribute.contentobject_id
             ORDER BY ezcontentobject_attribute.version DESC
@@ -227,10 +231,6 @@ if ($http->hasVariable('findBlockID'))
     }
 }
 
-$timeStamp = time();
-
-$helpToolsINI = eZINI::instance('helptools.ini');
-
 foreach ($helpToolsINI->variable('activelist', 'active') as $output)
 {
     $inputInformation[$output]["query"] = str_replace('$$timeStamp$$', $timeStamp, $helpToolsINI->variable($output, 'query'));
@@ -253,18 +253,17 @@ function getQueryInformation($inputInformation)
             if ($object instanceof eZContentObject)
             {
                 $outputInformation[$value][$count]['ID'] = $resultContentObjectID;
-                if (isset($object->owner()->Name) && !empty($object->owner()->Name))
+                if (isset($object->owner()->ID))
                 {
                     $outputInformation[$value][$count]['publisher'] = $object->owner()->Name;
+                    $ownerContentObjectID = $object->owner()->ID;
+                    $ownerNode = eZContentObjectTreeNode::fetchByContentObjectID($ownerContentObjectID);
+                    $publisherUrl = $ownerNode[0]->urlAlias();
                 }
                 else
                 {
                     $outputInformation[$value][$count]['publisher'] = ezpI18n::tr("admin/helptools", "Publisher could not be found");
                 }
-
-                $ownerContentObjectID = $object->owner()->ID;
-                $ownerNode = eZContentObjectTreeNode::fetchByContentObjectID($ownerContentObjectID);
-                $publisherUrl = $ownerNode[0]->urlAlias();
 
                 if (isset($publisherUrl) && !empty($publisherUrl))
                 {
@@ -275,9 +274,12 @@ function getQueryInformation($inputInformation)
 
                 if ($resultNode[0] instanceof eZContentObjectTreeNode)
                 {
-                    $creatorContentObjectID = $resultNode[0]->creator()->ID;
-                    $creatorNode= eZContentObjectTreeNode::fetchByContentObjectID($creatorContentObjectID);
-                    $modifierUrlAlias = $creatorNode[0]->urlAlias();
+                    if(isset($resultNode[0]->creator()->ID))
+                    {
+                        $creatorContentObjectID = $resultNode[0]->creator()->ID;
+                        $creatorNode= eZContentObjectTreeNode::fetchByContentObjectID($creatorContentObjectID);
+                        $modifierUrlAlias = $creatorNode[0]->urlAlias();
+                    }
 
                     if (isset($modifierUrlAlias) && !empty($modifierUrlAlias))
                     {

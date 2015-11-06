@@ -203,7 +203,7 @@
         <translation>Der angegebene Wert ist keine Nummer, bitte geben sie eine korrekte Attribut ID an</translation>
     </message>
     <message>
-        <source>You have looked for: "%fileName"</source>
+        <source>You have searched for: "%fileName"</source>
         <translation>Sie haben nach "%fileName" gesucht.</translation>
     </message>
     <message>
