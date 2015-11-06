@@ -13,7 +13,7 @@
         <p class="italic">{'You have looked for: "%fileName"'|i18n('admin/helptools' , '' , hash('%fileName', $fileName))}</p>
     {/if}
     {if is_set($errorMessage)}
-            <p>{$errorMessage}</p>
+            <p class="errorMessage">{$errorMessage}</p>
     {else}
         <ul>
             <li>{'name of the object'|i18n('admin/helptools')}: 
@@ -46,7 +46,7 @@
         <p class="italic">{'You have looked for: "%attributeID"'|i18n('admin/helptools' , '' , hash('%attributeID', $attributeID))}</p>
     {/if}
     {if is_set($errorMessage)}
-        <p>{$errorMessage}</p>
+        <p class="errorMessage">{$errorMessage}</p>
     {else}
         <ul>
             <li>{'name of the object'|i18n('admin/helptools')}:
@@ -57,7 +57,7 @@
                          {$objectName}
                      {/if}
                  {elseif is_set($errorMessage)}
-                    <p>{$errorMessage}</p>
+                    <p class="errorMessage">{$errorMessage}</p>
                  {/if}
             </li>
             <li>{'object ID'|i18n('admin/helptools')}: {$attributeContentObjectID}</li>
@@ -83,7 +83,7 @@
         <p class="italic">{'You have looked for: "%blockID"'|i18n('admin/helptools' , '' , hash('%blockID', $blockID))}</p>
     {/if}
     {if is_set($errorMessage)}
-        <p>{$errorMessage}</p>
+        <p class="errorMessage">{$errorMessage}</p>
     {else}
         <ul>
             <li>{'name of the object'|i18n('admin/helptools')} : 

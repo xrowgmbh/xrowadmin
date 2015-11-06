@@ -80,7 +80,7 @@
     </message>
     <message>
         <source>Please fill in the textbox</source>
-        <translation>Bitte das Textfeld ausfüllen</translation>
+        <translation>Bitte füllen Sie das Textfeld aus</translation>
     </message>
     <message>
         <source>Publisher could not be found</source>
@@ -199,8 +199,8 @@
         <translation>Suche nach einem Inhaltsobjekt Attribut</translation>
     </message>
     <message>
-        <source>It is not a number</source>
-        <translation>Es ist keine Nummer</translation>
+        <source>The given value is not a number, please provide a valid attribute ID</source>
+        <translation>Der angegebene Wert ist keine Nummer, bitte geben sie eine korrekte Attribut ID an</translation>
     </message>
     <message>
         <source>You have looked for: "%fileName"</source>
@@ -215,20 +215,20 @@
         <translation>Sie haben nach "%blockID" gesucht.</translation>
     </message>
         <message>
-        <source>This filename %filename was not found.</source>
-        <translation>Dieser Dateiname %filename wurde nicht gefunden.</translation>
+        <source>The provided filename was not found.</source>
+        <translation>Der angegebene Dateiname wurde nicht gefunden.</translation>
     </message>
         <message>
-        <source>This contentobject attribute ID %attribute_id was not found.</source>
-        <translation>Diese Inhaltsobjekt Attribut ID %attribute_id wurde nicht gefunden.</translation>
+        <source>No contentobject attribute found for the provided attribute ID.</source>
+        <translation>Kein Inhaltsobjekt für die angegebene Attribut ID gefunden.</translation>
     </message>
     <message>
-        <source>This block ID %blockid was not found.</source>
-        <translation>Diese Block ID %blockid wurde nicht gefunden.</translation>
+        <source>The provided block ID was not found.</source>
+        <translation>Die angegebene Block ID wurde nicht gefunden.</translation>
     </message>
     <message>
-        <source>Please check your input, if only the following characters are included: a-z, A-Z, 0-9, ., äöü, ÄÖÜ</source>
-        <translation>Bitte überprüfen Sie Ihre Eingabe, ob nur folgende Zeichen enthalten sind: a-z, A-Z, 0-9, ., äöü, ÄÖÜ</translation>
+        <source>Invalid filename (only the following characters are allowed: a-z, A-Z, 0-9, ., äöü, ÄÖÜ)</source>
+        <translation>Ungültiger Dateiname (nur folgende Zeichen sind erlaubt: a-z, A-Z, 0-9, ., äöü, ÄÖÜ)</translation>
     </message>
 </context>
 </TS>

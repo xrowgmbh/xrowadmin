@@ -26,3 +26,9 @@
 {
     font-style: italic;
 }
+
+.errorMessage
+{
+    color: red;
+    font-weight: 600;
+}
