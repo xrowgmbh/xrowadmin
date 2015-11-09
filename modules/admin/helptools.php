@@ -16,9 +16,9 @@ if ($http->hasVariable('findFileSearchButton'))
         $fileName = $db->escapeString($http->variable('fileName'));
         $tpl->setVariable('fileName', $fileName);
 
-        if (!preg_match("#^[a-zA-Z0-9äöüÄÖÜ \.]+$#", $fileName))
+        if (isValid($fileName))
         {
-            $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "Invalid filename (only the following characters are allowed: a-z, A-Z, 0-9, ., äöü, ÄÖÜ)"));
+            $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "Please only use numbers, letters and dots for searching."));
         }
         else
         {
@@ -51,10 +51,9 @@ if ($http->hasVariable('findFileSearchButton'))
                     $tpl->setVariable('fileContentObjectID', $fileContentObjectID);
                 }
                 
-                $getStatus = eZContentObject::fetch($fileContentObjectID);
-                $status = $getStatus->Status;
+                $stateInfo = handleState($fileContentObjectID);
 
-                if ($status == '1')
+                if ($stateInfo["status"] == '1')
                 {
                     $fileNode = eZContentObjectTreeNode::fetchByContentObjectID($fileContentObjectID);
                     if ($fileNode[0] instanceof eZContentObjectTreeNode)
@@ -74,15 +73,9 @@ if ($http->hasVariable('findFileSearchButton'))
                         }
                     }
                 }
-                elseif ($status == '2')
+                else
                 {
-                    $trashNode = eZContentObject::fetch($fileContentObjectID);
-                    $trashNodeObjectID = $trashNode->ID;
-                    $trashNodeObjectName = $trashNode->Name;
-                    $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", 'The file was found, but the details can not be displayed. The file is in the trash box(object ID: %trashNodeObjectID and object name: %trashNodeObjectName).', '', array(
-                        '%trashNodeObjectID' => $trashNodeObjectID,
-                        '%trashNodeObjectName' => $trashNodeObjectName
-                    )));
+                    $tpl->setVariable('errorMessage', $stateInfo["msg"] );
                 }
             }
             else
@@ -114,6 +107,7 @@ if ($http->hasVariable('findAttributeID'))
                         ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.contentobject_id = ezcontentobject.id
                         Where ezcontentobject_attribute.id =' . $attributeID . ';';
             $rows = $db->arrayQuery($query);
+
             if (isset($rows[0]))
             {
                 $resultContentObjectID = $rows[0]['contentobject_id'];
@@ -121,29 +115,40 @@ if ($http->hasVariable('findAttributeID'))
                 {
                     $tpl->setVariable('resultContentObjectID', $resultContentObjectID);
                 }
-                $resultNode = eZContentObjectTreeNode::fetchByContentObjectID($resultContentObjectID);
-                if ($resultNode[0] instanceof eZContentObjectTreeNode)
+
+                $stateInfo = handleState($resultContentObjectID);
+
+                if ($stateInfo["status"] == '1')
                 {
-                    if (isset($resultNode) && !empty($resultNode))
+                    $resultNode = eZContentObjectTreeNode::fetchByContentObjectID($resultContentObjectID);
+
+                    if ($resultNode[0] instanceof eZContentObjectTreeNode)
                     {
-                        if ($resultNode[0]->getName() != "")
+                        if (isset($resultNode) && !empty($resultNode))
                         {
-                            $tpl->setVariable('objectName', $resultNode[0]->getName());
-                            if ($resultNode[0]->urlAlias() != "")
+                            if ($resultNode[0]->getName() != "")
                             {
-                                $tpl->setVariable('urlAlias', $resultNode[0]->urlAlias());
+                                $tpl->setVariable('objectName', $resultNode[0]->getName());
+                                if ($resultNode[0]->urlAlias() != "")
+                                {
+                                    $tpl->setVariable('urlAlias', $resultNode[0]->urlAlias());
+                                }
+                            }
+                            else
+                            {
+                                $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "No object name found"));
                             }
                         }
-                        else
+                        $resultNodeID = $resultNode[0]->attribute('node_id');
+                        if (isset($resultNodeID) && !empty($resultNodeID))
                         {
-                            $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "No object name found"));
+                            $tpl->setVariable('resultNodeID', $resultNodeID);
                         }
                     }
-                    $resultNodeID = $resultNode[0]->attribute('node_id');
-                    if (isset($resultNodeID) && !empty($resultNodeID))
-                    {
-                        $tpl->setVariable('resultNodeID', $resultNodeID);
-                    }
+                }
+                else
+                {
+                    $tpl->setVariable('errorMessage', $stateInfo["msg"] );
                 }
             }
             else
@@ -164,6 +169,31 @@ if ($http->hasVariable('findAttributeID'))
     }
 }
 
+function handleState($contentObjectID)
+{
+    $handled_Object = eZContentObject::fetch($contentObjectID);
+    $status = $handled_Object->Status;
+
+    if ($status == 2)
+    {
+        $error_msg = ezpI18n::tr("admin/helptools", 'Details can not be displayed, because the linked object is located in the trash box (object ID: %trashNodeObjectID and object name: %trashNodeObjectName).', '', array(
+                            '%trashNodeObjectID' => $handled_Object->ID,
+                            '%trashNodeObjectName' => $handled_Object->Name
+                    ));
+    }
+    elseif ($status >= 3) 
+    {
+        $error_msg = ezpI18n::tr("admin/helptools", "Content Object has an unsupported status");
+    }
+
+    return array('status' => $status, 'msg' => $error_msg, 'handled_Object' => $handled_Object);
+}
+
+function isValid($searchString)
+{
+    return !preg_match("#^[a-zA-Z0-9äöüÄÖÜ \.]+$#", $searchString);
+}
+
 if ($http->hasVariable('findBlockID'))
 {
     $tpl->setVariable('formType', 'findBlock');
@@ -172,58 +202,74 @@ if ($http->hasVariable('findBlockID'))
         $blockID = $db->escapeString($http->variable('blockID'));
         $tpl->setVariable('blockID', $blockID);
 
-        $query = 'SELECT * FROM
-        (
-            SELECT
-            ezcontentobject.id, ezcontentobject.name, ezcontentobject_attribute.data_text
-            FROM ezcontentobject ezcontentobject
-            LEFT JOIN
-            ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.contentobject_id = ezcontentobject.id
-            WHERE contentclass_id = \'' . $contentclassID . '\'
-            AND ezcontentobject_attribute.data_type_string = \'' . $dataTypeIdentifier . '\'
-            GROUP BY ezcontentobject_attribute.contentobject_id
-            ORDER BY ezcontentobject_attribute.version DESC
-        ) as subtable
-        WHERE data_text LIKE (\'%' . $blockID . '%\');';
-
-        $rows = $db->arrayQuery($query);
-
-        if (isset($rows[0]))
+        if (isValid($blockID))
         {
-            $datatext = $rows[0]["data_text"];
-            $xml = simplexml_load_string($datatext);
-
-            $zone = $xml->xpath("/page/zone[block[@id='id_" . $blockID . "']]");
-            $block = $xml->xpath("/page/zone/block[@id='id_" . $blockID . "']");
-            $tpl->setVariable('zoneID', $block[0]->zone_id[0]);
-            $tpl->setVariable('blockType', $block[0]->type[0]);
-            if ($block[0]->name[0] != "")
-            {
-                $tpl->setVariable('blockName', $block[0]->name[0]);
-            }
-
-            $tpl->setVariable('zoneLayout', $xml->zone_layout[0]);
-            $tpl->setVariable('zoneIdentifier', $zone[0]->zone_identifier[0]);
-            $blockContentObjectID = $rows[0]['id'];
-            $tpl->setVariable('blockContentObjectID', $blockContentObjectID);
-            $blockNode = eZContentObjectTreeNode::fetchByContentObjectID($blockContentObjectID);
-
-            if ($blockNode[0] instanceof eZContentObjectTreeNode)
-            {
-                $tpl->setVariable('objectName', $blockNode[0]->getName());
-                if ($blockNode[0]->urlAlias() != "")
-                {
-                    $tpl->setVariable('urlAlias', $blockNode[0]->urlAlias());
-                }
-                $blockNodeID = $blockNode[0]->attribute('node_id');
-                $tpl->setVariable('blockNodeID', $blockNodeID);
-            }
+            $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", "Please only use numbers, letters and dots for searching."));
         }
         else
         {
-            $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", 'The provided block ID was not found.', '', array(
-                '%blockid' => $blockID
-            )));
+            $query = 'SELECT * FROM
+            (
+                SELECT
+                ezcontentobject.id, ezcontentobject.name, ezcontentobject_attribute.data_text
+                FROM ezcontentobject ezcontentobject
+                LEFT JOIN
+                ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.contentobject_id = ezcontentobject.id
+                WHERE contentclass_id = \'' . $contentclassID . '\'
+                AND ezcontentobject_attribute.data_type_string = \'' . $dataTypeIdentifier . '\'
+                GROUP BY ezcontentobject_attribute.contentobject_id
+                ORDER BY ezcontentobject_attribute.version DESC
+            ) as subtable
+            WHERE data_text LIKE (\'%' . $blockID . '%\');';
+
+            $rows = $db->arrayQuery($query);
+
+            if (isset($rows[0]))
+            {
+                $datatext = $rows[0]["data_text"];
+                $xml = simplexml_load_string($datatext);
+
+                $zone = $xml->xpath("/page/zone[block[@id='id_" . $blockID . "']]");
+                $block = $xml->xpath("/page/zone/block[@id='id_" . $blockID . "']");
+                $tpl->setVariable('zoneID', $block[0]->zone_id[0]);
+                $tpl->setVariable('blockType', $block[0]->type[0]);
+                if ($block[0]->name[0] != "")
+                {
+                    $tpl->setVariable('blockName', $block[0]->name[0]);
+                }
+
+                $tpl->setVariable('zoneLayout', $xml->zone_layout[0]);
+                $tpl->setVariable('zoneIdentifier', $zone[0]->zone_identifier[0]);
+                $blockContentObjectID = $rows[0]['id'];
+                $tpl->setVariable('blockContentObjectID', $blockContentObjectID);
+                $blockNode = eZContentObjectTreeNode::fetchByContentObjectID($blockContentObjectID);
+
+                $stateInfo = handleState($blockContentObjectID);
+
+                if ($stateInfo["status"] == '1')
+                {
+                    if ($blockNode[0] instanceof eZContentObjectTreeNode)
+                    {
+                        $tpl->setVariable('objectName', $blockNode[0]->getName());
+                        if ($blockNode[0]->urlAlias() != "")
+                        {
+                            $tpl->setVariable('urlAlias', $blockNode[0]->urlAlias());
+                        }
+                        $blockNodeID = $blockNode[0]->attribute('node_id');
+                        $tpl->setVariable('blockNodeID', $blockNodeID);
+                    }
+                }
+                else
+                {
+                    $tpl->setVariable('errorMessage', $stateInfo["msg"] );
+                }
+            }
+            else
+            {
+                $tpl->setVariable('errorMessage', ezpI18n::tr("admin/helptools", 'The provided block ID was not found.', '', array(
+                        '%blockid' => $blockID
+                )));
+            }
         }
     }
     else

@@ -167,11 +167,11 @@
         <translation>Zonenlayout</translation>
     </message>
     <message>
-        <source>The last 10 later processed objects</source>
+        <source>The 10 latest afterwards modified objects</source>
         <translation>Die letzten 10 nachträglich bearbeiteten Objekte</translation>
     </message>
     <message>
-        <source>The last 10 published objects</source>
+        <source>The latest 10 published objects</source>
         <translation>Die letzten 10 veröffentlichten Objekte</translation>
     </message>
     <message>
@@ -183,8 +183,8 @@
         <translation>Ersteller</translation>
     </message>
     <message>
-        <source>The file was found, but the details can not be displayed. The file is in the trash box(object ID: %trashNodeObjectID and object name: %trashNodeObjectName).</source>
-        <translation>Die Datei wurde gefunden, aber die Details können nicht angezeigt werden. Die Datei ist im Papierkorb(Objekt ID: %trashNodeObjectID und Objektname: %trashNodeObjectName).</translation>
+        <source>Details can not be displayed, because the linked object is located in the trash box (object ID: %trashNodeObjectID and object name: %trashNodeObjectName).</source>
+        <translation>Details können nicht angezeigt werden, da das verknüpfte Objekt sich im Papierkorb befindet (Objekt ID: %trashNodeObjectID und Objektname: %trashNodeObjectName).</translation>
     </message>
     <message>
         <source>Enter the contentobject attribute id to receive information about the use of the attribute (example: 10905831).</source>
@@ -207,11 +207,11 @@
         <translation>Sie haben nach "%fileName" gesucht.</translation>
     </message>
     <message>
-        <source>You have looked for: "%attributeID"</source>
+        <source>You have searched for: "%attributeID"</source>
         <translation>Sie haben nach "%attributeID" gesucht.</translation>
     </message>
     <message>
-        <source>You have looked for: "%blockID"</source>
+        <source>You have searched for: "%blockID"</source>
         <translation>Sie haben nach "%blockID" gesucht.</translation>
     </message>
         <message>
@@ -227,8 +227,8 @@
         <translation>Die angegebene Block ID wurde nicht gefunden.</translation>
     </message>
     <message>
-        <source>Invalid filename (only the following characters are allowed: a-z, A-Z, 0-9, ., äöü, ÄÖÜ)</source>
-        <translation>Ungültiger Dateiname (nur folgende Zeichen sind erlaubt: a-z, A-Z, 0-9, ., äöü, ÄÖÜ)</translation>
+        <source>Please only use numbers, letters and dots for searching.</source>
+        <translation>Bitte verwenden Sie nur Zahlen, Buchstaben und Punkte in der Suche.</translation>
     </message>
 </context>
 </TS>
