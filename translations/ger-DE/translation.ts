@@ -135,6 +135,10 @@
         <translation>Dateiname</translation>
     </message>
     <message>
+        <source>file path</source>
+        <translation>Dateipfad</translation>
+    </message>
+    <message>
         <source>block ID</source>
         <translation>Block ID</translation>
     </message>

@@ -22,23 +22,16 @@ if ($http->hasVariable('findFileSearchButton'))
         }
         else
         {
-            $query = 'SELECT 
-                    ezbinaryfile.filename,
-                    ezbinaryfile.original_filename,
-                    ezbinaryfile.contentobject_attribute_id ,
-                    ezcontentobject_attribute.id,
-                    ezcontentobject_attribute.version,
-                    ezcontentobject_attribute.contentobject_id,
-                    ezcontentobject.id,
-                    ezcontentobject.name
-                    FROM ezbinaryfile ezbinaryfile
-                    LEFT JOIN
-                        ezcontentobject_attribute ezcontentobject_attribute ON ezcontentobject_attribute.id = ezbinaryfile.contentobject_attribute_id
-                    LEFT JOIN
-                        ezcontentobject ezcontentobject ON ezcontentobject.id = ezcontentobject_attribute.contentobject_id
+            $query = 'SELECT * FROM (
+                    SELECT ezbinaryfile.filename, ezbinaryfile.original_filename, ezbinaryfile.contentobject_attribute_id , ezcontentobject_attribute.id as "attr_id", ezcontentobject_attribute.version, ezcontentobject_attribute.contentobject_id, ezcontentobject.id, ezcontentobject.name as "object_name"
+                    FROM ezbinaryfile 
+                    LEFT JOIN ezcontentobject_attribute ON ezcontentobject_attribute.id = ezbinaryfile.contentobject_attribute_id 
+                    LEFT JOIN ezcontentobject ON ezcontentobject.id = ezcontentobject_attribute.contentobject_id 
                     WHERE ezbinaryfile.filename =\'' . $fileName . '\'
                     ORDER BY ezcontentobject_attribute.version DESC
-                    LIMIT 1;';
+                    LIMIT 1 ) as result_binary, 
+                    cluster_test_db.ezdfsfile as dfs
+                    WHERE dfs.name LIKE CONCAT(\'%/\', result_binary.filename);';
 
             $rows = $db->arrayQuery($query);
 
@@ -50,7 +43,7 @@ if ($http->hasVariable('findFileSearchButton'))
                 {
                     $tpl->setVariable('fileContentObjectID', $fileContentObjectID);
                 }
-                
+
                 $stateInfo = handleState($fileContentObjectID);
 
                 if ($stateInfo["status"] == '1')
@@ -77,6 +70,8 @@ if ($http->hasVariable('findFileSearchButton'))
                 {
                     $tpl->setVariable('errorMessage', $stateInfo["msg"] );
                 }
+
+                $tpl->setVariable('filePath', $rows[0]['name']);
             }
             else
             {
@@ -280,8 +275,25 @@ if ($http->hasVariable('findBlockID'))
 
 foreach ($helpToolsINI->variable('activelist', 'active') as $output)
 {
-    $inputInformation[$output]["query"] = str_replace('$$timeStamp$$', $timeStamp, $helpToolsINI->variable($output, 'query'));
-    $inputInformation[$output]["headline"] = $helpToolsINI->variable($output, 'headline');
+    $placeholderError = false;
+    $queryString = $helpToolsINI->variable($output, 'query');
+    preg_match_all('/(?s)\$\$.+?\$\$/', $queryString, $hits);
+
+    foreach ($hits[0] as $hit)
+    {
+        $matchedVariable = ${str_replace("$$","",$hit)};
+        if($matchedVariable === NULL)
+        {
+            eZDebug::writeError("xrowAdmin: " . $hit . " not found in xrowadmin/modules/admin/helptools.php");
+            $placeholderError = true;
+        }
+        $queryString = str_replace($hit, $matchedVariable, $queryString);
+    }
+    if($placeholderError === false)
+    {
+        $inputInformation[$output]["query"] = $queryString;
+        $inputInformation[$output]["headline"] = $helpToolsINI->variable($output, 'headline');
+    }
 }
 
 $tpl->setVariable('outputInformation', getQueryInformation($inputInformation));

@@ -26,6 +26,7 @@
             <li>{'object ID'|i18n('admin/helptools')}: {$fileContentObjectID}</li>
             <li>{'node ID'|i18n('admin/helptools')}: {$fileNodeID}</li>
             <li>{'filename'|i18n('admin/helptools')}: {$fileName}</li>
+            <li>{'file path'|i18n('admin/helptools')}: {$filePath}</li>
         </ul>
     {/if} 
 {/if}
