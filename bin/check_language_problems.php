@@ -16,9 +16,10 @@ $db = eZDB::instance();
 $ini = eZINI::instance();
 
 $language_map = $bad_objects = $skip_list = array();
-$limit_per_fetch = 1000;
+$limit_per_fetch = 500000;
 $offset = $bad_data_rows = $count = 0;
-$dry_run = true;
+$dry_run = false;
+
 
 //TODO: can be made flexible propably (importent for other customers!)
 $language_map["eng"] = array(2);
@@ -61,19 +62,19 @@ $special_condition = " AND obj.published < 1313550000";
 
 echo "fetching attributes: \n";
 
+do {
+
 $query = "SELECT attr.data_type_string, attr.contentobject_id, attr.id, attr.language_code, attr.language_id, attr.version, FROM_UNIXTIME(obj.published) as 'created', obj.name, obj.contentclass_id
         FROM ezcontentobject_attribute AS attr, ezcontentobject AS obj
         WHERE attr.contentobject_id = obj.id
         AND obj.contentclass_id = 4 
-        $special_condition
-        GROUP BY  attr.contentobject_id, attr.language_id, attr.version;";
-
+        $special_condition LIMIT $limit_per_fetch OFFSET $offset;";
+        #GROUP BY  attr.contentobject_id, attr.language_id, attr.version;";
 
 $resultSet = $db->arrayQuery( $query );
 $count = count($resultSet);
-$offset = $offset+$count;
 
-echo "looping through " . $count . " elements";
+echo "looping through " . $count . " elements\n";
 
 foreach ( $resultSet as $key => $result )
 {
@@ -95,16 +96,23 @@ foreach ( $resultSet as $key => $result )
                               AND attr.contentobject_id = ' . $result["contentobject_id"] . '
                               AND attr.language_code = "' . $result["language_code"] . '";' );
             $db->commit();
-            echo "updating: " . $result["version"] . "_" . $result["contentobject_id"] . "_" . $result["language_code"] . " // ";
+            #echo "updating: " . $result["version"] . "_" . $result["contentobject_id"] . "_" . $result["language_code"] . " // ";
             //add combination to skip list so that we do not update the same thing more than once
+            array_unshift($skip_list, $result["version"] . "_" . $result["contentobject_id"] . "_" . $result["language_code"]);
         }
     }
 
     if( $key % 50000 == 0)
     {
-        echo "\n" . $key . " objects done \n";
+        echo "\n" . (int)$offset+(int)$key . " objects done \n";
     }
+
 }
+
+$offset = $offset+$count;
+$skip_list = array();
+
+} while ($count == $limit_per_fetch);
 
 $cli->output( "Done." );
 
