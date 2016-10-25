@@ -31,12 +31,23 @@ if( isset( $namedParameters['Type'] ) )
             }
             $content_devider = RemoteContent::getMarker();
         }
+        $isSecure = false;
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+            $isSecure = true;
+        }
+        elseif (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') {
+            $isSecure = true;
+        }
+        $prefix = $isSecure ? 'https://' : 'http://';
         if( isset( $url ) )
         {
+            $url = $prefix . $url;
             if ( function_exists( 'curl_init' ) )
             {
                 $curl_is_set = true;
                 $ch = curl_init();
+                curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 0);
+                curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 0);
                 curl_setopt( $ch, CURLOPT_URL, $url );
                 curl_setopt( $ch, CURLOPT_HEADER, 0 );
                 curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
