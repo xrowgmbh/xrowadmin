@@ -10,6 +10,15 @@ if( isset( $namedParameters['Type'] ) )
     $remote_ini = eZINI::instance( 'remotecontent.ini' );
     if( $remote_ini->hasVariable( 'Settings', 'RemoteURL' ) || (isset($namedParameters['NodeID']) && $namedParameters['Type'] = "full") )
     {
+        $isSecure = false;
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+            $isSecure = true;
+        }
+        elseif (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') {
+            $isSecure = true;
+        }
+        $prefix = $isSecure ? 'https://' : 'http://';
+
         if (isset($namedParameters['NodeID']) && $namedParameters['Type'] = "full")
         {
             $hostname = eZSys::hostname();
@@ -25,20 +34,13 @@ if( isset( $namedParameters['Type'] ) )
             {
                 if( strpos( $remote_url['host'], 'http' ) === false )
                 {
-                    $remote_url['host'] = 'http://' . $remote_url['host'];
+                    $remote_url['host'] = $prefix . $remote_url['host'];
                 }
                 $url = $remote_url['host'] . '/' . $remote_url['path'];
             }
             $content_devider = RemoteContent::getMarker();
         }
-        $isSecure = false;
-        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
-            $isSecure = true;
-        }
-        elseif (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') {
-            $isSecure = true;
-        }
-        $prefix = $isSecure ? 'https://' : 'http://';
+
         if( isset( $url ) )
         {
             $url = $prefix . $url;
